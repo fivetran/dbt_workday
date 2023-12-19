@@ -1,0 +1,36 @@
+config-version: 2
+name: 'workday'
+version: '0.1.0'
+require-dbt-version: [">=1.3.0", "<2.0.0"]
+
+models:
+  workday:
+    +schema: workday
+    +materialized: table
+    intermediate:
+      +materialized: ephemeral
+    staging:
+      +materialized: view
+      +schema: stg_workday
+
+
+vars:
+    job_profile: "{{ source('workday','job_profile') }}"
+    job_family_job_profile: "{{ source('workday','job_family_job_profile') }}"
+    job_family: "{{ source('workday','job_family') }}"
+    job_family_group: "{{ source('workday','job_family_group') }}"
+    organization_role: "{{ source('workday','organization_role') }}"
+    organization_role_worker: "{{ source('workday','organization_role_worker') }}"
+    organization_job_family: "{{ source('workday','organization_job_family') }}"
+    organization: "{{ source('workday','organization') }}"
+    position_organization: "{{ source('workday','position_organization') }}"
+    position: "{{ source('workday','position') }}"
+    position_job_profile: "{{ source('workday','position_job_profile') }}"
+    worker: "{{ source('workday','worker') }}"
+    personal_information: "{{ source('workday','personal_information') }}"
+    person_name: "{{ source('workday','person_name') }}"
+    personal_information_ethnicity: "{{ source('workday','personal_information_ethnicity') }}"
+    military_service: "{{ source('workday','military_service') }}"
+    person_contact_email_address: "{{ source('workday','person_contact_email_address') }}"
+    worker_position: "{{ source('workday','worker_position') }}"
+    worker_leave_status: "{{ source('workday','worker_leave_status') }}"

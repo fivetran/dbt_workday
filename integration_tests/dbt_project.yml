@@ -1,0 +1,31 @@
+name: 'sage_intacct_integration_tests'
+version: '0.3.0'
+config-version: 2
+
+profile: 'integration_tests'
+
+dispatch:
+  - macro_namespace: dbt_utils
+    search_order: ['spark_utils', 'dbt_utils']
+
+vars:
+  workday:
+    workday_job_profile_identifier: "job_profile_data"
+    workday_job_family_job_profile_identifier: "job_family_job_profile_data"
+    workday_job_family_identifier: "job_family_data"
+    workday_job_family_group_identifier: "job_family_group_data"
+    workday_organization_role_identifier: "organization_role_data"
+    workday_organization_role_worker_identifier: "organization_role_worker_data"
+    workday_organization_job_family_identifier: "organization_job_family_data"
+    workday_organization_identifier: "organization_data"
+    workday_position_organization_identifier: "position_organization_data"
+    workday_position_identifier: "position_data"
+    workday_position_job_profile_identifier: "position_job_profile_data"
+    workday_worker_identifier: "worker_data"
+    workday_personal_information_identifier: "personal_information_data"
+    workday_person_name_identifier: "person_name_data"
+    workday_personal_information_ethnicity_identifier: "personal_information_ethnicity_data"
+    workday_military_service_identifier: "military_service_data"
+    workday_person_contact_email_address_identifier: "person_contact_email_address_data"
+    workday_worker_position_identifier: "worker_position_data"
+    workday_worker_leave_status_identifier: "worker_leave_status_data"
