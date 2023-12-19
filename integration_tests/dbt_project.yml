@@ -1,5 +1,5 @@
-name: 'sage_intacct_integration_tests'
-version: '0.3.0'
+name: 'workday_integration_tests'
+version: '0.1.0'
 config-version: 2
 
 profile: 'integration_tests'
@@ -10,6 +10,7 @@ dispatch:
 
 vars:
   workday:
+    workday_schema: workday_integration_tests_3
     workday_job_profile_identifier: "job_profile_data"
     workday_job_family_job_profile_identifier: "job_family_job_profile_data"
     workday_job_family_identifier: "job_family_data"

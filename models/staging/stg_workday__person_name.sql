@@ -25,8 +25,38 @@ final as (
     
     select 
         source_relation, 
-Compilation Error
-  Documentation for 'source.workday.workday.job_profile' depends on doc 'job_profile'  which was not found
+        _fivetran_deleted,
+        _fivetran_synced,
+        academic_suffix,
+        additional_name_type,
+        country,
+        first_name,
+        full_name_singapore_malaysia,
+        hereditary_suffix,
+        honorary_suffix,
+        index,
+        last_name,
+        local_first_name,
+        local_first_name_2,
+        local_last_name,
+        local_last_name_2,
+        local_middle_name,
+        local_middle_name_2,
+        local_secondary_last_name,
+        local_secondary_last_name_2,
+        middle_name,
+        personal_info_system_id,
+        prefix_salutation,
+        prefix_title,
+        prefix_title_code,
+        professional_suffix,
+        religious_suffix,
+        royal_suffix,
+        secondary_last_name,
+        social_suffix,
+        social_suffix_id,
+        tertiary_last_name,
+        type
     from fields
 )
 
