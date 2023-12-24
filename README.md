@@ -31,7 +31,7 @@ The main focus of the package is to transform the core object tables into analyt
 
 <!--section="workday_model"-->
 The following table provides a detailed list of all models materialized within this package by default. 
-> TIP: See more details about these models in the package's [dbt docs site](https://fivetran.github.io/dbt_workday/#!/overview/qualtrics).
+> TIP: See more details about these models in the package's [dbt docs site](https://fivetran.github.io/dbt_workday/#!/overview/workday).
 
 | **model**                 | **description**                                                                                                    |
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------ |

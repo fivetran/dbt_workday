@@ -25,8 +25,38 @@ final as (
     
     select 
         source_relation, 
-Compilation Error
-  Documentation for 'source.workday.workday.job_profile' depends on doc 'job_profile'  which was not found
+        _fivetran_deleted,
+        _fivetran_synced,
+        academic_tenure_eligible,
+        availability_date,
+        available_for_hire,
+        available_for_overlap,
+        available_for_recruiting,
+        closed,
+        compensation_grade_code,
+        compensation_grade_profile_code,
+        compensation_package_code,
+        compensation_step_code,
+        critical_job,
+        difficulty_to_fill_code,
+        earliest_hire_date,
+        earliest_overlap_date,
+        effective_date,
+        hiring_freeze,
+        id as position_id,
+        job_description,
+        job_description_summary,
+        job_posting_title,
+        position_code,
+        position_time_type_code,
+        primary_compensation_basis,
+        primary_compensation_basis_amount_change,
+        primary_compensation_basis_percent_change,
+        supervisory_organization_id,
+        work_shift_required,
+        worker_for_filled_position_id,
+        worker_position_id,
+        worker_type_code
     from fields
 )
 

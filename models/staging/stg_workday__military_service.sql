@@ -25,8 +25,17 @@ final as (
     
     select 
         source_relation, 
-Compilation Error
-  Documentation for 'source.workday.workday.job_profile' depends on doc 'job_profile'  which was not found
+        _fivetran_deleted,
+        _fivetran_synced,
+        discharge_date,
+        index,
+        notes,
+        personal_info_system_id,
+        rank,
+        service,
+        service_type,
+        status,
+        status_begin_date
     from fields
 )
 
