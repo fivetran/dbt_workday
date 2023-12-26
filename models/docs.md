@@ -366,3 +366,6 @@
 {% docs stop_payment_date %} <insert description here> {% enddocs %}
 {% docs week_of_confinement %} <insert description here> {% enddocs %}
 {% docs work_related %} <insert description here> {% enddocs %}
+{% docs job_family_job_family_group %} <insert description here> {% enddocs %}
+{% docs stg_workday__job_family_job_family_group %} <insert description here> {% enddocs %}
+{% docs job_group_id %} <insert description here> {% enddocs %}

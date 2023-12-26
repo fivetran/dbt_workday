@@ -12,6 +12,7 @@ vars:
   workday:
     workday_job_profile_identifier: "job_profile_data"
     workday_job_family_job_profile_identifier: "job_family_job_profile_data"
+    workday_job_family_job_family_group_identifier: "job_family_job_family_group_data"
     workday_job_family_identifier: "job_family_data"
     workday_job_family_group_identifier: "job_family_group_data"
     workday_organization_role_identifier: "organization_role_data"

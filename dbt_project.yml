@@ -16,6 +16,7 @@ models:
 
 vars:
     job_profile: "{{ source('workday','job_profile') }}"
+    job_family_job_family_group: "{{ source('workday','job_family_job_family_group') }}"
     job_family_job_profile: "{{ source('workday','job_family_job_profile') }}"
     job_family: "{{ source('workday','job_family') }}"
     job_family_group: "{{ source('workday','job_family_group') }}"

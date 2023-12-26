@@ -92,6 +92,20 @@ sources:
           - name: summary
             description: '{{ doc("summary") }}'
 
+      - name: job_family_job_family_group
+        identifier: '{{ var("workday_job_family_job_family_group_identifier", "job_family_job_family_group") }}'
+        description: '{{ doc("job_family_job_family_group") }}'
+        columns:
+          - name: job_family_id
+            description: '{{ doc("job_family_id") }}'
+          - name: job_group_id
+            description: '{{ doc("job_group_id") }}'
+          - name: _fivetran_deleted
+            description: '{{ doc("_fivetran_deleted") }}'
+          - name: _fivetran_synced
+            description: '{{ doc("_fivetran_synced") }}'
+
+
       - name: job_family_group
         identifier: '{{ var("workday_job_family_group_identifier", "job_family_group") }}'
         description: '{{ doc("job_family_group") }}'
