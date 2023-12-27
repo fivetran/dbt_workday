@@ -9,6 +9,7 @@ with worker_personal_info_data as(
 ),
 
 worker_name as (
+
     select 
         personal_info_system_id as worker_id, 
         first_name,
@@ -53,8 +54,7 @@ worker_personal_details as (
         worker_name.full_name,
         worker_email.email_address,
         worker_ethnicity.ethnicity_code,
-        worker_military.military_status,
-        coalesce(ifnull(worker_military.is_military_service, false), true) as is_military_service
+        worker_military.military_status
     from worker_personal_info_data
     left join worker_name using(worker_id)
     left join worker_email using(worker_id)

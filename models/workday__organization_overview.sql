@@ -16,12 +16,6 @@ organization_role_worker_data as (
     from {{ var('organization_role_worker') }}
 ),
 
-organization_job_family_data as (
-
-    select *
-    from {{ var('organization_job_family') }}
-),
-
 organization_roles as (
 
     select 

@@ -9,6 +9,7 @@ dispatch:
     search_order: ['spark_utils', 'dbt_utils']
 
 vars:
+  workday_schema: workday_integration_tests
   workday:
     workday_job_profile_identifier: "job_profile_data"
     workday_job_family_job_profile_identifier: "job_family_job_profile_data"

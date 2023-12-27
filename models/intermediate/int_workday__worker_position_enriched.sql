@@ -1,5 +1,12 @@
 with worker_position_data as (
 
+    select *,
+        {{ dbt.current_timestamp_backcompat() }} as current_date
+    from {{ var('worker_position') }} 
+),
+
+worker_position_data_enhanced as (
+
     select 
         worker_id,
         position_id,
@@ -13,14 +20,12 @@ with worker_position_data as (
         management_level_code,
         job_profile_id,
         case when end_date is null
-            then date_diff(CURRENT_DATE(), start_date, day)
-            else date_diff(end_date, start_date, day)
+            then {{ dbt.datediff('current_date', 'start_date', 'day') }}
+            else {{ dbt.datediff('end_date', 'start_date', 'day') }}
             end as days_at_position,
         row_number() over (partition by worker_id order by end_date desc) as rn
-    from {{ var('worker_position') }} 
+    from worker_position_data
 ),
-
-
 
 worker_position_measures as (
 
@@ -29,18 +34,16 @@ worker_position_measures as (
         count(distinct position_id) as worker_positions,
         count(distinct management_level_code) as worker_levels,
         sum(days_at_position) as position_days
-    from worker_position_data
+    from worker_position_data_enhanced
     group by 1
 ),
-
 
 most_recent_position as (
 
     select *
-    from worker_position_data
+    from worker_position_data_enhanced
     where rn = 1
 ),
-
 
 worker_position_enriched as (
 

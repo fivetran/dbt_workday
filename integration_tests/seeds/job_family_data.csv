@@ -1,0 +1,6 @@
+id,_fivetran_deleted,_fivetran_synced,effective_date,inactive,job_family_code,summary
+582c9be9425401349eb979aea1054201,false,2023-12-26 14:21:47.536000 UTC,2023-12-26,false,PL-Practice Leader,Practice Leader
+46f951d6a15f102846e7e4e1563203dc,false,2023-12-26 14:21:47.536000 UTC,2023-12-26,false,CS-Call Center,
+582c9be9425401bfae78ad7ca1053a01,false,2023-12-26 14:21:47.536000 UTC,2023-12-26,false,NM-Nursing Management,Nursing Management
+582c9be94254013ba35f6542a1053401,false,2023-12-26 14:21:47.536000 UTC,2023-12-26,false,NS-Nursing Staff,Nursing Staff
+1d38aef745fb10454322a66ecf7d0beb,false,2023-12-26 14:21:47.536000 UTC,2023-12-26,false,FA-Employee Services,Employee

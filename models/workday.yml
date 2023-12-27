@@ -1,0 +1,10 @@
+version: 2
+
+models:
+  - name: workday__employee_overview
+
+  - name: workday__job_overview
+
+  - name: workday__organization_overview
+
+  - name: workday__position_overview

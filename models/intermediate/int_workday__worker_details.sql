@@ -1,6 +1,7 @@
 with worker_data as (
 
-    select *
+    select *,
+        {{ dbt.current_timestamp_backcompat() }} as current_date
     from {{ var('worker') }}
 ),
 
@@ -11,18 +12,19 @@ worker_details as (
         worker_code,
         user_id,
         universal_id as worker_universal_code,
-        if(active, true, false) as is_user_active,
-        if(
-            hire_date <= current_date() 
-            and (termination_date is null or termination_date > current_date()),
-            true,
-            false
-        ) as is_employed,
+        case when active then true else false end as is_user_active,
+        case when hire_date <= current_date
+            and (termination_date is null or termination_date > current_date)
+            then true 
+            else false 
+            end as is_employed,
         hire_date as start_date,
-        if(termination_date > current_date(), null, termination_date) as departure_date,    
+        case when termination_date > current_date then null
+            else termination_date 
+            end as departure_date,    
         case when termination_date is null
-            then date_diff(CURRENT_DATE(), hire_date, day)
-            else date_diff(termination_date, hire_date, day)
+            then {{ dbt.datediff('current_date', 'hire_date', 'day') }}
+            else {{ dbt.datediff('termination_date', 'hire_date', 'day') }}
             end as days_of_employment,
         terminated as is_terminated,
         primary_termination_category,
@@ -32,14 +34,14 @@ worker_details as (
             when terminated and not regrettable_termination then false
             else null
             end as is_regrettable_termination, 
-        compensation_effective_date as comp_effective_date,
+        compensation_effective_date,
         employee_compensation_frequency,
-        annual_currency_summary_currency as comp_default_currency,
-        annual_currency_summary_total_base_pay as comp_default_annual_base,
-        annual_currency_summary_primary_compensation_basis as comp_default_annual_base_and_ote,
-        annual_summary_currency as comp_local_currency,
-        annual_summary_total_base_pay as comp_local_annual_base,
-        annual_summary_primary_compensation_basis as comp_local_annual_base_and_ote,
+        annual_currency_summary_currency,
+        annual_currency_summary_total_base_pay,
+        annual_currency_summary_primary_compensation_basis,
+        annual_summary_currency,
+        annual_summary_total_base_pay,
+        annual_summary_primary_compensation_basis,
         compensation_grade_id,
         compensation_grade_profile_id
     from worker_data
