@@ -1,6 +1,6 @@
 index,personal_info_system_id,type,_fivetran_deleted,_fivetran_synced,academic_suffix,additional_name_type,country,first_name,full_name_singapore_malaysia,hereditary_suffix,honorary_suffix,last_name,local_first_name,local_first_name_2,local_last_name,local_last_name_2,local_middle_name,local_middle_name_2,local_secondary_last_name,local_secondary_last_name_2,middle_name,prefix_salutation,prefix_title,prefix_title_code,professional_suffix,religious_suffix,royal_suffix,secondary_last_name,social_suffix,social_suffix_id,tertiary_last_name
-1,3aa5550b7fe348b98d7b5741afc65534,preferred,false,2023-10-30 05:37:46.794000 UTC,,,MH,Sponge,,,,Bob,,,,,,,,,,,,,,,,,,,
-1,3aa5550b7fe348b98d7b5741afc65536,preferred,false,2023-10-30 05:37:46.523000 UTC,,,USA,Homer,,,,Simpson,,,,,,,,,,,,,,,,,,,
-1,aa9f3d767a7d101ce0f62a055bb21628,preferred,false,2023-10-30 05:40:08.363000 UTC,,,USA,Fred,,,,Flintstone,,,,,,,,,,,,,,,,,,,
-1,9d16e42ecde84c9087537fd5e7f303a2,preferred,false,2023-10-30 05:42:12.667000 UTC,,,USA,Morticia,,,,Addams,,,,,,,,,,,,,,,,,,,
-1,f57bf46a5f254ed48ed45b3228b57028,preferred,false,2023-10-30 05:42:12.810000 UTC,,,UK,Paddington,,,,Bear,,,,,,,,,,,,,,,,,,,
+1,3aa5550b7fe348b98d7b5741afc65534,preferred,false,2023-10-30 05:37:46,,,MH,Sponge,,,,Bob,,,,,,,,,,,,,,,,,,,
+1,3aa5550b7fe348b98d7b5741afc65536,preferred,false,2023-10-30 05:37:46,,,USA,Homer,,,,Simpson,,,,,,,,,,,,,,,,,,,
+1,aa9f3d767a7d101ce0f62a055bb21628,preferred,false,2023-10-30 05:40:08,,,USA,Fred,,,,Flintstone,,,,,,,,,,,,,,,,,,,
+1,9d16e42ecde84c9087537fd5e7f303a2,preferred,false,2023-10-30 05:42:12,,,USA,Morticia,,,,Addams,,,,,,,,,,,,,,,,,,,
+1,f57bf46a5f254ed48ed45b3228b57028,preferred,false,2023-10-30 05:42:12,,,UK,Paddington,,,,Bear,,,,,,,,,,,,,,,,,,,

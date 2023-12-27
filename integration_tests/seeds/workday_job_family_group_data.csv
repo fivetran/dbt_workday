@@ -1,6 +1,6 @@
 id,_fivetran_deleted,_fivetran_synced,effective_date,inactive,job_family_group_code,summary
-29fe37cf54b74c388049f2c74ce430cd,false,2023-12-26 14:21:47.358000 UTC,2023-12-26,false,Customer Services,Customer Services
-582c9be94254016a8b2e7e9ea1053e01,false,2023-12-26 14:21:47.358000 UTC,2023-12-26,false,Clinical,
-7e3429d967e447f283c2b45861c19301,false,2023-12-26 14:21:47.358000 UTC,2023-12-26,false,Services,Services
-973fd65355f14a44aa9da5d8aa2f8dc8,false,2023-12-26 14:21:47.358000 UTC,2023-12-26,false,Operations,Operations
-b8cbb0d58f1c418e9b6d49270ea10d4b,false,2023-12-26 14:21:47.357000 UTC,2023-12-26,false,Facilities,Facilities
+29fe37cf54b74c388049f2c74ce430cd,false,2023-12-26 14:21:47,2023-12-26,false,Customer Services,Customer Services
+582c9be94254016a8b2e7e9ea1053e01,false,2023-12-26 14:21:47,2023-12-26,false,Clinical,
+7e3429d967e447f283c2b45861c19301,false,2023-12-26 14:21:47,2023-12-26,false,Services,Services
+973fd65355f14a44aa9da5d8aa2f8dc8,false,2023-12-26 14:21:47,2023-12-26,false,Operations,Operations
+b8cbb0d58f1c418e9b6d49270ea10d4b,false,2023-12-26 14:21:47,2023-12-26,false,Facilities,Facilities

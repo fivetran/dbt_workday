@@ -1,6 +1,6 @@
 id,personal_info_system_id,_fivetran_deleted,_fivetran_synced,email_address,email_code,email_comment
-52afc8db100f0147541ac63e85431a00,3aa5550b7fe348b98d7b5741afc65534,false,2023-11-09 16:05:12.921000 UTC,sponge@bob.com,Sponge_Bob_WORK_Primary,
-7bc0e8ead2d5100c2c91d14f72cd0001,3aa5550b7fe348b98d7b5741afc65536,false,2023-11-09 16:05:12.921000 UTC,homer@simpson.com,Homer_Simpson_WORK_Primary,
-52afc8db100f01f080d70c3f85439502,aa9f3d767a7d101ce0f62a055bb21628,false,2023-10-30 05:40:22.344000 UTC,fred@flintstone.net,Fred_Flintstone_WORK,
-52afc8db100f01ced3a5ed3e85433801,9d16e42ecde84c9087537fd5e7f303a2,false,2023-10-30 05:38:19.637000 UTC,morticia@addams.com,Morticia_Addams_WORK_Primary,
-52afc8db100f0111a37eea3e85431701,f57bf46a5f254ed48ed45b3228b57028,false,2023-10-30 05:38:17.174000 UTC,paddington@bear.com,Paddington_Bear_WORK_Primary,
+52afc8db100f0147541ac63e85431a00,3aa5550b7fe348b98d7b5741afc65534,false,2023-11-09 16:05:12,sponge@bob.com,Sponge_Bob_WORK_Primary,
+7bc0e8ead2d5100c2c91d14f72cd0001,3aa5550b7fe348b98d7b5741afc65536,false,2023-11-09 16:05:12,homer@simpson.com,Homer_Simpson_WORK_Primary,
+52afc8db100f01f080d70c3f85439502,aa9f3d767a7d101ce0f62a055bb21628,false,2023-10-30 05:40:22,fred@flintstone.net,Fred_Flintstone_WORK,
+52afc8db100f01ced3a5ed3e85433801,9d16e42ecde84c9087537fd5e7f303a2,false,2023-10-30 05:38:19,morticia@addams.com,Morticia_Addams_WORK_Primary,
+52afc8db100f0111a37eea3e85431701,f57bf46a5f254ed48ed45b3228b57028,false,2023-10-30 05:38:17,paddington@bear.com,Paddington_Bear_WORK_Primary,

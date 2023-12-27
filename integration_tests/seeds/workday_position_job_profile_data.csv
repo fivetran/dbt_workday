@@ -1,6 +1,6 @@
 job_profile_id,position_id,_fivetran_deleted,_fivetran_synced,difficulty_to_fill_code,is_critical_job,job_category_code,management_level_code,name,work_shift_required
-fd72fab7db654fa3adbbe83ca23c43cb,d0e0ae2f7be848cb8f19178750a21564,false,2023-10-30 05:44:20.888000 UTC,,false,,6_Manager,General Manager,false
-b040761032d3487b929800c001123b48,b6704e966cc4013c8be899b8a553f6bb,false,2023-10-30 05:44:20.855000 UTC,,false,,6_Manager,Collection Manager,false
-141f3478378540aa8021314b820cf5d8,936fdd0568cd102f5a8f3e40e86533d3,false,2023-10-30 05:44:20.852000 UTC,,false,,6_Manager,Consultant Manager,false
-5f253469b5b44181995d8cabea44eeed,1b5884fa4a3b01ddde0c6d14ba101802,false,2023-10-30 05:44:20.897000 UTC,,false,,6_Manager,Consultant Manager,false
-84e4ce1763b34bf987c95627261c10ff,b6704e966cc4019288605eb8a553a1bb,false,2023-10-30 05:44:20.852000 UTC,,false,,6_Manager,Consultant Manager,false
+fd72fab7db654fa3adbbe83ca23c43cb,d0e0ae2f7be848cb8f19178750a21564,false,2023-10-30 05:44:20,,false,,6_Manager,General Manager,false
+b040761032d3487b929800c001123b48,b6704e966cc4013c8be899b8a553f6bb,false,2023-10-30 05:44:20,,false,,6_Manager,Collection Manager,false
+141f3478378540aa8021314b820cf5d8,936fdd0568cd102f5a8f3e40e86533d3,false,2023-10-30 05:44:20,,false,,6_Manager,Consultant Manager,false
+5f253469b5b44181995d8cabea44eeed,1b5884fa4a3b01ddde0c6d14ba101802,false,2023-10-30 05:44:20,,false,,6_Manager,Consultant Manager,false
+84e4ce1763b34bf987c95627261c10ff,b6704e966cc4019288605eb8a553a1bb,false,2023-10-30 05:44:20,,false,,6_Manager,Consultant Manager,false
