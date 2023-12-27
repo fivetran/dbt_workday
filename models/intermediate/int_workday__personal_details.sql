@@ -13,8 +13,7 @@ worker_name as (
     select 
         personal_info_system_id as worker_id, 
         first_name,
-        last_name,
-        concat(first_name, ' ', last_name) as full_name
+        last_name
     from {{ var('person_name') }}
     where lower(type) = 'preferred'
 ),
@@ -51,7 +50,6 @@ worker_personal_details as (
         worker_personal_info_data.*,
         worker_name.first_name,
         worker_name.last_name,
-        worker_name.full_name,
         worker_email.email_address,
         worker_ethnicity.ethnicity_code,
         worker_military.military_status
