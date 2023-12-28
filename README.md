@@ -10,22 +10,21 @@
         <img src="https://img.shields.io/badge/Contributions-welcome-blueviolet" /></a>
 </p>
 
-# Workday dbt Package ([Docs](https://fivetran.github.io/dbt_workday/))
+# Workday HCM dbt Package ([Docs](https://fivetran.github.io/dbt_workday/))
 
 # 📣 What does this dbt package do?
 
-This package models Workday data from [Fivetran's connector](https://fivetran.com/docs/applications/workday). It uses data in the format described by [this ERD](https://fivetran.com/docs/applications/workday#schemainformation).
+This package models Workday HCM data from [Fivetran's connector](https://fivetran.com/docs/applications/workday-hcm). It uses data in the format described by [this ERD](https://fivetran.com/docs/applications/workday-hcm#schemainformation).
 
 The main focus of the package is to transform the core object tables into analytics-ready models, including:
 <!--section="workday_model"-->
-  - Materializes [Workday staging tables](https://fivetran.github.io/dbt_workday/#!/overview/workday_source/models/?g_v=1) which leverage data in the format described by [this ERD](https://fivetran.com/docs/applications/workday/#schemainformation). These staging tables clean, test, and prepare your Workday data from [Fivetran's connector](https://fivetran.com/docs/applications/workday_source) for analysis by doing the following:
+  - Materializes [Workday HCM staging tables](https://fivetran.github.io/dbt_workday/#!/overview/workday_source/models/?g_v=1) which leverage data in the format described by [this ERD](https://fivetran.com/docs/applications/workday-hcm/#schemainformation). These staging tables clean, test, and prepare your Workday data from [Fivetran's connector](https://fivetran.com/docs/applications/workday-hcm) for analysis by doing the following:
   - Name columns for consistency across all packages and for easier analysis
-      - Primary keys are renamed from `id` to `<table name>_id`. 
-      - Foreign key names explicitly map onto their related tables (ie `owner_id` -> `owner_user_id`).
-      - Datetime fields are renamed to `<event happened>_at`.
+      - Primary keys are renamed from `id` to `<table name>_id`.  
   - Adds column-level testing where applicable. For example, all primary keys are tested for uniqueness and non-null values.
+  - Provides insight into your Workday HCM data across the following grains:     
+    - Employee, job, organization, position.
   - Generates a comprehensive data dictionary of your Workday data through the [dbt docs site](https://fivetran.github.io/dbt_workday/).
-  - [Insert additional custom details here.]
 
 > This package does not apply freshness tests to source data due to the variability of survey cadences.
 
@@ -35,7 +34,10 @@ The following table provides a detailed list of all models materialized within t
 
 | **model**                 | **description**                                                                                                    |
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| [model_here]()  | Model description   |
+| [workday__employee_overview](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__employee_overview)  | Each record represents an employee with enriched personal information and the positions they hold.  |
+| [workday__job_overview](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__job_overview)  | Each record represents a job with enriched details on job profiles and job families.  |
+| [workday__organization_overview](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__organization_overview) |  Each record represents an organization with roles and workers.  |
+| [workday__position_overview](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__position_overview) | Each record represents a position with enriched data on positions. |
 <!--section-end-->
 
 # 🎯 How do I use the dbt package?
@@ -90,42 +92,10 @@ Please be aware that the native `source.yml` connection set up in the package wi
 To connect your multiple schema/database sources to the package models, follow the steps outlined in the [Union Data Defined Sources Configuration](https://github.com/fivetran/dbt_fivetran_utils/tree/releases/v0.4.latest#union_data-source) section of the Fivetran Utils documentation for the union_data macro. This will ensure a proper configuration and correct visualization of connections in the DAG.
 
 
-## Step 4: Enable/Disable Variables
-[If necessary, use this step to detail enable/disable variables. See below as an example. If this is not necessary you can delete this section.]
-
-By default, this package does not bring in data from the Workday example source tables. However, if you would like the package to bring in these sources and the downstream models, add the following configuration to your `dbt_project.yml`:
-
-```yml
-vars:
-    workday__using_core_contacts: True # default = False
-    workday__using_core_mailing_lists: True # default = False
-```
-
-## (Optional) Step 5: Additional configurations
-
-[If necessary, use this step to detail passthrough variables. See below as an example. If this is not necessary you can delete this section.]
-### Passing Through Additional Fields
-This package includes all source columns defined in the macros folder. You can add more columns using our pass-through column variables. These variables allow for the pass-through fields to be aliased (`alias`) and casted (`transform_sql`) if desired, but not required. Datatype casting is configured via a sql snippet within the `transform_sql` key. You may add the desired sql while omitting the `as field_name` at the end and your custom pass-though fields will be casted accordingly. Use the below format for declaring the respective pass-through variables:
-
-```yml
-# dbt_project.yml
-
-vars:
-  workday__X_through_columns:
-    - name: "that_field"
-      alias: "renamed_to_this_field"
-      transform_sql: "cast(renamed_to_this_field as string)"
-  workday__Y_pass_through_columns:
-    - name: "this_field"
-  workday__Z_contact_pass_through_columns:
-    - name: "old_name"
-      alias: "new_name"
-```
-
-> Please create an [issue](https://github.com/fivetran/dbt_workday/issues) if you'd like to see passthrough column support for other tables in the Qualtrics schema.
+## (Optional) Step 4: Additional configurations
 
 ### Changing the Build Schema
-By default this package will build the Workday staging models within a schema titled (<target_schema> + `_stg_workday`) and the Workday final models within a schema titled (<target_schema> + `_workday`) in your target database. If this is not where you would like your modeled qualtrics data to be written to, add the following configuration to your `dbt_project.yml` file:
+By default this package will build the Workday staging models within a schema titled (<target_schema> + `_stg_workday`) and the Workday final models within a schema titled (<target_schema> + `_workday`) in your target database. If this is not where you would like your modeled Workday data to be written to, add the following configuration to your `dbt_project.yml` file:
 
 ```yml
 # dbt_project.yml
@@ -151,7 +121,7 @@ vars:
 </details>
 
 
-## (Optional) Step 6: Orchestrate your models with Fivetran Transformations for dbt Core™
+## (Optional) Step 5: Orchestrate your models with Fivetran Transformations for dbt Core™
 <details><summary>Expand for details</summary>
 <br>
     

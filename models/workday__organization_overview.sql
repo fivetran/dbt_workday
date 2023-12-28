@@ -1,19 +1,19 @@
 with organization_data as (
 
     select * 
-    from {{ var('organization') }}
+    from {{ ref('stg_workday__organization') }}
 ),
 
 organization_role_data as (
 
     select * 
-    from {{ var('organization_role') }}
+    from {{ ref('stg_workday__organization_role') }}
 ),
 
 organization_role_worker_data as (
 
     select * 
-    from {{ var('organization_role_worker') }}
+    from {{ ref('stg_workday__organization_role_worker') }}
 ),
 
 organization_roles as (
@@ -32,20 +32,20 @@ organization_roles as (
 organization_data_enhanced as (
 
     select   
-        organization_data.id as organization_id,
+        organization_data.organization_id,
         organization_data.organization_code,
-        organization_data.name,
-        organization_data.type,
-        organization_data.sub_type,
+        organization_data.organization_name,
+        organization_data.organization_type,
+        organization_data.organization_sub_type,
         organization_data.superior_organization_id,
         organization_data.top_level_organization_id, 
-        organization_data.manager_id as manager_id,
+        organization_data.manager_id,
         organization_roles.organization_role_id,
         organization_roles.organization_role_code,
         organization_roles.organization_worker_code 
     from organization_data
     left join organization_roles 
-        on organization_roles.organization_id = organization_data.id 
+        on organization_roles.organization_id = organization_data.organization_id 
 )
 
 select *

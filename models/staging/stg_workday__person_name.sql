@@ -56,7 +56,7 @@ final as (
         social_suffix,
         social_suffix_id,
         tertiary_last_name,
-        type
+        type as person_name_type
     from fields
 )
 

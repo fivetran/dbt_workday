@@ -2,7 +2,7 @@ with worker_position_data as (
 
     select *,
         {{ dbt.current_timestamp_backcompat() }} as current_date
-    from {{ var('worker_position') }} 
+    from {{ ref('stg_workday__worker_position') }}
 ),
 
 worker_position_data_enhanced as (
@@ -10,7 +10,7 @@ worker_position_data_enhanced as (
     select 
         worker_id,
         position_id,
-        replace(employee_type, '_', ' ') as type,
+        employee_type, 
         business_title,
         full_time_equivalent_percentage as fte_percent,
         start_date as position_start_date,
@@ -52,7 +52,7 @@ worker_position_enriched as (
         most_recent_position.position_id, 
         most_recent_position.business_title,
         most_recent_position.job_profile_id, 
-        most_recent_position.type as most_recent_position_type,
+        most_recent_position.employee_type as most_recent_position_type,
         most_recent_position.position_location as most_recent_location,
         most_recent_position.management_level_code as most_recent_level,
         most_recent_position.fte_percent,

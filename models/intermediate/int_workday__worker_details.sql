@@ -2,16 +2,16 @@ with worker_data as (
 
     select *,
         {{ dbt.current_timestamp_backcompat() }} as current_date
-    from {{ var('worker') }}
+    from {{ ref('stg_workday__worker') }}
 ),
 
 worker_details as (
 
     select 
-        id as worker_id,
+        worker_id,
         worker_code,
         user_id,
-        universal_id as worker_universal_code,
+        universal_id,
         case when active then true else false end as is_user_active,
         case when hire_date <= current_date
             and (termination_date is null or termination_date > current_date)

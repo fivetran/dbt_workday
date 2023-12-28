@@ -36,14 +36,4 @@ vars:
     worker_position: "{{ source('workday','worker_position') }}"
     worker_leave_status: "{{ source('workday','worker_leave_status') }}"
 
-
-models:
-  workday:
-    +schema: workday
-    +materialized: table
-    staging: 
-      +schema: workday_stg
-      +materialized: table
-    intermediate:
-      +schema: workday_int
-      +materialized: table
+ 

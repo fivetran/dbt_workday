@@ -10,7 +10,7 @@ sources:
         description: '{{ doc("job_profile") }}'
         columns:
           - name: id
-            description: '{{ doc("id") }}'
+            description: '{{ doc("job_profile_id") }}'
           - name: _fivetran_deleted
             description: '{{ doc("_fivetran_deleted") }}'
           - name: _fivetran_synced
@@ -22,7 +22,7 @@ sources:
           - name: critical_job
             description: '{{ doc("critical_job") }}'
           - name: description
-            description: '{{ doc("description") }}'
+            description: '{{ doc("job_profile_description") }}'
           - name: difficulty_to_fill
             description: '{{ doc("difficulty_to_fill") }}'
           - name: effective_date
@@ -98,8 +98,8 @@ sources:
         columns:
           - name: job_family_id
             description: '{{ doc("job_family_id") }}'
-          - name: job_group_id
-            description: '{{ doc("job_group_id") }}'
+          - name: job_family_group_id
+            description: '{{ doc("job_family_group_id") }}'
           - name: _fivetran_deleted
             description: '{{ doc("_fivetran_deleted") }}'
           - name: _fivetran_synced
@@ -111,7 +111,7 @@ sources:
         description: '{{ doc("job_family_group") }}'
         columns:
           - name: id
-            description: '{{ doc("id") }}'
+            description: '{{ doc("job_family_group_id") }}'
           - name: _fivetran_deleted
             description: '{{ doc("_fivetran_deleted") }}'
           - name: _fivetran_synced
@@ -175,7 +175,7 @@ sources:
         description: '{{ doc("organization") }}'
         columns:
           - name: id
-            description: '{{ doc("id") }}'
+            description: '{{ doc("organization_id") }}'
           - name: _fivetran_deleted
             description: '{{ doc("_fivetran_deleted") }}'
           - name: _fivetran_synced
@@ -187,7 +187,7 @@ sources:
           - name: code
             description: '{{ doc("code") }}'
           - name: description
-            description: '{{ doc("description") }}'
+            description: '{{ doc("organization_description") }}'
           - name: external_url
             description: '{{ doc("external_url") }}'
           - name: hiring_freeze
@@ -207,7 +207,7 @@ sources:
           - name: manager_id
             description: '{{ doc("manager_id") }}'
           - name: name
-            description: '{{ doc("name") }}'
+            description: '{{ doc("organization_name") }}'
           - name: organization_code
             description: '{{ doc("organization_code") }}'
           - name: organization_owner_id
@@ -215,7 +215,7 @@ sources:
           - name: staffing_model
             description: '{{ doc("staffing_model") }}'
           - name: sub_type
-            description: '{{ doc("sub_type") }}'
+            description: '{{ doc("organization_sub_type") }}'
           - name: superior_organization_id
             description: '{{ doc("superior_organization_id") }}'
           - name: supervisory_position_availability_date
@@ -229,7 +229,7 @@ sources:
           - name: top_level_organization_id
             description: '{{ doc("top_level_organization_id") }}'
           - name: type
-            description: '{{ doc("type") }}'
+            description: '{{ doc("organization_type") }}'
           - name: visibility
             description: '{{ doc("visibility") }}'
 
@@ -242,7 +242,7 @@ sources:
           - name: position_id
             description: '{{ doc("position_id") }}'
           - name: type
-            description: '{{ doc("type") }}'
+            description: '{{ doc("position_organization_type") }}'
           - name: _fivetran_deleted
             description: '{{ doc("_fivetran_deleted") }}'
           - name: _fivetran_synced
@@ -338,7 +338,7 @@ sources:
           - name: management_level_code
             description: '{{ doc("management_level_code") }}'
           - name: name
-            description: '{{ doc("name") }}'
+            description: '{{ doc("position_job_profile_name") }}'
           - name: work_shift_required
             description: '{{ doc("work_shift_required") }}'
 
@@ -347,7 +347,7 @@ sources:
         description: '{{ doc("worker") }}'
         columns:
           - name: id
-            description: '{{ doc("id") }}'
+            description: '{{ doc("worker_id") }}'
           - name: _fivetran_deleted
             description: '{{ doc("_fivetran_deleted") }}'
           - name: _fivetran_synced
@@ -522,9 +522,9 @@ sources:
         description: '{{ doc("personal_information") }}'
         columns:
           - name: id
-            description: '{{ doc("id") }}'
+            description: '{{ doc("personal_information_id") }}'
           - name: type
-            description: '{{ doc("type") }}'
+            description: '{{ doc("personal_information_type") }}'
           - name: _fivetran_deleted
             description: '{{ doc("_fivetran_deleted") }}'
           - name: _fivetran_synced
@@ -601,7 +601,7 @@ sources:
           - name: personal_info_system_id
             description: '{{ doc("personal_info_system_id") }}'
           - name: type
-            description: '{{ doc("type") }}'
+            description: '{{ doc("person_name_type") }}'
           - name: _fivetran_deleted
             description: '{{ doc("_fivetran_deleted") }}'
           - name: _fivetran_synced
@@ -884,7 +884,7 @@ sources:
           - name: date_of_recall
             description: '{{ doc("date_of_recall") }}'
           - name: description
-            description: '{{ doc("description") }}'
+            description: '{{ doc("leave_description") }}'
           - name: estimated_leave_end_date
             description: '{{ doc("estimated_leave_end_date") }}'
           - name: expected_due_date

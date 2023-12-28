@@ -2,7 +2,7 @@ version: 2
 
 models:
   - name: stg_workday__job_profile
-    description: '{{ doc("stg_workday__job_profile") }}'
+    description: '{{ doc("job_profile") }}'
     columns:
       - name: job_profile_id
         description: '{{ doc("job_profile_id") }}'
@@ -22,8 +22,8 @@ models:
       - name: critical_job
         description: '{{ doc("critical_job") }}'
 
-      - name: description
-        description: '{{ doc("description") }}'
+      - name: job_profile_description
+        description: '{{ doc("job_profile_description") }}'
 
       - name: difficulty_to_fill
         description: '{{ doc("difficulty_to_fill") }}'
@@ -80,7 +80,7 @@ models:
         description: '{{ doc("work_study_requirement_option_code") }}'
 
   - name: stg_workday__job_family_job_profile
-    description: '{{ doc("stg_workday__job_family_job_profile") }}'
+    description: '{{ doc("job_family_job_profile") }}'
     columns:
       - name: job_family_id
         description: '{{ doc("job_family_id") }}'
@@ -95,7 +95,7 @@ models:
         description: '{{ doc("_fivetran_synced") }}'
 
   - name: stg_workday__job_family
-    description: '{{ doc("stg_workday__job_family") }}'
+    description: '{{ doc("job_family") }}'
     columns:
       - name: job_family_id
         description: '{{ doc("job_family_id") }}'
@@ -119,7 +119,7 @@ models:
         description: '{{ doc("summary") }}'
 
   - name: stg_workday__job_family_job_family_group
-    description: '{{ doc("stg_workday__job_family_job_family_group") }}'
+    description: '{{ doc("job_family_job_family_group") }}'
     columns:
       - name: job_family_id
         description: '{{ doc("job_family_id") }}'
@@ -129,12 +129,12 @@ models:
 
       - name: _fivetran_deleted
         description: '{{ doc("_fivetran_deleted") }}'
-        
+
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
 
   - name: stg_workday__job_family_group
-    description: '{{ doc("stg_workday__job_family_group") }}'
+    description: '{{ doc("job_family_group") }}'
     columns:
       - name: job_family_group_id
         description: '{{ doc("job_family_group_id") }}'
@@ -158,7 +158,7 @@ models:
         description: '{{ doc("summary") }}'
 
   - name: stg_workday__organization_role
-    description: '{{ doc("stg_workday__organization_role") }}'
+    description: '{{ doc("organization_role") }}'
     columns:
       - name: organization_id
         description: '{{ doc("organization_id") }}'
@@ -176,7 +176,7 @@ models:
         description: '{{ doc("organization_role_code") }}'
 
   - name: stg_workday__organization_role_worker
-    description: '{{ doc("stg_workday__organization_role_worker") }}'
+    description: '{{ doc("organization_role_worker") }}'
     columns:
       - name: associated_worker_id
         description: '{{ doc("associated_worker_id") }}'
@@ -194,7 +194,7 @@ models:
         description: '{{ doc("_fivetran_synced") }}'
 
   - name: stg_workday__organization_job_family
-    description: '{{ doc("stg_workday__organization_job_family") }}'
+    description: '{{ doc("organization_job_family") }}'
     columns:
       - name: job_family_id
         description: '{{ doc("job_family_id") }}'
@@ -212,7 +212,7 @@ models:
         description: '{{ doc("job_family_group_id") }}'
 
   - name: stg_workday__organization
-    description: '{{ doc("stg_workday__organization") }}'
+    description: '{{ doc("organization") }}'
     columns:
       - name: organization_id
         description: '{{ doc("organization_id") }}'
@@ -232,8 +232,8 @@ models:
       - name: code
         description: '{{ doc("code") }}'
 
-      - name: description
-        description: '{{ doc("description") }}'
+      - name: organization_description
+        description: '{{ doc("organization_description") }}'
 
       - name: external_url
         description: '{{ doc("external_url") }}'
@@ -256,8 +256,8 @@ models:
       - name: last_updated_date_time
         description: '{{ doc("last_updated_date_time") }}'
 
-      - name: location
-        description: '{{ doc("location") }}'
+      - name: organization_location
+        description: '{{ doc("organization_location") }}'
 
       - name: manager_id
         description: '{{ doc("manager_id") }}'
@@ -274,8 +274,8 @@ models:
       - name: staffing_model
         description: '{{ doc("staffing_model") }}'
 
-      - name: sub_type
-        description: '{{ doc("sub_type") }}'
+      - name: organization_sub_type
+        description: '{{ doc("organization_sub_type") }}'
 
       - name: superior_organization_id
         description: '{{ doc("superior_organization_id") }}'
@@ -295,14 +295,14 @@ models:
       - name: top_level_organization_id
         description: '{{ doc("top_level_organization_id") }}'
 
-      - name: type
-        description: '{{ doc("type") }}'
+      - name: organization_type
+        description: '{{ doc("organization_type") }}'
 
       - name: visibility
         description: '{{ doc("visibility") }}'
 
   - name: stg_workday__position_organization
-    description: '{{ doc("stg_workday__position_organization") }}'
+    description: '{{ doc("position_organization") }}'
     columns:
       - name: organization_id
         description: '{{ doc("organization_id") }}'
@@ -311,7 +311,7 @@ models:
         description: '{{ doc("position_id") }}'
 
       - name: type
-        description: '{{ doc("type") }}'
+        description: '{{ doc("position_organization_type") }}'
 
       - name: _fivetran_deleted
         description: '{{ doc("_fivetran_deleted") }}'
@@ -320,7 +320,7 @@ models:
         description: '{{ doc("_fivetran_synced") }}'
 
   - name: stg_workday__position
-    description: '{{ doc("stg_workday__position") }}'
+    description: '{{ doc("position") }}'
     columns:
       - name: position_id
         description: '{{ doc("position_id") }}'
@@ -419,7 +419,7 @@ models:
         description: '{{ doc("worker_type_code") }}'
 
   - name: stg_workday__position_job_profile
-    description: '{{ doc("stg_workday__position_job_profile") }}'
+    description: '{{ doc("position_job_profile") }}'
     columns:
       - name: job_profile_id
         description: '{{ doc("job_profile_id") }}'
@@ -452,7 +452,7 @@ models:
         description: '{{ doc("work_shift_required") }}'
 
   - name: stg_workday__worker
-    description: '{{ doc("stg_workday__worker") }}'
+    description: '{{ doc("worker") }}'
     columns:
       - name: worker_id
         description: '{{ doc("worker_id") }}'
@@ -710,13 +710,13 @@ models:
         description: '{{ doc("worker_code") }}'
 
   - name: stg_workday__personal_information
-    description: '{{ doc("stg_workday__personal_information") }}'
+    description: '{{ doc("personal_information") }}'
     columns:
       - name: personal_information_id
         description: '{{ doc("personal_information_id") }}'
 
       - name: type
-        description: '{{ doc("type") }}'
+        description: '{{ doc("personal_information_type") }}'
 
       - name: _fivetran_deleted
         description: '{{ doc("_fivetran_deleted") }}'
@@ -818,7 +818,7 @@ models:
         description: '{{ doc("tobacco_use") }}'
 
   - name: stg_workday__person_name
-    description: '{{ doc("stg_workday__person_name") }}'
+    description: '{{ doc("person_name") }}'
     columns:
       - name: index
         description: '{{ doc("index") }}'
@@ -827,7 +827,7 @@ models:
         description: '{{ doc("personal_info_system_id") }}'
 
       - name: type
-        description: '{{ doc("type") }}'
+        description: '{{ doc("person_name_type") }}'
 
       - name: _fivetran_deleted
         description: '{{ doc("_fivetran_deleted") }}'
@@ -917,7 +917,7 @@ models:
         description: '{{ doc("tertiary_last_name") }}'
 
   - name: stg_workday__personal_information_ethnicity
-    description: '{{ doc("stg_workday__personal_information_ethnicity") }}'
+    description: '{{ doc("personal_information_ethnicity") }}'
     columns:
       - name: index
         description: '{{ doc("index") }}'
@@ -938,7 +938,7 @@ models:
         description: '{{ doc("ethnicity_id") }}'
 
   - name: stg_workday__military_service
-    description: '{{ doc("stg_workday__military_service") }}'
+    description: '{{ doc("military_service") }}'
     columns:
       - name: index
         description: '{{ doc("index") }}'
@@ -974,7 +974,7 @@ models:
         description: '{{ doc("status_begin_date") }}'
 
   - name: stg_workday__person_contact_email_address
-    description: '{{ doc("stg_workday__person_contact_email_address") }}'
+    description: '{{ doc("person_contact_email_address") }}'
     columns:
       - name: person_contact_email_address_id
         description: '{{ doc("person_contact_email_address_id") }}'
@@ -998,7 +998,7 @@ models:
         description: '{{ doc("email_comment") }}'
 
   - name: stg_workday__worker_position
-    description: '{{ doc("stg_workday__worker_position") }}'
+    description: '{{ doc("worker_position") }}'
     columns:
       - name: position_id
         description: '{{ doc("position_id") }}'
@@ -1181,7 +1181,7 @@ models:
         description: '{{ doc("working_time_value") }}'
 
   - name: stg_workday__worker_leave_status
-    description: '{{ doc("stg_workday__worker_leave_status") }}'
+    description: '{{ doc("worker_leave_status") }}'
     columns:
       - name: leave_request_event_id
         description: '{{ doc("leave_request_event_id") }}'
@@ -1229,7 +1229,7 @@ models:
         description: '{{ doc("date_of_recall") }}'
 
       - name: description
-        description: '{{ doc("description") }}'
+        description: '{{ doc("leave_description") }}'
 
       - name: estimated_leave_end_date
         description: '{{ doc("estimated_leave_end_date") }}'
