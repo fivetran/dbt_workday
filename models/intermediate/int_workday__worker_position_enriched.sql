@@ -12,18 +12,18 @@ worker_position_data_enhanced as (
         position_id,
         employee_type, 
         business_title,
-        full_time_equivalent_percentage as fte_percent,
-        start_date as position_start_date,
-        end_date as position_end_date,
-        effective_date as position_effective_date,
-        business_site_summary_location as position_location,
+        full_time_equivalent_percentage as fte_percent, 
+        start_date as position_start_date, 
+        end_date as position_end_date, 
+        effective_date as position_effective_date, 
+        business_site_summary_location as position_location, 
         management_level_code,
         job_profile_id,
-        case when end_date is null
-            then {{ dbt.datediff('current_date', 'start_date', 'day') }}
-            else {{ dbt.datediff('end_date', 'start_date', 'day') }}
-            end as days_at_position,
-        row_number() over (partition by worker_id order by end_date desc) as rn
+        case when end_date is null 
+            then {{ dbt.datediff('current_date', 'start_date', 'day') }} 
+            else {{ dbt.datediff('end_date', 'start_date', 'day') }} 
+            end as days_at_position, 
+        row_number() over (partition by worker_id order by end_date desc) as rn 
     from worker_position_data
 ),
 
@@ -52,19 +52,19 @@ worker_position_enriched as (
         most_recent_position.position_id, 
         most_recent_position.business_title,
         most_recent_position.job_profile_id, 
-        most_recent_position.employee_type as most_recent_position_type,
-        most_recent_position.position_location as most_recent_location,
-        most_recent_position.management_level_code as most_recent_level,
+        most_recent_position.employee_type as most_recent_position_type, 
+        most_recent_position.position_location as most_recent_location, 
+        most_recent_position.management_level_code as most_recent_level, 
         most_recent_position.fte_percent,
         most_recent_position.days_at_position,
-        most_recent_position.position_start_date as most_recent_position_start_date,
-        most_recent_position.position_end_date as most_recent_position_end_date,
-        most_recent_position.position_effective_date as most_recent_position_effective_date,
+        most_recent_position.position_start_date as most_recent_position_start_date, 
+        most_recent_position.position_end_date as most_recent_position_end_date, 
+        most_recent_position.position_effective_date as most_recent_position_effective_date, 
         worker_position_measures.worker_positions,
         worker_position_measures.worker_levels, 
         worker_position_measures.position_days
     from most_recent_position
-    left join worker_position_measures using(worker_id)
+    left join worker_position_measures using(worker_id) 
 )
 
 select * 

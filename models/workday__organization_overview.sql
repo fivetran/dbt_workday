@@ -1,4 +1,4 @@
-with organization_data as (
+with organization_data as ( 
 
     select * 
     from {{ ref('stg_workday__organization') }}
@@ -20,9 +20,9 @@ organization_roles as (
 
     select 
         organization_role_data.organization_id,
-        organization_role_data.role_id as organization_role_id,
-        organization_role_data.organization_role_code as organization_role_code,
-        organization_role_worker_data.associated_worker_id as organization_worker_code
+        organization_role_data.role_id as organization_role_id, 
+        organization_role_data.organization_role_code as organization_role_code, 
+        organization_role_worker_data.associated_worker_id as organization_worker_code 
     from organization_role_data
     left join organization_role_worker_data
         on organization_role_worker_data.organization_id = organization_role_data.organization_id

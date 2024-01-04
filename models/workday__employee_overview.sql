@@ -19,7 +19,8 @@ int_worker_position_enriched as (
 
 worker_employee_enhanced as (
 
-    select *,
+    select 
+        *,
         case when days_of_employment >= 365 then true else false end as employed_one_year,
         case when days_of_employment >= 365*5 then true else false end as employed_five_years,
         case when days_of_employment >= 365*10 then true else false end as employed_ten_years,
@@ -31,8 +32,8 @@ worker_employee_enhanced as (
         case when days_of_employment >= 365*20 and is_user_active then true else false end as is_current_employee_twenty_years,
         case when days_of_employment >= 365*30 and is_user_active then true else false end as is_current_employee_thirty_years
     from int_worker_base
-    left join int_worker_personal_details using(worker_id)
-    left join int_worker_position_enriched using(worker_id)
+    left join int_worker_personal_details using(worker_id) 
+    left join int_worker_position_enriched using(worker_id) 
 )
 
 select *

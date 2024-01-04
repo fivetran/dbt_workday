@@ -25,7 +25,7 @@ final as (
     
     select 
         source_relation, 
-        _fivetran_deleted,
+        _fivetran_deleted, 
         _fivetran_synced,
         effective_date,
         id as job_family_group_id,
