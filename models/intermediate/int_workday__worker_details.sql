@@ -1,6 +1,7 @@
 with worker_data as (
 
-    select *,
+    select 
+        *,
         {{ dbt.current_timestamp_backcompat() }} as current_date
     from {{ ref('stg_workday__worker') }}
 ),
@@ -12,12 +13,14 @@ worker_details as (
         worker_code,
         user_id,
         universal_id,
-        case when active then true else false end as is_user_active,
-        case when hire_date <= current_date
-            and (termination_date is null or termination_date > current_date)
+        case when active 
             then true 
             else false 
-            end as is_employed,
+        end as is_user_active,
+        case when hire_date <= current_date and (termination_date is null or termination_date > current_date)
+            then true 
+            else false 
+        end as is_employed,
         hire_date as start_date,
         case when termination_date > current_date then null
             else termination_date 
@@ -26,7 +29,7 @@ worker_details as (
             then {{ dbt.datediff('current_date', 'hire_date', 'day') }}
             else {{ dbt.datediff('termination_date', 'hire_date', 'day') }}
             end as days_of_employment,
-        terminated as is_terminated,
+        terminated as is_terminated, 
         primary_termination_category,
         primary_termination_reason,
         case

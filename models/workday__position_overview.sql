@@ -34,8 +34,9 @@ position_data_enhanced as (
         position_data.compensation_grade_code,
         position_data.compensation_grade_profile_code
     from position_data
-    left join position_job_profile_data on position_job_profile_data.position_id = position_data.position_id
-    where not position_data._fivetran_deleted
+    left join position_job_profile_data 
+        on position_job_profile_data.position_id = position_data.position_id
+    where not position_data._fivetran_deleted 
 )
 
 select *

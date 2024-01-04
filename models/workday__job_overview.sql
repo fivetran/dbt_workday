@@ -18,7 +18,7 @@ job_family_data as (
     select 
         job_family_id, 
         job_family_code,
-        summary as job_family_summary
+        summary as job_family_summary 
     from {{ ref('stg_workday__job_family') }}
 ),
 
@@ -35,7 +35,7 @@ job_family_group_data as (
     select 
         job_family_group_id,
         job_family_group_code,
-        summary as job_family_group_summary
+        summary as job_family_group_summary 
     from {{ ref('stg_workday__job_family_group') }}
 ),
 
@@ -44,7 +44,7 @@ job_data_enhanced as (
     select
         job_profile_data.job_profile_id,
         job_profile_data.job_profile_code, 
-        job_profile_data.title as job_title,
+        job_profile_data.title as job_title, 
         job_profile_data.private_title,
         job_profile_data.job_summary,
         job_profile_data.job_description,

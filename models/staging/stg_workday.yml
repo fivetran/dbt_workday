@@ -1,9 +1,9 @@
 version: 2
 
 models:
-  - name: stg_workday__job_profile
+  - name: stg_workday__job_profile 
     description: '{{ doc("job_profile") }}'
-    columns:
+    columns: 
       - name: job_profile_id
         description: '{{ doc("job_profile_id") }}'
 
@@ -22,8 +22,8 @@ models:
       - name: critical_job
         description: '{{ doc("critical_job") }}'
 
-      - name: job_profile_description
-        description: '{{ doc("job_profile_description") }}'
+      - name: job_profile_description 
+        description: '{{ doc("job_profile_description") }}' 
 
       - name: difficulty_to_fill
         description: '{{ doc("difficulty_to_fill") }}'
@@ -58,8 +58,8 @@ models:
       - name: referral_payment_plan
         description: '{{ doc("referral_payment_plan") }}'
 
-      - name: summary
-        description: '{{ doc("summary") }}'
+      - name: summary 
+        description: '{{ doc("summary") }}' 
 
       - name: title
         description: '{{ doc("title") }}'
@@ -826,8 +826,8 @@ models:
       - name: personal_info_system_id
         description: '{{ doc("personal_info_system_id") }}'
 
-      - name: type
-        description: '{{ doc("person_name_type") }}'
+      - name: type 
+        description: '{{ doc("person_name_type") }}' 
 
       - name: _fivetran_deleted
         description: '{{ doc("_fivetran_deleted") }}'

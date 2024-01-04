@@ -36,7 +36,7 @@ final as (
         date_of_birth,
         date_of_death,
         gender,
-        hispanic_or_latino,
+        hispanic_or_latino, 
         hukou_locality,
         hukou_postal_code,
         hukou_region,

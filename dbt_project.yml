@@ -13,7 +13,6 @@ models:
       +materialized: view
       +schema: stg_workday
 
-
 vars:
     job_profile: "{{ source('workday','job_profile') }}"
     job_family_job_family_group: "{{ source('workday','job_family_job_family_group') }}"
@@ -35,5 +34,3 @@ vars:
     person_contact_email_address: "{{ source('workday','person_contact_email_address') }}"
     worker_position: "{{ source('workday','worker_position') }}"
     worker_leave_status: "{{ source('workday','worker_leave_status') }}"
-
- 
