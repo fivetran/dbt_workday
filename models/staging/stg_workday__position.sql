@@ -24,25 +24,24 @@ fields as (
 final as (
     
     select 
-        source_relation, 
-        _fivetran_deleted,
+        source_relation,
         _fivetran_synced,
-        academic_tenure_eligible,
+        academic_tenure_eligible as is_academic_tenure_eligible,
         availability_date,
-        available_for_hire,
-        available_for_overlap,
-        available_for_recruiting,
-        closed,
+        available_for_hire as is_available_for_hire,
+        available_for_overlap as is_available_for_overlap,
+        available_for_recruiting as is_available_for_recruiting,
+        closed as is_closed,
         compensation_grade_code,
         compensation_grade_profile_code,
         compensation_package_code,
         compensation_step_code,
-        critical_job,
+        critical_job as is_critical_job,
         difficulty_to_fill_code,
         earliest_hire_date,
         earliest_overlap_date,
         effective_date,
-        hiring_freeze,
+        hiring_freeze as is_hiring_freeze,
         id as position_id,
         job_description,
         job_description_summary,
@@ -53,11 +52,12 @@ final as (
         primary_compensation_basis_amount_change,
         primary_compensation_basis_percent_change,
         supervisory_organization_id,
-        work_shift_required,
+        work_shift_required as is_work_shift_required,
         worker_for_filled_position_id,
         worker_position_id,
         worker_type_code
     from fields
+    where not coalesce(_fivetran_deleted, false)
 )
 
 select *

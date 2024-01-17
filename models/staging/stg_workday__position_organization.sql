@@ -24,13 +24,13 @@ fields as (
 final as (
     
     select 
-        source_relation, 
-        _fivetran_deleted,
+        source_relation,
         _fivetran_synced,
         organization_id,
         position_id,
         type
     from fields
+    where not coalesce(_fivetran_deleted, false)
 )
 
 select *

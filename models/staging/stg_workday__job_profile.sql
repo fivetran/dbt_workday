@@ -24,33 +24,33 @@ fields as (
 final as (
     
     select 
-        source_relation, 
-        _fivetran_deleted,
+        source_relation,
         _fivetran_synced,
         additional_job_description,
         compensation_grade_id,
-        critical_job,
+        critical_job as is_critical_job,
         description as job_description,
         difficulty_to_fill,
         effective_date,
         id as job_profile_id,
-        inactive,
-        include_job_code_in_name,
+        inactive as is_inactive,
+        include_job_code_in_name as is_include_job_code_in_name,
         job_category_id,
         job_profile_code,
         level,
         management_level,
         private_title,
-        public_job,
+        public_job as is_public_job,
         referral_payment_plan,
         summary as job_summary,
-        title,
+        title as job_title,
         union_code,
         union_membership_requirement,
-        work_shift_required,
+        work_shift_required as is_work_shift_required,
         work_study_award_source_code,
         work_study_requirement_option_code
     from fields
+    where not coalesce(_fivetran_deleted, false)
 )
 
 select *

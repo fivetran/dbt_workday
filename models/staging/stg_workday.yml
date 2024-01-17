@@ -3,12 +3,18 @@ version: 2
 models:
   - name: stg_workday__job_profile
     description: '{{ doc("job_profile") }}'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - job_profile_id
+
     columns:
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
+
       - name: job_profile_id
         description: '{{ doc("job_profile_id") }}'
-
-      - name: _fivetran_deleted
-        description: '{{ doc("_fivetran_deleted") }}'
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
@@ -19,7 +25,7 @@ models:
       - name: compensation_grade_id
         description: '{{ doc("compensation_grade_id") }}'
 
-      - name: critical_job
+      - name: is_critical_job
         description: '{{ doc("critical_job") }}'
 
       - name: job_profile_description
@@ -31,10 +37,10 @@ models:
       - name: effective_date
         description: '{{ doc("effective_date") }}'
 
-      - name: inactive
+      - name: is_inactive
         description: '{{ doc("inactive") }}'
 
-      - name: include_job_code_in_name
+      - name: is_include_job_code_in_name
         description: '{{ doc("include_job_code_in_name") }}'
 
       - name: job_category_id
@@ -52,7 +58,7 @@ models:
       - name: private_title
         description: '{{ doc("private_title") }}'
 
-      - name: public_job
+      - name: is_public_job
         description: '{{ doc("public_job") }}'
 
       - name: referral_payment_plan
@@ -61,8 +67,8 @@ models:
       - name: summary
         description: '{{ doc("summary") }}'
 
-      - name: title
-        description: '{{ doc("title") }}'
+      - name: job_title
+        description: '{{ doc("job_title") }}'
 
       - name: union_code
         description: '{{ doc("union_code") }}'
@@ -70,7 +76,7 @@ models:
       - name: union_membership_requirement
         description: '{{ doc("union_membership_requirement") }}'
 
-      - name: work_shift_required
+      - name: is_work_shift_required
         description: '{{ doc("work_shift_required") }}'
 
       - name: work_study_award_source_code
@@ -81,27 +87,40 @@ models:
 
   - name: stg_workday__job_family_job_profile
     description: '{{ doc("job_family_job_profile") }}'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - job_family_id
+            - job_profile_id
+
     columns:
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
+
       - name: job_family_id
         description: '{{ doc("job_family_id") }}'
 
       - name: job_profile_id
         description: '{{ doc("job_profile_id") }}'
 
-      - name: _fivetran_deleted
-        description: '{{ doc("_fivetran_deleted") }}'
-
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
 
   - name: stg_workday__job_family
     description: '{{ doc("job_family") }}'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - job_family_id
+
     columns:
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
+
       - name: job_family_id
         description: '{{ doc("job_family_id") }}'
-
-      - name: _fivetran_deleted
-        description: '{{ doc("_fivetran_deleted") }}'
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
@@ -109,38 +128,51 @@ models:
       - name: effective_date
         description: '{{ doc("effective_date") }}'
 
-      - name: inactive
+      - name: is_inactive
         description: '{{ doc("inactive") }}'
 
       - name: job_family_code
         description: '{{ doc("job_family_code") }}'
 
-      - name: summary
-        description: '{{ doc("summary") }}'
+      - name: job_family_summary
+        description: '{{ doc("job_family_summary") }}'
 
   - name: stg_workday__job_family_job_family_group
     description: '{{ doc("job_family_job_family_group") }}'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - job_family_id
+            - job_family_group_id
+
     columns:
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
+
       - name: job_family_id
         description: '{{ doc("job_family_id") }}'
 
       - name: job_family_group_id
         description: '{{ doc("job_family_group_id") }}'
-
-      - name: _fivetran_deleted
-        description: '{{ doc("_fivetran_deleted") }}'
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
 
   - name: stg_workday__job_family_group
     description: '{{ doc("job_family_group") }}'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - job_family_group_id
+
     columns:
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
+
       - name: job_family_group_id
         description: '{{ doc("job_family_group_id") }}'
-
-      - name: _fivetran_deleted
-        description: '{{ doc("_fivetran_deleted") }}'
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
@@ -148,26 +180,33 @@ models:
       - name: effective_date
         description: '{{ doc("effective_date") }}'
 
-      - name: inactive
+      - name: is_inactive
         description: '{{ doc("inactive") }}'
 
       - name: job_family_group_code
         description: '{{ doc("job_family_group_code") }}'
 
-      - name: summary
-        description: '{{ doc("summary") }}'
+      - name: job_family_group_summary
+        description: '{{ doc("job_family_group_summary") }}'
 
   - name: stg_workday__organization_role
     description: '{{ doc("organization_role") }}'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - organization_id
+            - organization_role_id
+
     columns:
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
+
       - name: organization_id
         description: '{{ doc("organization_id") }}'
 
-      - name: role_id
-        description: '{{ doc("role_id") }}'
-
-      - name: _fivetran_deleted
-        description: '{{ doc("_fivetran_deleted") }}'
+      - name: organization_role_id
+        description: '{{ doc("organization_role_id") }}'
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
@@ -177,9 +216,20 @@ models:
 
   - name: stg_workday__organization_role_worker
     description: '{{ doc("organization_role_worker") }}'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - organization_worker_code
+            - organization_id
+            - role_id
+
     columns:
-      - name: associated_worker_id
-        description: '{{ doc("associated_worker_id") }}'
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
+
+      - name: organization_worker_code
+        description: '{{ doc("organization_worker_code") }}'
 
       - name: organization_id
         description: '{{ doc("organization_id") }}'
@@ -187,23 +237,27 @@ models:
       - name: role_id
         description: '{{ doc("role_id") }}'
 
-      - name: _fivetran_deleted
-        description: '{{ doc("_fivetran_deleted") }}'
-
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
 
   - name: stg_workday__organization_job_family
     description: '{{ doc("organization_job_family") }}'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - job_family_id
+            - organization_id
+
     columns:
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
+
       - name: job_family_id
         description: '{{ doc("job_family_id") }}'
 
       - name: organization_id
         description: '{{ doc("organization_id") }}'
-
-      - name: _fivetran_deleted
-        description: '{{ doc("_fivetran_deleted") }}'
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
@@ -213,12 +267,18 @@ models:
 
   - name: stg_workday__organization
     description: '{{ doc("organization") }}'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - organization_id
+
     columns:
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
+
       - name: organization_id
         description: '{{ doc("organization_id") }}'
-
-      - name: _fivetran_deleted
-        description: '{{ doc("_fivetran_deleted") }}'
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
@@ -226,7 +286,7 @@ models:
       - name: availability_date
         description: '{{ doc("availability_date") }}'
 
-      - name: available_for_hire
+      - name: is_available_for_hire
         description: '{{ doc("available_for_hire") }}'
 
       - name: code
@@ -238,19 +298,19 @@ models:
       - name: external_url
         description: '{{ doc("external_url") }}'
 
-      - name: hiring_freeze
+      - name: is_hiring_freeze
         description: '{{ doc("hiring_freeze") }}'
 
-      - name: inactive
+      - name: is_inactive
         description: '{{ doc("inactive") }}'
 
       - name: inactive_date
         description: '{{ doc("inactive_date") }}'
 
-      - name: include_manager_in_name
+      - name: is_include_manager_in_name
         description: '{{ doc("include_manager_in_name") }}'
 
-      - name: include_organization_code_in_name
+      - name: is_include_organization_code_in_name
         description: '{{ doc("include_organization_code_in_name") }}'
 
       - name: last_updated_date_time
@@ -303,7 +363,17 @@ models:
 
   - name: stg_workday__position_organization
     description: '{{ doc("position_organization") }}'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - organization_id
+            - position_id
+
     columns:
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
+
       - name: organization_id
         description: '{{ doc("organization_id") }}'
 
@@ -313,40 +383,43 @@ models:
       - name: type
         description: '{{ doc("position_organization_type") }}'
 
-      - name: _fivetran_deleted
-        description: '{{ doc("_fivetran_deleted") }}'
-
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
 
   - name: stg_workday__position
     description: '{{ doc("position") }}'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - position_id
+
     columns:
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
+
       - name: position_id
         description: '{{ doc("position_id") }}'
-
-      - name: _fivetran_deleted
-        description: '{{ doc("_fivetran_deleted") }}'
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
 
-      - name: academic_tenure_eligible
+      - name: is_academic_tenure_eligible
         description: '{{ doc("academic_tenure_eligible") }}'
 
-      - name: availability_date
+      - name: is_availability_date
         description: '{{ doc("availability_date") }}'
 
-      - name: available_for_hire
+      - name: is_available_for_hire
         description: '{{ doc("available_for_hire") }}'
 
-      - name: available_for_overlap
+      - name: is_available_for_overlap
         description: '{{ doc("available_for_overlap") }}'
 
-      - name: available_for_recruiting
+      - name: is_available_for_recruiting
         description: '{{ doc("available_for_recruiting") }}'
 
-      - name: closed
+      - name: is_closed
         description: '{{ doc("closed") }}'
 
       - name: compensation_grade_code
@@ -361,7 +434,7 @@ models:
       - name: compensation_step_code
         description: '{{ doc("compensation_step_code") }}'
 
-      - name: critical_job
+      - name: is_critical_job
         description: '{{ doc("critical_job") }}'
 
       - name: difficulty_to_fill_code
@@ -376,7 +449,7 @@ models:
       - name: effective_date
         description: '{{ doc("effective_date") }}'
 
-      - name: hiring_freeze
+      - name: is_hiring_freeze
         description: '{{ doc("hiring_freeze") }}'
 
       - name: job_description
@@ -406,7 +479,7 @@ models:
       - name: supervisory_organization_id
         description: '{{ doc("supervisory_organization_id") }}'
 
-      - name: work_shift_required
+      - name: is_work_shift_required
         description: '{{ doc("work_shift_required") }}'
 
       - name: worker_for_filled_position_id
@@ -420,15 +493,22 @@ models:
 
   - name: stg_workday__position_job_profile
     description: '{{ doc("position_job_profile") }}'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - job_profile_id
+            - position_id
+
     columns:
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
+
       - name: job_profile_id
         description: '{{ doc("job_profile_id") }}'
 
       - name: position_id
         description: '{{ doc("position_id") }}'
-
-      - name: _fivetran_deleted
-        description: '{{ doc("_fivetran_deleted") }}'
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
@@ -448,17 +528,23 @@ models:
       - name: position_job_profile_name
         description: '{{ doc("position_job_profile_name") }}'
 
-      - name: work_shift_required
+      - name: is_work_shift_required
         description: '{{ doc("work_shift_required") }}'
 
   - name: stg_workday__worker
     description: '{{ doc("worker") }}'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - worker_id
+
     columns:
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
+
       - name: worker_id
         description: '{{ doc("worker_id") }}'
-
-      - name: _fivetran_deleted
-        description: '{{ doc("_fivetran_deleted") }}'
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
@@ -466,7 +552,7 @@ models:
       - name: academic_tenure_date
         description: '{{ doc("academic_tenure_date") }}'
 
-      - name: active
+      - name: is_active
         description: '{{ doc("active") }}'
 
       - name: active_status_date
@@ -577,7 +663,7 @@ models:
       - name: first_day_of_work
         description: '{{ doc("first_day_of_work") }}'
 
-      - name: has_international_assignment
+      - name: is_has_international_assignment
         description: '{{ doc("has_international_assignment") }}'
 
       - name: hire_date
@@ -586,7 +672,7 @@ models:
       - name: hire_reason
         description: '{{ doc("hire_reason") }}'
 
-      - name: hire_rescinded
+      - name: is_hire_rescinded
         description: '{{ doc("hire_rescinded") }}'
 
       - name: home_country
@@ -616,7 +702,7 @@ models:
       - name: months_continuous_prior_employment
         description: '{{ doc("months_continuous_prior_employment") }}'
 
-      - name: not_returning
+      - name: is_not_returning
         description: '{{ doc("not_returning") }}'
 
       - name: original_hire_date
@@ -655,16 +741,16 @@ models:
       - name: reason_reference_id
         description: '{{ doc("reason_reference_id") }}'
 
-      - name: regrettable_termination
+      - name: is_regrettable_termination
         description: '{{ doc("regrettable_termination") }}'
 
-      - name: rehire
+      - name: is_rehire
         description: '{{ doc("rehire") }}'
 
       - name: resignation_date
         description: '{{ doc("resignation_date") }}'
 
-      - name: retired
+      - name: is_retired
         description: '{{ doc("retired") }}'
 
       - name: retirement_date
@@ -673,7 +759,7 @@ models:
       - name: retirement_eligibility_date
         description: '{{ doc("retirement_eligibility_date") }}'
 
-      - name: return_unknown
+      - name: is_return_unknown
         description: '{{ doc("return_unknown") }}'
 
       - name: seniority_date
@@ -682,13 +768,13 @@ models:
       - name: severance_date
         description: '{{ doc("severance_date") }}'
 
-      - name: terminated
-        description: '{{ doc("terminated") }}'
+      - name: is_terminated
+        description: '{{ doc("is_terminated") }}'
 
       - name: termination_date
         description: '{{ doc("termination_date") }}'
 
-      - name: termination_involuntary
+      - name: is_termination_involuntary
         description: '{{ doc("termination_involuntary") }}'
 
       - name: termination_last_day_of_work
@@ -711,15 +797,21 @@ models:
 
   - name: stg_workday__personal_information
     description: '{{ doc("personal_information") }}'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - worker_id
+
     columns:
-      - name: personal_information_id
-        description: '{{ doc("personal_information_id") }}'
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
+
+      - name: worker_id
+        description: '{{ doc("worker_id") }}'
 
       - name: type
         description: '{{ doc("personal_information_type") }}'
-
-      - name: _fivetran_deleted
-        description: '{{ doc("_fivetran_deleted") }}'
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
@@ -751,7 +843,7 @@ models:
       - name: gender
         description: '{{ doc("gender") }}'
 
-      - name: hispanic_or_latino
+      - name: is_hispanic_or_latino
         description: '{{ doc("hispanic_or_latino") }}'
 
       - name: hukou_locality
@@ -775,7 +867,7 @@ models:
       - name: last_medical_exam_valid_to
         description: '{{ doc("last_medical_exam_valid_to") }}'
 
-      - name: local_hukou
+      - name: is_local_hukou
         description: '{{ doc("local_hukou") }}'
 
       - name: marital_status
@@ -814,23 +906,30 @@ models:
       - name: social_benefit
         description: '{{ doc("social_benefit") }}'
 
-      - name: tobacco_use
+      - name: is_tobacco_use
         description: '{{ doc("tobacco_use") }}'
 
   - name: stg_workday__person_name
     description: '{{ doc("person_name") }}'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - worker_id
+            - person_name_type
+
     columns:
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
+
+      - name: worker_id
+        description: '{{ doc("worker_id") }}'
+
       - name: index
         description: '{{ doc("index") }}'
 
-      - name: personal_info_system_id
-        description: '{{ doc("personal_info_system_id") }}'
-
-      - name: type
+      - name: person_name_type
         description: '{{ doc("person_name_type") }}'
-
-      - name: _fivetran_deleted
-        description: '{{ doc("_fivetran_deleted") }}'
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
@@ -918,15 +1017,22 @@ models:
 
   - name: stg_workday__personal_information_ethnicity
     description: '{{ doc("personal_information_ethnicity") }}'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - worker_id
+            - ethnicity_id
+
     columns:
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
+
       - name: index
         description: '{{ doc("index") }}'
 
-      - name: personal_info_system_id
-        description: '{{ doc("personal_info_system_id") }}'
-
-      - name: _fivetran_deleted
-        description: '{{ doc("_fivetran_deleted") }}'
+      - name: worker_id
+        description: '{{ doc("worker_id") }}'
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
@@ -939,15 +1045,21 @@ models:
 
   - name: stg_workday__military_service
     description: '{{ doc("military_service") }}'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - worker_id
+
     columns:
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
+
       - name: index
         description: '{{ doc("index") }}'
 
-      - name: personal_info_system_id
-        description: '{{ doc("personal_info_system_id") }}'
-
-      - name: _fivetran_deleted
-        description: '{{ doc("_fivetran_deleted") }}'
+      - name: worker_id
+        description: '{{ doc("worker_id") }}'
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
@@ -967,7 +1079,7 @@ models:
       - name: service_type
         description: '{{ doc("service_type") }}'
 
-      - name: status
+      - name: military_status
         description: '{{ doc("status") }}'
 
       - name: status_begin_date
@@ -975,15 +1087,22 @@ models:
 
   - name: stg_workday__person_contact_email_address
     description: '{{ doc("person_contact_email_address") }}'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - worker_id
+            - person_contact_email_address_id
+
     columns:
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
+
       - name: person_contact_email_address_id
         description: '{{ doc("person_contact_email_address_id") }}'
 
-      - name: personal_info_system_id
-        description: '{{ doc("personal_info_system_id") }}'
-
-      - name: _fivetran_deleted
-        description: '{{ doc("_fivetran_deleted") }}'
+      - name: worker_id
+        description: '{{ doc("worker_id") }}'
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
@@ -999,15 +1118,22 @@ models:
 
   - name: stg_workday__worker_position
     description: '{{ doc("worker_position") }}'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - position_id
+            - worker_id
+
     columns:
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
+
       - name: position_id
         description: '{{ doc("position_id") }}'
 
       - name: worker_id
         description: '{{ doc("worker_id") }}'
-
-      - name: _fivetran_deleted
-        description: '{{ doc("_fivetran_deleted") }}'
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
@@ -1033,7 +1159,7 @@ models:
       - name: business_site_summary_local
         description: '{{ doc("business_site_summary_local") }}'
 
-      - name: business_site_summary_location
+      - name: position_location
         description: '{{ doc("business_site_summary_location") }}'
 
       - name: business_site_summary_location_type
@@ -1051,7 +1177,7 @@ models:
       - name: business_title
         description: '{{ doc("business_title") }}'
 
-      - name: critical_job
+      - name: is_critical_job
         description: '{{ doc("critical_job") }}'
 
       - name: default_weekly_hours
@@ -1060,19 +1186,19 @@ models:
       - name: difficulty_to_fill
         description: '{{ doc("difficulty_to_fill") }}'
 
-      - name: effective_date
+      - name: position_effective_date
         description: '{{ doc("effective_date") }}'
 
       - name: employee_type
         description: '{{ doc("employee_type") }}'
 
-      - name: end_date
+      - name: position_end_date
         description: '{{ doc("end_date") }}'
 
       - name: end_employment_date
         description: '{{ doc("end_employment_date") }}'
 
-      - name: exclude_from_head_count
+      - name: is_exclude_from_head_count
         description: '{{ doc("exclude_from_head_count") }}'
 
       - name: expected_assignment_end_date
@@ -1087,7 +1213,7 @@ models:
       - name: frequency
         description: '{{ doc("frequency") }}'
 
-      - name: full_time_equivalent_percentage
+      - name: fte_percent
         description: '{{ doc("full_time_equivalent_percentage") }}'
 
       - name: headcount_restriction_code
@@ -1105,7 +1231,7 @@ models:
       - name: is_primary_job
         description: '{{ doc("is_primary_job") }}'
 
-      - name: job_exempt
+      - name: is_job_exempt
         description: '{{ doc("job_exempt") }}'
 
       - name: job_profile_id
@@ -1141,13 +1267,13 @@ models:
       - name: scheduled_weekly_hours
         description: '{{ doc("scheduled_weekly_hours") }}'
 
-      - name: specify_paid_fte
+      - name: is_specify_paid_fte
         description: '{{ doc("specify_paid_fte") }}'
 
-      - name: specify_working_fte
+      - name: is_specify_working_fte
         description: '{{ doc("specify_working_fte") }}'
 
-      - name: start_date
+      - name: position_start_date
         description: '{{ doc("start_date") }}'
 
       - name: start_international_assignment_reason
@@ -1159,7 +1285,7 @@ models:
       - name: work_shift
         description: '{{ doc("work_shift") }}'
 
-      - name: work_shift_required
+      - name: is_work_shift_required
         description: '{{ doc("work_shift_required") }}'
 
       - name: work_space
@@ -1182,15 +1308,22 @@ models:
 
   - name: stg_workday__worker_leave_status
     description: '{{ doc("worker_leave_status") }}'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - leave_request_event_id
+            - worker_id
+    
     columns:
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
+
       - name: leave_request_event_id
         description: '{{ doc("leave_request_event_id") }}'
 
       - name: worker_id
         description: '{{ doc("worker_id") }}'
-
-      - name: _fivetran_deleted
-        description: '{{ doc("_fivetran_deleted") }}'
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
@@ -1204,10 +1337,10 @@ models:
       - name: age_of_dependent
         description: '{{ doc("age_of_dependent") }}'
 
-      - name: benefits_effect
+      - name: is_benefits_effect
         description: '{{ doc("benefits_effect") }}'
 
-      - name: caesarean_section_birth
+      - name: is_caesarean_section_birth
         description: '{{ doc("caesarean_section_birth") }}'
 
       - name: child_birth_date
@@ -1216,7 +1349,7 @@ models:
       - name: child_sdate_of_death
         description: '{{ doc("child_sdate_of_death") }}'
 
-      - name: continuous_service_accrual_effect
+      - name: is_continuous_service_accrual_effect
         description: '{{ doc("continuous_service_accrual_effect") }}'
 
       - name: date_baby_arrived_home_from_hospital
@@ -1273,7 +1406,7 @@ models:
       - name: location_during_leave
         description: '{{ doc("location_during_leave") }}'
 
-      - name: multiple_child_indicator
+      - name: is_multiple_child_indicator
         description: '{{ doc("multiple_child_indicator") }}'
 
       - name: number_of_babies_adopted_children
@@ -1288,25 +1421,22 @@ models:
       - name: number_of_previous_maternity_leaves
         description: '{{ doc("number_of_previous_maternity_leaves") }}'
 
-      - name: on_leave
+      - name: is_on_leave
         description: '{{ doc("on_leave") }}'
 
-      - name: paid_time_off_accrual_effect
+      - name: is_paid_time_off_accrual_effect
         description: '{{ doc("paid_time_off_accrual_effect") }}'
 
-      - name: payroll_effect
+      - name: is_payroll_effect
         description: '{{ doc("payroll_effect") }}'
 
-      - name: single_parent_indicator
+      - name: is_single_parent_indicator
         description: '{{ doc("single_parent_indicator") }}'
 
       - name: social_security_disability_code
         description: '{{ doc("social_security_disability_code") }}'
 
-      - name: stillbirth_baby_deceased
-        description: '{{ doc("stillbirth_baby_deceased") }}'
-
-      - name: stock_vesting_effect
+      - name: is_stock_vesting_effect
         description: '{{ doc("stock_vesting_effect") }}'
 
       - name: stop_payment_date
@@ -1315,6 +1445,43 @@ models:
       - name: week_of_confinement
         description: '{{ doc("week_of_confinement") }}'
 
-      - name: work_related
+      - name: is_work_related
         description: '{{ doc("work_related") }}'
 
+  - name: stg_workday__worker_position_organization
+    description: '{{ doc("worker_position_organization") }}'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - worker_id
+            - position_id
+            - organization_id
+
+    columns:
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
+
+      - name: position_id
+        description: '{{ doc("position_id") }}'
+
+      - name: worker_id
+        description: '{{ doc("worker_id") }}'
+
+      - name: _fivetran_synced
+        description: '{{ doc("_fivetran_synced") }}'
+
+      - name: index
+        description: '{{ doc("index") }}'
+
+      - name: date_of_pay_group_assignment
+        description: '{{ doc("date_of_pay_group_assignment") }}'
+
+      - name: organization_id
+        description: '{{ doc("organization_id") }}'
+
+      - name: primary_business_site
+        description: '{{ doc("primary_business_site") }}'
+
+      - name: is_used_in_change_organization_assignments
+        description: '{{ doc("used_in_change_organization_assignments") }}'

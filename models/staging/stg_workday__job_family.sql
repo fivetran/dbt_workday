@@ -24,15 +24,15 @@ fields as (
 final as (
     
     select 
-        source_relation, 
-        _fivetran_deleted,
+        source_relation,
         _fivetran_synced,
         effective_date,
         id as job_family_id,
-        inactive,
+        inactive as is_inactive,
         job_family_code,
-        summary
+        summary as job_family_summary
     from fields
+    where not coalesce(_fivetran_deleted, false)
 )
 
 select *

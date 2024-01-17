@@ -23,20 +23,20 @@ fields as (
 
 final as (
     
-    select 
-        source_relation, 
-        _fivetran_deleted,
+    select
+        personal_info_system_id as worker_id,
+        source_relation,
         _fivetran_synced,
         discharge_date,
         index,
         notes,
-        personal_info_system_id,
         rank,
         service,
         service_type,
-        status,
+        status as military_status,
         status_begin_date
     from fields
+    where not coalesce(_fivetran_deleted, false)
 )
 
 select *

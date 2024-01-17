@@ -24,8 +24,8 @@ fields as (
 final as (
     
     select 
-        source_relation, 
-        _fivetran_deleted,
+        id as worker_id,
+        source_relation,
         _fivetran_synced,
         additional_nationality,
         blood_type,
@@ -36,16 +36,15 @@ final as (
         date_of_birth,
         date_of_death,
         gender,
-        hispanic_or_latino,
+        hispanic_or_latino as is_hispanic_or_latino,
         hukou_locality,
         hukou_postal_code,
         hukou_region,
         hukou_subregion,
         hukou_type,
-        id as personal_information_id,
         last_medical_exam_date,
         last_medical_exam_valid_to,
-        local_hukou,
+        local_hukou as is_local_hukou,
         marital_status,
         marital_status_date,
         medical_exam_notes,
@@ -58,9 +57,10 @@ final as (
         region_of_birth_code,
         religion,
         social_benefit,
-        tobacco_use,
+        tobacco_use as is_tobacco_use,
         type
     from fields
+    where coalesce(_fivetran_active, true)
 )
 
 select *

@@ -24,15 +24,15 @@ fields as (
 final as (
     
     select 
-        source_relation, 
-        _fivetran_deleted,
+        personal_info_system_id as worker_id,
+        source_relation,
         _fivetran_synced,
         email_address,
         email_code,
         email_comment,
-        id as person_contact_email_address_id,
-        personal_info_system_id
+        id as person_contact_email_address_id
     from fields
+    where not coalesce(_fivetran_deleted, false)
 )
 
 select *

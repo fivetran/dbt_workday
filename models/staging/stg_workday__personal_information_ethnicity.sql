@@ -24,14 +24,14 @@ fields as (
 final as (
     
     select 
-        source_relation, 
-        _fivetran_deleted,
+        personal_info_system_id as worker_id,
+        source_relation,
         _fivetran_synced,
         ethnicity_code,
         ethnicity_id,
-        index,
-        personal_info_system_id
+        index
     from fields
+    where not coalesce(_fivetran_deleted, false)
 )
 
 select *

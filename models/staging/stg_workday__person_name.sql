@@ -24,8 +24,8 @@ fields as (
 final as (
     
     select 
-        source_relation, 
-        _fivetran_deleted,
+        personal_info_system_id as worker_id,
+        source_relation,
         _fivetran_synced,
         academic_suffix,
         additional_name_type,
@@ -45,7 +45,6 @@ final as (
         local_secondary_last_name,
         local_secondary_last_name_2,
         middle_name,
-        personal_info_system_id,
         prefix_salutation,
         prefix_title,
         prefix_title_code,
@@ -58,6 +57,7 @@ final as (
         tertiary_last_name,
         type as person_name_type
     from fields
+    where not coalesce(_fivetran_deleted, false)
 )
 
 select *

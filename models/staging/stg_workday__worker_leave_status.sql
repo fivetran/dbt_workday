@@ -24,17 +24,15 @@ fields as (
 final as (
     
     select 
-        source_relation, 
-        _fivetran_deleted,
+        source_relation,
         _fivetran_synced,
         adoption_notification_date,
         adoption_placement_date,
         age_of_dependent,
-        benefits_effect,
-        caesarean_section_birth,
+        benefits_effect as is_benefits_effect,
         child_birth_date,
         child_sdate_of_death,
-        continuous_service_accrual_effect,
+        continuous_service_accrual_effect as is_continuous_service_accrual_effect,
         date_baby_arrived_home_from_hospital,
         date_child_entered_country,
         date_of_recall,
@@ -54,23 +52,23 @@ final as (
         leave_status_code,
         leave_type_reason,
         location_during_leave,
-        multiple_child_indicator,
+        multiple_child_indicator as is_multiple_child_indicator,
         number_of_babies_adopted_children,
         number_of_child_dependents,
         number_of_previous_births,
         number_of_previous_maternity_leaves,
-        on_leave,
-        paid_time_off_accrual_effect,
-        payroll_effect,
+        on_leave as is_on_leave,
+        paid_time_off_accrual_effect as is_paid_time_off_accrual_effect,
+        payroll_effect as is_payroll_effect,
         single_parent_indicator,
         social_security_disability_code,
-        stillbirth_baby_deceased,
-        stock_vesting_effect,
+        stock_vesting_effect as is_stock_vesting_effect,
         stop_payment_date,
         week_of_confinement,
-        work_related,
+        work_related as is_work_related,
         worker_id
     from fields
+    where not coalesce(_fivetran_deleted, false)
 )
 
 select *

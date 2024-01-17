@@ -3,9 +3,18 @@ version: 2
 models:
   - name: workday__employee_overview
     description: '{{ doc("workday__employee_overview") }}'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - worker_id
+
     columns:
       - name: worker_id
         description: '{{ doc("worker_id") }}'
+
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
 
       - name: worker_code
         description: '{{ doc("worker_code") }}'
@@ -22,8 +31,8 @@ models:
       - name: is_employed
         description: '{{ doc("is_employed") }}' 
 
-      - name: start_date
-        description: '{{ doc("start_date") }}' 
+      - name: hire_date
+        description: '{{ doc("hire_date") }}' 
 
       - name: departure_date
         description: '{{ doc("departure_date") }}' 
@@ -79,7 +88,7 @@ models:
       - name: gender
         description: '{{ doc("gender") }}' 
 
-      - name: hispanic_or_latino
+      - name: is_hispanic_or_latino
         description: '{{ doc("hispanic_or_latino") }}' 
 
       - name: first_name
@@ -94,8 +103,8 @@ models:
       - name: employee_type
         description: '{{ doc("employee_type") }}' 
       
-      - name: ethnicity_code
-        description: '{{ doc("ethnicity_code") }}' 
+      - name: ethnicity_codes
+        description: '{{ doc("ethnicity_codes") }}' 
 
       - name: military_status
         description: '{{ doc("military_status") }}' 
@@ -177,9 +186,18 @@ models:
 
   - name: workday__job_overview
     description: '{{ doc("workday__job_overview") }}'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - job_profile_id
+
     columns:
       - name: job_profile_id
         description: '{{ doc("job_profile_id") }}'
+
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
 
       - name: job_profile_code
         description: '{{ doc("job_profile_code") }}' 
@@ -196,65 +214,32 @@ models:
       - name: job_profile_description
         description: '{{ doc("job_profile_description") }}' 
 
-      - name: job_family_id
-        description: '{{ doc("job_family_id") }}' 
-
-      - name: job_family_group_id
-        description: '{{ doc("job_family_group_id") }}' 
-
-      - name: job_family_code
-        description: '{{ doc("job_family_code") }}' 
+      - name: job_family_codes
+        description: '{{ doc("job_family_codes") }}' 
       
-      - name: job_family_summary
-        description: '{{ doc("job_family_summary") }}' 
+      - name: job_family_summaries
+        description: '{{ doc("job_family_summaries") }}' 
 
-      - name: job_family_group_code
-        description: '{{ doc("job_family_group_code") }}' 
+      - name: job_family_group_codes
+        description: '{{ doc("job_family_group_codes") }}' 
 
-      - name: job_family_group_summary
-        description: '{{ doc("job_family_group_summary") }}'  
-
-  - name: workday__organization_overview
-    description: '{{ doc("workday__organization_overview") }}'
-    columns:
-      - name: organization_id
-        description: '{{ doc("organization_id") }}' 
-
-      - name: organization_code
-        description: '{{ doc("organization_code") }}' 
-
-      - name: organization_name
-        description: '{{ doc("organization_name") }}' 
-      
-      - name: organization_type
-        description: '{{ doc("organization_type") }}' 
-
-      - name: organization_sub_type
-        description: '{{ doc("organization_sub_type") }}' 
-
-      - name: superior_organization_id
-        description: '{{ doc("superior_organization_id") }}' 
-
-      - name: top_level_organization_id
-        description: '{{ doc("top_level_organization_id") }}' 
-
-      - name: manager_id
-        description: '{{ doc("manager_id") }}' 
-
-      - name: organization_role_id
-        description: '{{ doc("organization_role_id") }}' 
-      
-      - name: organization_role_code
-        description: '{{ doc("organization_role_code") }}' 
-
-      - name: organization_worker_code
-        description: '{{ doc("organization_worker_code") }}' 
+      - name: job_family_group_summaries
+        description: '{{ doc("job_family_group_summaries") }}'  
 
   - name: workday__position_overview
     description: '{{ doc("workday__position_overview") }}'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - position_id
+
     columns:
       - name: position_id
         description: '{{ doc("position_id") }}' 
+
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
 
       - name: position_code
         description: '{{ doc("position_code") }}' 
@@ -265,25 +250,25 @@ models:
       - name: effective_date
         description: '{{ doc("effective_date") }}' 
  
-      - name: closed
+      - name: is_closed
         description: '{{ doc("closed") }}' 
 
-      - name: hiring_freeze
+      - name: is_hiring_freeze
         description: '{{ doc("hiring_freeze") }}' 
 
-      - name: available_for_hire
+      - name: is_available_for_hire
         description: '{{ doc("available_for_hire") }}' 
 
       - name: availability_date
         description: '{{ doc("availability_date") }}' 
       
-      - name: available_for_recruiting
+      - name: is_available_for_recruiting
         description: '{{ doc("available_for_recruiting") }}' 
 
       - name: earliest_hire_date
         description: '{{ doc("earliest_hire_date") }}' 
 
-      - name: available_for_overlap
+      - name: is_available_for_overlap
         description: '{{ doc("available_for_overlap") }}' 
 
       - name: earliest_overlap_date
@@ -312,3 +297,57 @@ models:
 
       - name: compensation_grade_profile_code
         description: '{{ doc("compensation_grade_profile_code") }}'
+
+  - name: workday__organization_overview
+    description: '{{ doc("workday__organization_overview") }}'
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - source_relation
+            - organization_id
+            - organization_role_id
+            - position_id
+            - worker_id
+
+    columns:
+      - name: organization_id
+        description: '{{ doc("organization_id") }}' 
+    
+      - name: organization_role_id
+        description: '{{ doc("organization_role_id") }}' 
+
+      - name: position_id
+        description: '{{ doc("position_id") }}' 
+
+      - name: worker_id
+        description: '{{ doc("worker_id") }}' 
+
+      - name: organization_worker_code
+        description: '{{ doc("organization_worker_code") }}' 
+
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
+
+      - name: organization_code
+        description: '{{ doc("organization_code") }}' 
+
+      - name: organization_name
+        description: '{{ doc("organization_name") }}' 
+      
+      - name: organization_type
+        description: '{{ doc("organization_type") }}' 
+
+      - name: organization_sub_type
+        description: '{{ doc("organization_sub_type") }}' 
+
+      - name: superior_organization_id
+        description: '{{ doc("superior_organization_id") }}' 
+
+      - name: top_level_organization_id
+        description: '{{ doc("top_level_organization_id") }}' 
+
+      - name: manager_id
+        description: '{{ doc("manager_id") }}' 
+
+      - name: organization_role_code
+        description: '{{ doc("organization_role_code") }}' 

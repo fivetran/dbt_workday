@@ -523,6 +523,12 @@ sources:
         columns:
           - name: id
             description: '{{ doc("personal_information_id") }}'
+          - name: _fivetran_active
+            description: '{{ doc("_fivetran_active") }}'
+          - name: _fivetran_start
+            description: '{{ doc("_fivetran_start") }}'
+          - name: _fivetran_end
+            description: '{{ doc("_fivetran_end") }}'          
           - name: type
             description: '{{ doc("personal_information_type") }}'
           - name: _fivetran_deleted
@@ -732,6 +738,12 @@ sources:
             description: '{{ doc("position_id") }}'
           - name: worker_id
             description: '{{ doc("worker_id") }}'
+          - name: _fivetran_active
+            description: '{{ doc("_fivetran_active") }}'
+          - name: _fivetran_start
+            description: '{{ doc("_fivetran_start") }}'
+          - name: _fivetran_end
+            description: '{{ doc("_fivetran_end") }}'  
           - name: _fivetran_deleted
             description: '{{ doc("_fivetran_deleted") }}'
           - name: _fivetran_synced
@@ -933,8 +945,6 @@ sources:
             description: '{{ doc("single_parent_indicator") }}'
           - name: social_security_disability_code
             description: '{{ doc("social_security_disability_code") }}'
-          - name: stillbirth_baby_deceased
-            description: '{{ doc("stillbirth_baby_deceased") }}'
           - name: stock_vesting_effect
             description: '{{ doc("stock_vesting_effect") }}'
           - name: stop_payment_date
@@ -944,3 +954,31 @@ sources:
           - name: work_related
             description: '{{ doc("work_related") }}'
 
+      - name: worker_position_organization
+        identifier: '{{ var("workday_worker_position_organization_identifier", "worker_position_organization") }}'
+        description: '{{ doc("worker_position_organization") }}'
+        columns:
+          - name: source_relation
+            description: '{{ doc("source_relation") }}'
+          - name: position_id
+            description: '{{ doc("position_id") }}'
+          - name: worker_id
+            description: '{{ doc("worker_id") }}'
+          - name: _fivetran_active
+            description: '{{ doc("_fivetran_active") }}'
+          - name: _fivetran_start
+            description: '{{ doc("_fivetran_start") }}'
+          - name: _fivetran_end
+            description: '{{ doc("_fivetran_end") }}' 
+          - name: _fivetran_synced
+            description: '{{ doc("_fivetran_synced") }}'
+          - name: index
+            description: '{{ doc("index") }}'
+          - name: date_of_pay_group_assignment
+            description: '{{ doc("date_of_pay_group_assignment") }}'
+          - name: organization_id
+            description: '{{ doc("organization_id") }}'
+          - name: primary_business_site
+            description: '{{ doc("primary_business_site") }}'
+          - name: is_used_in_change_organization_assignments
+            description: '{{ doc("used_in_change_organization_assignments") }}'

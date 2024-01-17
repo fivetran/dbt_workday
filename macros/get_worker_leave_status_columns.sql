@@ -40,7 +40,6 @@
     {"name": "payroll_effect", "datatype": dbt.type_boolean()},
     {"name": "single_parent_indicator", "datatype": dbt.type_boolean()},
     {"name": "social_security_disability_code", "datatype": dbt.type_string()},
-    {"name": "stillbirth_baby_deceased", "datatype": dbt.type_boolean()},
     {"name": "stock_vesting_effect", "datatype": dbt.type_boolean()},
     {"name": "stop_payment_date", "datatype": "date"},
     {"name": "week_of_confinement", "datatype": "date"},

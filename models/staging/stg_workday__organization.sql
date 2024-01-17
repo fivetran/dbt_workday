@@ -24,20 +24,19 @@ fields as (
 final as (
     
     select 
-        source_relation, 
-        _fivetran_deleted,
+        source_relation,
         _fivetran_synced,
         availability_date,
-        available_for_hire,
+        available_for_hire as is_available_for_hire,
         code,
         description as organization_description,
         external_url,
-        hiring_freeze,
+        hiring_freeze as is_hiring_freeze,
         id as organization_id,
-        inactive,
+        inactive as is_inactive,
         inactive_date,
-        include_manager_in_name,
-        include_organization_code_in_name,
+        include_manager_in_name as is_include_manager_in_name,
+        include_organization_code_in_name as is_include_organization_code_in_name,
         last_updated_date_time,
         location as organization_location,
         manager_id,
@@ -55,6 +54,7 @@ final as (
         type as organization_type,
         visibility
     from fields
+    where not coalesce(_fivetran_deleted, false)
 )
 
 select *

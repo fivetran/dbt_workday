@@ -2,6 +2,14 @@
 
 {% docs _fivetran_synced %} Timestamp the record was synced by Fivetran. {% enddocs %}
 
+{% docs _fivetran_start %} Timestamp when the record was first created or modified in the source. {% enddocs %}
+
+{% docs _fivetran_end %} Timestamp marking the end of a record being active. {% enddocs %}
+
+{% docs _fivetran_active %} TRUE if it is the currently active record. FALSE if it is a historical version of the record. Only one version of the record can be TRUE. {% enddocs %}
+
+{% docs source_relation %} The record's source if the unioning functionality is used. Otherwise this field will be empty. {% enddocs %}
+
 {% docs academic_pay_setup_data_annual_work_period_end_date %} The end date of the annual work period in academic pay setup data. {% enddocs %}
 
 {% docs academic_pay_setup_data_annual_work_period_start_date %} The start date of the annual work period in academic pay setup data. {% enddocs %}
@@ -214,6 +222,9 @@
 
 {% docs ethnicity_code %}  The code representing the ethnicity of the individual. {% enddocs %}
 
+
+{% docs ethnicity_codes %}  String aggregation of all ethnicity codes associated with an individual. {% enddocs %}
+
 {% docs ethnicity_id %} The identifier associated with the ethnicity. {% enddocs %}
 
 {% docs exclude_from_head_count %} Flag indicating whether the position is excluded from headcount. {% enddocs %}
@@ -342,13 +353,19 @@
 
 {% docs job_family_code %} Code assigned to the job family {% enddocs %}
 
+{% docs job_family_codes %} String array of all job family codes assigned to a job profile. {% enddocs %}
+
 {% docs job_family_group %} Each record corresponds to a specific group of related job families, providing an organizational structure for roles with similar characteristics. {% enddocs %}
 
 {% docs job_family_group_code %} Code assigned to the job family group for reference and categorization. {% enddocs %}
 
+{% docs job_family_group_codes %} String array of all job family group codes assigned to a job profile. {% enddocs %}
+
 {% docs job_family_group_id %} Identifier for the job family group. {% enddocs %}
 
 {% docs job_family_group_summary %} The summary of the job family group. {% enddocs %}
+
+{% docs job_family_group_summaries %} String array of all job family group summaries assigned to a job profile. {% enddocs %}
 
 {% docs job_family_id %} Identifier for the job family. {% enddocs %}
 
@@ -357,6 +374,8 @@
 {% docs job_family_job_profile %} Represents the relationship between job families and job profiles in the Workday dataset. {% enddocs %}
 
 {% docs job_family_summary %} The summary of the job family. {% enddocs %}
+
+{% docs job_family_summaries %} String array of all job family summaries assigned to a job profile. {% enddocs %}
 
 {% docs job_group_id %} The unique identifier for the job group. {% enddocs %}
 
@@ -686,8 +705,6 @@
 
 {% docs status_begin_date %} The date on which the current military service status began. {% enddocs %}
 
-{% docs stillbirth_baby_deceased %} Indicator for stillbirth or deceased baby. {% enddocs %}
-
 {% docs stock_vesting_effect %} The effect of leave on stock vesting. {% enddocs %}
 
 {% docs stop_payment_date %} The date when stop payment occurs. {% enddocs %}
@@ -752,13 +769,15 @@
 
 {% docs work_study_requirement_option_code %} Code associated with work study requirement options. {% enddocs %}
 
-{% docs workday__employee_overview %} Each record represents an employee, enhanced with details about position, recent job updates, and more. {% enddocs %}
+{% docs workday__employee_overview %} Each record represents an employee with enriched personal information and the positions they hold. This helps measure employee demographic and geographical distribution, overall retention and turnover, and compensation analysis of their employees. {% enddocs %}
 
-{% docs workday__job_overview %}  Each record represents a job, enhanced with job family details. {% enddocs %}
+{% docs workday__job_overview %}  Each record represents a job with enriched details on job profiles and job families. This allows users to understand recruitment patterns and details within a job and job groupings. {% enddocs %}
 
-{% docs workday__organization_overview %} Each record represents an organization, enhanced with role details. {% enddocs %}
+{% docs workday__role_overview %} Each record represents a role in an organization, enhanced with additional organizational details. {% enddocs %}
 
-{% docs workday__position_overview %} Each record represents a position, enhanced with job profile details. {% enddocs %}
+{% docs workday__organization_overview %} Each record represents organization, organization roles, as well as positions and workers tied to these organizations. This allows end users to slice organizational data at any grain to better analyze organizational structures. {% enddocs %}
+
+{% docs workday__position_overview %} Each record represents a position with enriched data on positions. This allows end users to understand position availabilities, vacancies, cost to optimize hiring efforts. {% enddocs %}
 
 {% docs worker %} This table serves as a central repository for details related to the employment status, compensation, and other key attributes of each worker. {% enddocs %} 
 
@@ -776,6 +795,8 @@
 
 {% docs worker_position %} Represents the positions held by workers in the Workday system {% enddocs %} 
 
+{% docs worker_position_organization %} Ties together workers to the positions and organizations they hold in the Workday system. {% enddocs %}
+
 {% docs worker_position_id %} Identifier for the worker associated with the position. {% enddocs %}
 
 {% docs worker_positions %} The number of positions the worker has held {% enddocs %}
@@ -789,3 +810,9 @@
 {% docs working_time_unit %} The unit of working time associated with the worker position. {% enddocs %}
 
 {% docs working_time_value %} The value of working time associated with the worker position. {% enddocs %}
+
+{% docs date_of_pay_group_assignment %} Date a group's pay is assigned to be processed. {% enddocs %}
+
+{% docs primary_business_site %} Primary location a worker's business is situated. {% enddocs %}
+
+{% docs used_in_change_organization_assignments %} If a worker has opted to change these organization assignments. {% enddocs %}

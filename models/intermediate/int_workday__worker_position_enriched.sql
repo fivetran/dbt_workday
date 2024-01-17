@@ -10,33 +10,35 @@ worker_position_data_enhanced as (
 
     select 
         worker_id,
+        source_relation,
         position_id,
         employee_type, 
         business_title,
-        full_time_equivalent_percentage as fte_percent,
-        start_date as position_start_date,
-        end_date as position_end_date,
-        effective_date as position_effective_date,
-        business_site_summary_location as position_location,
+        fte_percent,
+        position_start_date,
+        position_end_date,
+        position_effective_date,
+        position_location,
         management_level_code,
         job_profile_id,
-        case when end_date is null
-            then {{ dbt.datediff('start_date', 'current_date', 'day') }}
-            else {{ dbt.datediff('start_date', 'end_date', 'day') }}
+        case when position_end_date is null
+            then {{ dbt.datediff('position_start_date', 'current_date', 'day') }}
+            else {{ dbt.datediff('position_start_date', 'position_end_date', 'day') }}
         end as days_at_position,
-        row_number() over (partition by worker_id order by end_date desc) as row_number
+        row_number() over (partition by worker_id order by position_end_date desc) as row_number
     from worker_position_data
 ),
 
 worker_position_measures as (
 
     select 
-        worker_id, 
+        worker_id,
+        source_relation,
         count(distinct position_id) as worker_positions,
         count(distinct management_level_code) as worker_levels,
         sum(days_at_position) as position_days
     from worker_position_data_enhanced
-    group by 1
+    group by 1, 2
 ),
 
 most_recent_position as (
@@ -50,6 +52,7 @@ worker_position_enriched as (
 
     select
         most_recent_position.worker_id,
+        most_recent_position.source_relation,
         most_recent_position.position_id, 
         most_recent_position.business_title,
         most_recent_position.job_profile_id, 
@@ -67,6 +70,7 @@ worker_position_enriched as (
     from most_recent_position
     left join worker_position_measures 
         on most_recent_position.worker_id = worker_position_measures.worker_id
+        and most_recent_position.source_relation = worker_position_measures.source_relation
 )
 
 select * 

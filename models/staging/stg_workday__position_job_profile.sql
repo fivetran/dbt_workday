@@ -24,8 +24,7 @@ fields as (
 final as (
     
     select 
-        source_relation, 
-        _fivetran_deleted,
+        source_relation,
         _fivetran_synced,
         difficulty_to_fill_code,
         is_critical_job,
@@ -34,8 +33,9 @@ final as (
         management_level_code,
         name as position_job_profile_name,
         position_id,
-        work_shift_required
+        work_shift_required as is_work_shift_required
     from fields
+    where not coalesce(_fivetran_deleted, false)
 )
 
 select *

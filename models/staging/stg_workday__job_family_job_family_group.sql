@@ -24,12 +24,12 @@ fields as (
 final as (
     
     select 
-        source_relation, 
-        _fivetran_deleted,
+        source_relation,
         _fivetran_synced,
         job_family_id,
         job_family_group_id
     from fields
+    where not coalesce(_fivetran_deleted, false)
 )
 
 select *
