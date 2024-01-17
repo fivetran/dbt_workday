@@ -1,6 +1,7 @@
 with worker_position_data as (
 
-    select *,
+    select 
+        *,
         {{ dbt.current_timestamp_backcompat() }} as current_date
     from {{ ref('stg_workday__worker_position') }}
 ),
@@ -20,10 +21,10 @@ worker_position_data_enhanced as (
         management_level_code,
         job_profile_id,
         case when end_date is null
-            then {{ dbt.datediff('current_date', 'start_date', 'day') }}
-            else {{ dbt.datediff('end_date', 'start_date', 'day') }}
-            end as days_at_position,
-        row_number() over (partition by worker_id order by end_date desc) as rn
+            then {{ dbt.datediff('start_date', 'current_date', 'day') }}
+            else {{ dbt.datediff('start_date', 'end_date', 'day') }}
+        end as days_at_position,
+        row_number() over (partition by worker_id order by end_date desc) as row_number
     from worker_position_data
 ),
 
@@ -42,7 +43,7 @@ most_recent_position as (
 
     select *
     from worker_position_data_enhanced
-    where rn = 1
+    where row_number = 1
 ),
 
 worker_position_enriched as (
@@ -64,7 +65,8 @@ worker_position_enriched as (
         worker_position_measures.worker_levels, 
         worker_position_measures.position_days
     from most_recent_position
-    left join worker_position_measures using(worker_id)
+    left join worker_position_measures 
+        on most_recent_position.worker_id = worker_position_measures.worker_id
 )
 
 select * 

@@ -54,10 +54,14 @@ worker_personal_details as (
         worker_ethnicity.ethnicity_code,
         worker_military.military_status
     from worker_personal_info_data
-    left join worker_name using(worker_id)
-    left join worker_email using(worker_id)
-    left join worker_ethnicity using(worker_id)
-    left join worker_military using(worker_id)
+    left join worker_name 
+        on worker_personal_info_data.worker_id = worker_name.worker_id
+    left join worker_email 
+        on worker_personal_info_data.worker_id = worker_email.worker_id
+    left join worker_ethnicity 
+        on worker_personal_info_data.worker_id = worker_ethnicity.worker_id
+    left join worker_military
+        on worker_personal_info_data.worker_id = worker_military.worker_id
 )
 
 select * 

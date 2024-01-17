@@ -1,6 +1,7 @@
 with worker_data as (
 
-    select *,
+    select 
+        *,
         {{ dbt.current_timestamp_backcompat() }} as current_date
     from {{ ref('stg_workday__worker') }}
 ),
@@ -17,15 +18,15 @@ worker_details as (
             and (termination_date is null or termination_date > current_date)
             then true 
             else false 
-            end as is_employed,
+        end as is_employed,
         hire_date as start_date,
         case when termination_date > current_date then null
             else termination_date 
-            end as departure_date,    
+        end as departure_date,    
         case when termination_date is null
             then {{ dbt.datediff('current_date', 'hire_date', 'day') }}
             else {{ dbt.datediff('termination_date', 'hire_date', 'day') }}
-            end as days_of_employment,
+        end as days_of_employment,
         terminated as is_terminated,
         primary_termination_category,
         primary_termination_reason,
@@ -33,7 +34,7 @@ worker_details as (
             when terminated and regrettable_termination then true
             when terminated and not regrettable_termination then false
             else null
-            end as is_regrettable_termination, 
+        end as is_regrettable_termination, 
         compensation_effective_date,
         employee_compensation_frequency,
         annual_currency_summary_currency,

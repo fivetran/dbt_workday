@@ -13,7 +13,6 @@ models:
       +materialized: view
       +schema: stg_workday
 
-
 vars:
     job_profile: "{{ source('workday','job_profile') }}"
     job_family_job_family_group: "{{ source('workday','job_family_job_family_group') }}"

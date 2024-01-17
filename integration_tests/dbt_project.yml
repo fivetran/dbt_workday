@@ -31,11 +31,15 @@ vars:
     workday_person_contact_email_address_identifier: "workday_person_contact_email_address_data"
     workday_worker_position_identifier: "workday_worker_position_data"
     workday_worker_leave_status_identifier: "workday_worker_leave_status_data"
+    workday_worker_position_organization_identifier: "workday_worker_position_organization_data"
+ 
 
 seeds:
   +quote_columns: "{{ true if target.type in ('redshift', 'postgres') else false }}"
   +column_types:
     _fivetran_synced: timestamp
+    _fivetran_start: timestamp
+    _fivetran_end: timestamp
     _fivetran_active: boolean
   workday_integration_tests:
     workday_position_data:
@@ -73,3 +77,5 @@ seeds:
       academic_pay_setup_data_annual_work_period_work_percent_of_year: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
       business_site_summary_scheduled_weekly_hours: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
       default_weekly_hours: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
+      start_date: "timestamp"
+      end_date: "timestamp"

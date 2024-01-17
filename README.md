@@ -24,7 +24,7 @@ The main focus of the package is to transform the core object tables into analyt
   - Adds column-level testing where applicable. For example, all primary keys are tested for uniqueness and non-null values.
   - Provides insight into your Workday HCM data across the following grains:     
     - Employee, job, organization, position.
-  - Generates a comprehensive data dictionary of your Workday data through the [dbt docs site](https://fivetran.github.io/dbt_workday/).
+  - Generates a comprehensive data dictionary of your Workday HCM data through the [dbt docs site](https://fivetran.github.io/dbt_workday/).
 
 > This package does not apply freshness tests to source data due to the variability of survey cadences.
 
@@ -45,7 +45,7 @@ The following table provides a detailed list of all models materialized within t
 ## Step 1: Prerequisites
 To use this dbt package, you must have the following:
 
-- At least one Fivetran Workday connector syncing data into your destination.
+- At least one Fivetran Workday HCM connector syncing data into your destination.
 - A **BigQuery**, **Snowflake**, **Redshift**, **Databricks**, or **PostgreSQL** destination.
 
 ### Databricks dispatch configuration
@@ -57,7 +57,7 @@ dispatch:
 ```
 
 ## Step 2: Install the package
-Include the following Workday package version in your `packages.yml` file:
+Include the following Workday  package version in your `packages.yml` file:
 > TIP: Check [dbt Hub](https://hub.getdbt.com/) for the latest installation instructions or [read the dbt docs](https://docs.getdbt.com/docs/package-management) for more information on installing packages.
 ```yml
 packages:
@@ -67,7 +67,7 @@ packages:
 
 ## Step 3: Define database and schema variables
 ### Single connector
-By default, this package runs using your destination and the `workday` schema. If this is not where your Workday data is (for example, if your Workday schema is named `workday_fivetran`), add the following configuration to your root `dbt_project.yml` file:
+By default, this package runs using your destination and the `workday` schema. If this is not where your Workday HCM data is (for example, if your Workday HCM schema is named `workday_fivetran`), add the following configuration to your root `dbt_project.yml` file:
 
 ```yml
 # dbt_project.yml
@@ -77,7 +77,7 @@ vars:
     workday_schema: your_schema_name
 ```
 ### Union multiple connectors
-If you have multiple Workday connectors in Fivetran and would like to use this package on all of them simultaneously, we have provided functionality to do so. The package will union all of the data together and pass the unioned table into the transformations. You will be able to see which source it came from in the `source_relation` column of each model. To use this functionality, you will need to set either the `workday_union_schemas` OR `workday_union_databases` variables (cannot do both) in your root `dbt_project.yml` file:
+If you have multiple Workday HCM connectors in Fivetran and would like to use this package on all of them simultaneously, we have provided functionality to do so. The package will union all of the data together and pass the unioned table into the transformations. You will be able to see which source it came from in the `source_relation` column of each model. To use this functionality, you will need to set either the `workday_union_schemas` OR `workday_union_databases` variables (cannot do both) in your root `dbt_project.yml` file:
 
 ```yml
 # dbt_project.yml
@@ -95,7 +95,7 @@ To connect your multiple schema/database sources to the package models, follow t
 ## (Optional) Step 4: Additional configurations
 
 ### Changing the Build Schema
-By default this package will build the Workday staging models within a schema titled (<target_schema> + `_stg_workday`) and the Workday final models within a schema titled (<target_schema> + `_workday`) in your target database. If this is not where you would like your modeled Workday data to be written to, add the following configuration to your `dbt_project.yml` file:
+By default this package will build the Workday HCM staging models within a schema titled (<target_schema> + `_stg_workday`) and the Workday HCM final models within a schema titled (<target_schema> + `_workday`) in your target database. If this is not where you would like your modeled Workday HCM data to be written to, add the following configuration to your `dbt_project.yml` file:
 
 ```yml
 # dbt_project.yml
