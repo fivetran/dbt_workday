@@ -10,12 +10,6 @@ organization_role_data as (
     from {{ ref('stg_workday__organization_role') }}
 ),
 
-organization_role_worker_data as (
-
-    select * 
-    from {{ ref('stg_workday__organization_role_worker') }}
-),
-
 worker_position_organization as (
 
     select *

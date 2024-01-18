@@ -322,9 +322,6 @@ models:
       - name: worker_id
         description: '{{ doc("worker_id") }}' 
 
-      - name: organization_worker_code
-        description: '{{ doc("organization_worker_code") }}' 
-
       - name: source_relation
         description: '{{ doc("source_relation") }}'
 
