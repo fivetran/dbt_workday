@@ -24,23 +24,23 @@ worker_employee_enhanced as (
         case when days_of_employment >= 365 
             then true 
             else false 
-        end as employed_one_year,
+        end as is_employed_one_year,
         case when days_of_employment >= 365*5 
             then true 
             else false 
-        end as employed_five_years,
+        end as is_employed_five_years,
         case when days_of_employment >= 365*10 
             then true 
             else false 
-        end as employed_ten_years,
+        end as is_employed_ten_years,
         case when days_of_employment >= 365*20 
             then true 
             else false 
-        end as employed_twenty_years,
+        end as is_employed_twenty_years,
         case when days_of_employment >= 365*30 
             then true 
             else false 
-        end as employed_thirty_years,
+        end as is_employed_thirty_years,
         case when days_of_employment >= 365 and is_user_active 
             then true 
             else false 

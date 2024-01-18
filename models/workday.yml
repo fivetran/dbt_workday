@@ -154,19 +154,19 @@ models:
       - name: position_days
         description: '{{ doc("position_days") }}' 
 
-      - name: employed_one_year
+      - name: is_employed_one_year
         description: '{{ doc("employed_one_year") }}' 
       
-      - name: employed_five_years
+      - name: is_employed_five_years
         description: '{{ doc("employed_five_years") }}' 
 
-      - name: employed_ten_years
+      - name: is_employed_ten_years
         description: '{{ doc("employed_ten_years") }}'
 
-      - name: employed_twenty_years
+      - name: is_employed_twenty_years
         description: '{{ doc("employed_twenty_years") }}' 
 
-      - name: employed_thirty_years
+      - name: is_employed_thirty_years
         description: '{{ doc("employed_thirty_years") }}' 
 
       - name: is_current_employee_one_year
@@ -205,7 +205,7 @@ models:
       - name: job_title
         description: '{{ doc("job_title") }}' 
       
-      - name: job_private_title
+      - name: private_title
         description: '{{ doc("job_private_title") }}' 
 
       - name: job_summary

@@ -57,7 +57,7 @@ job_data_enhanced as (
         {{ fivetran_utils.string_agg('distinct job_family_data.job_family_summary', "', '" ) }} as job_family_summaries, 
         {{ fivetran_utils.string_agg('distinct job_family_group_data.job_family_group_code', "', '" ) }} as job_family_group_codes,
         {{ fivetran_utils.string_agg('distinct job_family_group_data.job_family_group_summary', "', '" ) }} as job_family_group_summaries
- 
+
     from job_profile_data 
     left join job_family_profile_data 
         on job_profile_data.job_profile_id = job_family_profile_data.job_profile_id
