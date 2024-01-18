@@ -32,7 +32,6 @@ vars:
     workday_worker_position_identifier: "workday_worker_position_data"
     workday_worker_leave_status_identifier: "workday_worker_leave_status_data"
     workday_worker_position_organization_identifier: "workday_worker_position_organization_data"
- 
 
 seeds:
   +quote_columns: "{{ true if target.type in ('redshift', 'postgres') else false }}"
