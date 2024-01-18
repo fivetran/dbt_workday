@@ -12,6 +12,7 @@ The main focus of the package is to transform the core object tables into analyt
   - Primary keys are renamed from `id` to `<table name>_id`. 
   - Adds column-level testing where applicable. For example, all primary keys are tested for uniqueness and non-null values.
   - Provides insight into your Workday HCM data by creating the final end models for further transformation and analysis:
+
 | **model**                 | **description**                                                                                                    |
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | [workday__employee_overview](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__employee_overview)  | Each record represents an employee with enriched personal information and the positions they hold. This helps measure employee demographic and geographical distribution, overall retention and turnover, and compensation analysis of their employees. |
