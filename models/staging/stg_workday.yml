@@ -28,7 +28,7 @@ models:
       - name: is_critical_job
         description: '{{ doc("critical_job") }}'
 
-      - name: description
+      - name: job_description
         description: '{{ doc("job_profile_description") }}'
 
       - name: difficulty_to_fill
