@@ -1340,7 +1340,7 @@ models:
       - name: is_benefits_effect
         description: '{{ doc("benefits_effect") }}'
 
-      - name: caesarean_section_birth
+      - name: is_caesarean_section_birth
         description: '{{ doc("caesarean_section_birth") }}'
 
       - name: child_birth_date

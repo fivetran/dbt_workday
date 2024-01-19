@@ -11,7 +11,7 @@ fields as (
         {{
             fivetran_utils.fill_staging_columns(
                 source_columns=adapter.get_columns_in_relation(ref('stg_workday__personal_information_base')),
-                staging_columns=get_personal_information_columns()
+                staging_columns=get_personal_information_history_columns()
             )
         }}
         {{ fivetran_utils.source_relation(
