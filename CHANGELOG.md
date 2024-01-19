@@ -4,12 +4,13 @@
 This is the initial release of this package!
 
 ## 📣 What does this dbt package do?
-This package models Workday HCM data from [Fivetran's connector](https://fivetran.com/docs/applications/workday-hcm).  The main focus of the Workday HCM package is to transform the core object tables into analytics-ready models.
+This package models Workday HCM data from [Fivetran's connector](https://fivetran.com/docs/applications/workday-hcm).  
+
+The main focus of the Workday HCM package is to transform the core object tables into analytics-ready models:
 
 <!--section="workday_model"-->
-These models materialize [Workday HCM staging tables](https://fivetran.github.io/dbt_workday/#!/overview/workday/models/?g_v=1) which leverage data in the format described by [this ERD](https://fivetran.com/docs/applications/workday-hcm/#schemainformation). 
- 
-The staging tables clean, test, and prepare your Workday HCM data from [Fivetran's connector](https://fivetran.com/docs/applications/workday-hcm) for analysis by doing the following:
+- Materializes [Workday HCM staging tables](https://fivetran.github.io/dbt_workday/#!/overview/workday/models/?g_v=1) which leverage data in the format described by [this ERD](https://fivetran.com/docs/applications/workday-hcm/#schemainformation). 
+- The staging tables clean, test, and prepare your Workday HCM data from [Fivetran's connector](https://fivetran.com/docs/applications/workday-hcm) for analysis by doing the following:
   - Primary keys are renamed from `id` to `<table name>_id`. 
   - Adds column-level testing where applicable. For example, all primary keys are tested for uniqueness and non-null values.
   - Provides insight into your Workday HCM data by creating the final end models for further transformation and analysis:
