@@ -12,6 +12,8 @@ models:
     columns:
       - name: worker_id
         description: '{{ doc("worker_id") }}'
+        tests:
+          - not_null
 
       - name: source_relation
         description: '{{ doc("source_relation") }}'
@@ -189,6 +191,8 @@ models:
     columns:
       - name: job_profile_id
         description: '{{ doc("job_profile_id") }}'
+        tests:
+          - not_null
 
       - name: source_relation
         description: '{{ doc("source_relation") }}'
@@ -231,6 +235,8 @@ models:
     columns:
       - name: position_id
         description: '{{ doc("position_id") }}' 
+        tests:
+          - not_null
 
       - name: source_relation
         description: '{{ doc("source_relation") }}'
@@ -306,9 +312,13 @@ models:
     columns:
       - name: organization_id
         description: '{{ doc("organization_id") }}' 
+        tests:
+          - not_null
     
       - name: organization_role_id
         description: '{{ doc("organization_role_id") }}' 
+        tests:
+          - not_null
 
       - name: position_id
         description: '{{ doc("position_id") }}' 

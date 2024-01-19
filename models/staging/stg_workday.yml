@@ -15,6 +15,8 @@ models:
 
       - name: job_profile_id
         description: '{{ doc("job_profile_id") }}'
+        tests:
+          - not_null
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
@@ -100,9 +102,13 @@ models:
 
       - name: job_family_id
         description: '{{ doc("job_family_id") }}'
+        tests:
+          - not_null
 
       - name: job_profile_id
         description: '{{ doc("job_profile_id") }}'
+        tests:
+          - not_null
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
@@ -121,6 +127,8 @@ models:
 
       - name: job_family_id
         description: '{{ doc("job_family_id") }}'
+        tests:
+          - not_null
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
@@ -152,9 +160,13 @@ models:
 
       - name: job_family_id
         description: '{{ doc("job_family_id") }}'
+        tests:
+          - not_null
 
       - name: job_family_group_id
         description: '{{ doc("job_family_group_id") }}'
+        tests:
+          - not_null
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
@@ -173,6 +185,8 @@ models:
 
       - name: job_family_group_id
         description: '{{ doc("job_family_group_id") }}'
+        tests:
+          - not_null
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
@@ -204,9 +218,13 @@ models:
 
       - name: organization_id
         description: '{{ doc("organization_id") }}'
+        tests:
+          - not_null
 
       - name: organization_role_id
         description: '{{ doc("organization_role_id") }}'
+        tests:
+          - not_null
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
@@ -230,12 +248,18 @@ models:
 
       - name: organization_worker_code
         description: '{{ doc("organization_worker_code") }}'
+        tests:
+          - not_null
 
       - name: organization_id
         description: '{{ doc("organization_id") }}'
+        tests:
+          - not_null
 
       - name: role_id
         description: '{{ doc("role_id") }}'
+        tests:
+          - not_null
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
@@ -255,9 +279,13 @@ models:
 
       - name: job_family_id
         description: '{{ doc("job_family_id") }}'
+        tests:
+          - not_null
 
       - name: organization_id
         description: '{{ doc("organization_id") }}'
+        tests:
+          - not_null
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
@@ -279,6 +307,8 @@ models:
 
       - name: organization_id
         description: '{{ doc("organization_id") }}'
+        tests:
+          - not_null
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
@@ -376,9 +406,13 @@ models:
 
       - name: organization_id
         description: '{{ doc("organization_id") }}'
+        tests:
+          - not_null
 
       - name: position_id
         description: '{{ doc("position_id") }}'
+        tests:
+          - not_null
 
       - name: type
         description: '{{ doc("position_organization_type") }}'
@@ -400,6 +434,8 @@ models:
 
       - name: position_id
         description: '{{ doc("position_id") }}'
+        tests:
+          - not_null
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
@@ -506,9 +542,13 @@ models:
 
       - name: job_profile_id
         description: '{{ doc("job_profile_id") }}'
+        tests:
+          - not_null
 
       - name: position_id
         description: '{{ doc("position_id") }}'
+        tests:
+          - not_null
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
@@ -545,6 +585,8 @@ models:
 
       - name: worker_id
         description: '{{ doc("worker_id") }}'
+        tests:
+          - not_null
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
@@ -809,6 +851,8 @@ models:
 
       - name: worker_id
         description: '{{ doc("worker_id") }}'
+        tests:
+          - not_null
 
       - name: type
         description: '{{ doc("personal_information_type") }}'
@@ -924,12 +968,16 @@ models:
 
       - name: worker_id
         description: '{{ doc("worker_id") }}'
+        tests:
+          - not_null
 
       - name: index
         description: '{{ doc("index") }}'
 
       - name: person_name_type
         description: '{{ doc("person_name_type") }}'
+        tests:
+          - not_null
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
@@ -1033,6 +1081,8 @@ models:
 
       - name: worker_id
         description: '{{ doc("worker_id") }}'
+        tests:
+          - not_null
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
@@ -1042,6 +1092,8 @@ models:
 
       - name: ethnicity_id
         description: '{{ doc("ethnicity_id") }}'
+        tests:
+          - not_null
 
   - name: stg_workday__military_service
     description: '{{ doc("military_service") }}'
@@ -1060,6 +1112,8 @@ models:
 
       - name: worker_id
         description: '{{ doc("worker_id") }}'
+        tests:
+          - not_null
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
@@ -1100,9 +1154,13 @@ models:
 
       - name: person_contact_email_address_id
         description: '{{ doc("person_contact_email_address_id") }}'
+        tests:
+          - not_null
 
       - name: worker_id
         description: '{{ doc("worker_id") }}'
+        tests:
+          - not_null
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
@@ -1131,9 +1189,13 @@ models:
 
       - name: position_id
         description: '{{ doc("position_id") }}'
+        tests:
+          - not_null
 
       - name: worker_id
         description: '{{ doc("worker_id") }}'
+        tests:
+          - not_null
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
@@ -1321,9 +1383,13 @@ models:
 
       - name: leave_request_event_id
         description: '{{ doc("leave_request_event_id") }}'
+        tests:
+          - not_null
 
       - name: worker_id
         description: '{{ doc("worker_id") }}'
+        tests:
+          - not_null
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
@@ -1464,9 +1530,13 @@ models:
 
       - name: position_id
         description: '{{ doc("position_id") }}'
+        tests:
+          - not_null
 
       - name: worker_id
         description: '{{ doc("worker_id") }}'
+        tests:
+          - not_null
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
@@ -1479,6 +1549,8 @@ models:
 
       - name: organization_id
         description: '{{ doc("organization_id") }}'
+        tests:
+          - not_null
 
       - name: primary_business_site
         description: '{{ doc("primary_business_site") }}'
