@@ -11,7 +11,7 @@ fields as (
         {{
             fivetran_utils.fill_staging_columns(
                 source_columns=adapter.get_columns_in_relation(ref('stg_workday__worker_position_organization_base')),
-                staging_columns=get_worker_position_organization_columns()
+                staging_columns=get_worker_position_organization_history_columns()
             )
         }}
         {{ fivetran_utils.source_relation(

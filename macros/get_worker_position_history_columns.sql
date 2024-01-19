@@ -1,4 +1,4 @@
-{% macro get_worker_position_columns() %}
+{% macro get_worker_position_history_columns() %}
 
 {% set columns = [
     {"name": "_fivetran_active", "datatype": dbt.type_boolean()},

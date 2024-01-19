@@ -99,18 +99,12 @@ models:
 
       - name: email_address
         description: '{{ doc("email_address") }}' 
-
-      - name: employee_type
-        description: '{{ doc("employee_type") }}' 
       
       - name: ethnicity_codes
         description: '{{ doc("ethnicity_codes") }}' 
 
       - name: military_status
         description: '{{ doc("military_status") }}' 
-
-      - name: is_military_service
-        description: '{{ doc("is_military_service") }}' 
 
       - name: position_id
         description: '{{ doc("position_id") }}' 
@@ -211,7 +205,7 @@ models:
       - name: job_summary
         description: '{{ doc("job_summary") }}' 
 
-      - name: job_profile_description
+      - name: job_description
         description: '{{ doc("job_profile_description") }}' 
 
       - name: job_family_codes

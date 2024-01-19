@@ -21,6 +21,28 @@ worker_employee_enhanced as (
 
     select 
         int_worker_base.*,
+        first_name,
+        last_name,
+        date_of_birth,
+        gender,
+        is_hispanic_or_latino,
+        email_address,
+        ethnicity_codes,
+        military_status,
+        position_id,
+        business_title,
+        job_profile_id,
+        most_recent_position_type,
+        most_recent_location,
+        most_recent_level,
+        fte_percent,
+        days_at_position,
+        most_recent_position_start_date,
+        most_recent_position_end_date,
+        most_recent_position_effective_date,
+        worker_positions,
+        worker_levels,
+        position_days,
         case when days_of_employment >= 365 
             then true 
             else false 

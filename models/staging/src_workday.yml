@@ -342,8 +342,8 @@ sources:
           - name: work_shift_required
             description: '{{ doc("work_shift_required") }}'
 
-      - name: worker
-        identifier: '{{ var("workday_worker_identifier", "worker") }}'
+      - name: worker_history
+        identifier: '{{ var("workday_worker_history_identifier", "worker_history") }}'
         description: '{{ doc("worker") }}'
         columns:
           - name: id
@@ -517,8 +517,8 @@ sources:
           - name: worker_code
             description: '{{ doc("worker_code") }}'
 
-      - name: personal_information
-        identifier: '{{ var("workday_personal_information_identifier", "personal_information") }}'
+      - name: personal_information_history
+        identifier: '{{ var("workday_personal_information_history_identifier", "personal_information_history") }}'
         description: '{{ doc("personal_information") }}'
         columns:
           - name: id
@@ -730,8 +730,8 @@ sources:
           - name: email_comment
             description: '{{ doc("email_comment") }}'
 
-      - name: worker_position
-        identifier: '{{ var("workday_worker_position_identifier", "worker_position") }}'
+      - name: worker_position_history
+        identifier: '{{ var("workday_worker_position_history_identifier", "worker_position_history") }}'
         description: '{{ doc("worker_position") }}'
         columns:
           - name: position_id
@@ -954,8 +954,8 @@ sources:
           - name: work_related
             description: '{{ doc("work_related") }}'
 
-      - name: worker_position_organization
-        identifier: '{{ var("workday_worker_position_organization_identifier", "worker_position_organization") }}'
+      - name: worker_position_organization_history
+        identifier: '{{ var("workday_worker_position_organization_history_identifier", "worker_position_organization_history") }}'
         description: '{{ doc("worker_position_organization") }}'
         columns:
           - name: source_relation

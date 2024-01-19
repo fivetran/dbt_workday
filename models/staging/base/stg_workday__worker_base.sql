@@ -1,11 +1,11 @@
 {{
     fivetran_utils.union_data(
-        table_identifier='worker', 
+        table_identifier='worker_history', 
         database_variable='workday_database', 
         schema_variable='workday_schema', 
         default_database=target.database,
         default_schema='workday',
-        default_variable='worker',
+        default_variable='worker_history',
         union_schema_variable='workday_union_schemas',
         union_database_variable='workday_union_databases'
     )

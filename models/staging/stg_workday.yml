@@ -28,7 +28,7 @@ models:
       - name: is_critical_job
         description: '{{ doc("critical_job") }}'
 
-      - name: job_profile_description
+      - name: job_description
         description: '{{ doc("job_profile_description") }}'
 
       - name: difficulty_to_fill
@@ -64,7 +64,7 @@ models:
       - name: referral_payment_plan
         description: '{{ doc("referral_payment_plan") }}'
 
-      - name: summary
+      - name: job_summary
         description: '{{ doc("summary") }}'
 
       - name: job_title
@@ -407,7 +407,7 @@ models:
       - name: is_academic_tenure_eligible
         description: '{{ doc("academic_tenure_eligible") }}'
 
-      - name: is_availability_date
+      - name: availability_date
         description: '{{ doc("availability_date") }}'
 
       - name: is_available_for_hire
