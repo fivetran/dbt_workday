@@ -1,6 +1,7 @@
 # dbt_workday v0.1.1
 
-
+[PR #4](https://github.com/fivetran/dbt_workday/pull/4) contains the following updates:
+- Updates the filtering done in the history staging models to pull the correct active statuses. Since some changes are entered but not yet effective, we needed to replace the `_fivetran_active` filter to where current timestamp is between `_fivetran_start` and `_fivetran_end` times for each record.
 
 # dbt_workday v0.1.0
 
