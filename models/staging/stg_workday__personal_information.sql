@@ -60,7 +60,7 @@ final as (
         tobacco_use as is_tobacco_use,
         type
     from fields
-    where {{ dbt.current_timestamp_backcompat() }} between _fivetran_start and _fivetran_end
+    where {{ dbt.current_timestamp() }} between _fivetran_start and _fivetran_end
 )
 
 select *

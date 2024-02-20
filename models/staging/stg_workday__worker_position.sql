@@ -85,7 +85,7 @@ final as (
         working_time_unit,
         working_time_value
     from fields
-    where {{ dbt.current_timestamp_backcompat() }} between _fivetran_start and _fivetran_end
+    where {{ dbt.current_timestamp() }} between _fivetran_start and _fivetran_end
 )
 
 select *

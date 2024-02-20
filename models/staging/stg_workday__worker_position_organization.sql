@@ -34,7 +34,7 @@ final as (
         primary_business_site,
         used_in_change_organization_assignments as is_used_in_change_organization_assignments
     from fields
-    where {{ dbt.current_timestamp_backcompat() }} between _fivetran_start and _fivetran_end
+    where {{ dbt.current_timestamp() }} between _fivetran_start and _fivetran_end
 )
 
 select *
