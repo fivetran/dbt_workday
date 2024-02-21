@@ -110,7 +110,7 @@ final as (
         vesting_date,
         worker_code
     from fields
-    where coalesce(_fivetran_active, true)
+    where {{ dbt.current_timestamp() }} between _fivetran_start and _fivetran_end
 )
 
 select *
