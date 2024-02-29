@@ -1,3 +1,16 @@
+# dbt_workday v0.2.0
+
+## 🚨 Breaking Changes 🚨
+- Created a surrogate key `employee_id` in `workday__employee_overview` that combines `worker_id`, `position_id`, and `start_date`. This accounts for cases where:
+  - A worker can hold multiple positions concurrently.
+  - A position being held by multiple workers concurrently.
+  - A worker being rehired for the same position. 
+
+## 🚀 Feature Updates 🚀 
+- We have added an employee daily history model in the [`models/workday_history`](https://github.com/fivetran/dbt_workday/tree/main/models/workday_history) folder [based off of Fivetran's history mode feature](https://fivetran.com/docs/core-concepts/sync-modes/history-mode), pulling from Workday HCM source models you can view in the [`models/staging/workday_history`](https://github.com/fivetran/dbt_workday/tree/main/models/staging/workday_history) folder.
+
+This will allow customers to utilize the Fivetran history mode feature, which records every version of each record in the source table from the moment this mode is activated in the equivalent tables.
+
 # dbt_workday v0.1.1
 
 [PR #4](https://github.com/fivetran/dbt_workday/pull/4) contains the following updates:

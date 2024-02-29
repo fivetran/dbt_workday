@@ -1,6 +1,6 @@
 config-version: 2
 name: 'workday'
-version: '0.1.1'
+version: '0.1.0'
 require-dbt-version: [">=1.3.0", "<2.0.0"]
 
 models:
@@ -8,7 +8,7 @@ models:
     +schema: workday
     +materialized: table
     intermediate:
-      +materialized: ephemeral
+      +materialized: table
     staging:
       +materialized: view
       +schema: stg_workday
@@ -34,4 +34,4 @@ vars:
     person_contact_email_address: "{{ source('workday','person_contact_email_address') }}"
     worker_position_history: "{{ source('workday','worker_position_history') }}"
     worker_leave_status: "{{ source('workday','worker_leave_status') }}"
-    worker_position_organization_history:  "{{ source('workday','worker_position_organization_history') }}"
+    worker_position_organization_history: "{{ source('workday','worker_position_organization_history') }}"
