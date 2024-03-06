@@ -10,6 +10,12 @@ worker_position_history as (
     from {{ ref('stg_workday__worker_position_history') }}
 ),
 
+personal_information_history as (
+
+    select *
+    from {{ ref('stg_workday__personal_information_history') }}
+),
+
 worker_start_records as (
 
     select worker_id, 
@@ -19,6 +25,10 @@ worker_start_records as (
     select worker_id,
         _fivetran_start 
     from worker_position_history
+    union distinct
+    select worker_id,
+        _fivetran_start
+    from personal_information_history
     order by worker_id, _fivetran_start 
 ),
 
@@ -51,7 +61,8 @@ employee_history_scd as (
         worker_history.pay_through_date as wh_pay_through_date,
         worker_position_history.pay_through_date as wph_pay_through_date,
         {{ dbt_utils.star(from=ref('stg_workday__worker_history'), except=["worker_id", "_fivetran_start", "_fivetran_end", "_fivetran_synced", "_fivetran_active", "_fivetran_date", "history_unique_key", "end_employment_date", "pay_through_date"]) }},
-        {{ dbt_utils.star(from=ref('stg_workday__worker_position_history'), except=["worker_id", "position_id", "_fivetran_start", "_fivetran_end", "_fivetran_synced", "_fivetran_active", "_fivetran_date", "history_unique_key", "end_employment_date", "pay_through_date"])}}
+        {{ dbt_utils.star(from=ref('stg_workday__worker_position_history'), except=["worker_id", "position_id", "_fivetran_start", "_fivetran_end", "_fivetran_synced", "_fivetran_active", "_fivetran_date", "history_unique_key", "end_employment_date", "pay_through_date"])}},
+        {{ dbt_utils.star(from=ref('stg_workday__personal_information_history'), except=["worker_id", "_fivetran_start", "_fivetran_end", "_fivetran_synced", "_fivetran_active", "_fivetran_date", "history_unique_key"])}}
     from worker_history_scd
 
     left join worker_history 
@@ -63,6 +74,11 @@ employee_history_scd as (
         on worker_history_scd.worker_id = worker_position_history.worker_id
         and worker_history_scd._fivetran_start <= worker_position_history._fivetran_end
         and worker_history_scd._fivetran_end >= worker_position_history._fivetran_start
+
+    left join personal_information_history
+        on worker_history_scd.worker_id = personal_information_history.worker_id
+        and worker_history_scd._fivetran_start <= personal_information_history._fivetran_end
+        and worker_history_scd._fivetran_end >= personal_information_history._fivetran_start
 
     order by worker_id, _fivetran_start, _fivetran_end
 ),

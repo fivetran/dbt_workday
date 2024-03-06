@@ -1,6 +1,6 @@
 config-version: 2
 name: 'workday'
-version: '0.1.0'
+version: '0.2.0'
 require-dbt-version: [">=1.3.0", "<2.0.0"]
 
 models:
@@ -12,6 +12,8 @@ models:
     staging:
       +materialized: view
       +schema: stg_workday
+    workday_history:
+      +materialized: table
 
 vars:
     job_profile: "{{ source('workday','job_profile') }}"

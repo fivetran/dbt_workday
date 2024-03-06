@@ -6,6 +6,8 @@
 
 {% docs _fivetran_end %} Timestamp marking the end of a record being active. {% enddocs %}
 
+{% docs _fivetran_date %} Date when the record was first created or modified in the source. {% enddocs %}
+
 {% docs _fivetran_active %} TRUE if it is the currently active record. FALSE if it is a historical version of the record. Only one version of the record can be TRUE. {% enddocs %}
 
 {% docs source_relation %} The record's source if the unioning functionality is used. Otherwise this field will be empty. {% enddocs %}

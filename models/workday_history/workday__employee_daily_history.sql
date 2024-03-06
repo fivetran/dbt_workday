@@ -1,18 +1,3 @@
-{{
-    config(
-        enabled = var('worker_history_enabled', False),
-        materialized = 'incremental',
-        partition_by = {
-            'field': 'date_day', 
-            'data_type': 'date'
-        } if target.type not in ['spark', 'databricks'] else ['date_day'],
-        unique_key = 'employee_day_id',
-        incremental_strategy = 'insert_overwrite' if target.type in ('bigquery', 'spark', 'databricks') else 'delete+insert',
-        file_format = 'parquet',
-        on_schema_change = 'fail'
-    )
-}}
-
 {% if execute %}
     {% set date_query %}
     select 
@@ -54,7 +39,7 @@ order_daily_values as (
     select 
         *,
         row_number() over (
-            partition by _fivetran_date, worker_id
+            partition by _fivetran_date, employee_id
             order by _fivetran_start desc) as row_num    
     from employee_history
 ),
