@@ -19,8 +19,6 @@ dbt deps
 dbt seed --target "$db" --full-refresh
 dbt run --target "$db" --full-refresh
 dbt test --target "$db"
-dbt run --vars '{personal_information_history_start_date: "2023-01-01", worker_position_history_start_date: "2023-01-01", worker_history_start_date: "2023-01-01",  worker_position_organization_history_start_date: "2023-01-01"}' --target "$db" --full-refresh
-dbt test --target "$db"
 dbt run --target "$db"
 dbt test --target "$db"
 
