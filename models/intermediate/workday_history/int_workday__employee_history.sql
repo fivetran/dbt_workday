@@ -19,7 +19,7 @@ personal_information_history as (
 worker_start_records as (
 
     select worker_id, 
-        _fivetran_start,  
+        _fivetran_start
     from worker_history
     union distinct
     select worker_id,

@@ -7,7 +7,6 @@ models:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - worker_id
-            - source_relation
             - _fivetran_start 
 
     columns:
@@ -15,9 +14,6 @@ models:
         description: '{{ doc("worker_id") }}'
         tests:
           - not_null
-      
-      - name: source_relation
-        description: '{{ doc("source_relation") }}'
 
       - name: _fivetran_start
         description: '{{ doc("_fivetran_start") }}'
@@ -29,7 +25,7 @@ models:
         description: '{{ doc("_fivetran_date") }}'
 
       - name: history_unique_key
-        description: Surrogate key hashed on `worker_id`, `source_relation` and `_fivetran_start`.
+        description: Surrogate key hashed on `worker_id` and `_fivetran_start`.
         tests:
           - unique
           - not_null
@@ -143,7 +139,6 @@ models:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:
             - worker_id
-            - source_relation
             - _fivetran_start
     
     columns:
@@ -151,9 +146,6 @@ models:
         description: '{{ doc("worker_id") }}'
         tests:
           - not_null
-
-      - name: source_relation
-        description: '{{ doc("source_relation") }}'
 
       - name: _fivetran_start
         description: '{{ doc("_fivetran_start") }}'
@@ -165,7 +157,7 @@ models:
         description: '{{ doc("_fivetran_date") }}'
 
       - name: history_unique_key 
-        description: Surrogate key hashed on `worker_id`, `source_relation` and `_fivetran_start`.
+        description: Surrogate key hashed on `worker_id` and `_fivetran_start`.
         tests:
           - unique
           - not_null
@@ -433,13 +425,9 @@ models:
           combination_of_columns:
             - worker_id
             - position_id
-            - source_relation
             - _fivetran_start 
 
     columns:
-      - name: source_relation
-        description: '{{ doc("source_relation") }}'
-
       - name: worker_id
         description: '{{ doc("worker_id") }}'
         tests:
@@ -460,7 +448,7 @@ models:
         description: '{{ doc("_fivetran_date") }}'
 
       - name: history_unique_key
-        description: Surrogate key hashed on `position_id`, `worker_id`, `source_relation` and `_fivetran_start` .
+        description: Surrogate key hashed on `position_id`, `worker_id` and `_fivetran_start` .
         tests:
           - unique
           - not_null
@@ -649,9 +637,7 @@ models:
             - worker_id
             - position_id
             - organization_id
-            - source_relation
             - _fivetran_start
-            - _fivetran_end
 
     columns:
       - name: worker_id
@@ -667,10 +653,7 @@ models:
       - name: organization_id
         description: '{{ doc("organization_id") }}'
         tests:
-          - not_null
-
-      - name: source_relation
-        description: '{{ doc("source_relation") }}'
+          - not_null 
 
       - name: _fivetran_start
         description: '{{ doc("_fivetran_start") }}'
@@ -682,7 +665,7 @@ models:
         description: '{{ doc("_fivetran_date") }}'
 
       - name: history_unique_key
-        description: Surrogate key hashed on `position_id`, `worker_id`, `organization_id`, `source_relation` and `_fivetran_start` .
+        description: Surrogate key hashed on `position_id`, `worker_id`, `organization_id`, and `_fivetran_start` .
         tests:
           - unique
           - not_null
