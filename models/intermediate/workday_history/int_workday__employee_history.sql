@@ -85,7 +85,7 @@ employee_history_scd as (
 
 employee_key as (
 
-    select {{ dbt_utils.generate_surrogate_key(['worker_id','position_id','start_date']) }} as employee_id,
+    select {{ dbt_utils.generate_surrogate_key(['worker_id','position_id','position_start_date']) }} as employee_id,
         cast(_fivetran_start as date) as _fivetran_date,
         employee_history_scd.*
     from employee_history_scd

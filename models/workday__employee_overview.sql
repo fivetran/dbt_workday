@@ -5,7 +5,7 @@ with employee_surrogate_key as (
         worker_id,
         position_id,
         position_start_date,
-        {{ dbt_utils.star(from=ref('int_workday__worker_employee_enhanced'), except=['worker_id', 'position_id', 'position_start_date']) }}
+        {{ dbt_utils.star(ref('int_workday__worker_employee_enhanced'), except=['worker_id', 'position_id', 'position_start_date']) }}
     from {{ ref('int_workday__worker_employee_enhanced') }} 
 )
 

@@ -17,9 +17,13 @@ final as (
         cast(_fivetran_start as date) as _fivetran_date,
         cast(effective_date as {{ dbt.type_timestamp() }}) as effective_date,
         cast(end_employment_date as {{ dbt.type_timestamp() }}) as end_employment_date,
+        cast(start_date as {{ dbt.type_timestamp() }}) as position_start_date,
+        cast(end_date as {{ dbt.type_timestamp() }}) as position_end_date,
         {{ dbt_utils.generate_surrogate_key(['worker_id', 'position_id', '_fivetran_start']) }} as history_unique_key,
         {{ dbt_utils.star(from=source('workday','worker_position_history'),
-                        except=["worker_id", "position_id", "_fivetran_start", "_fivetran_end", "home_country", "effective_date", "end_employment_date"]) }}
+                        except=["worker_id", "position_id", "_fivetran_start", "_fivetran_end", 
+                            "home_country", "effective_date", "end_employment_date", 
+                            "start_date", "end_date"]) }}
     from base
 )
 

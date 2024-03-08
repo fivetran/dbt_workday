@@ -36,50 +36,47 @@ worker_employee_enhanced as (
         position_location,
         management_level_code,
         fte_percent,
-        days_at_position,
         position_start_date,
         position_end_date,
         position_effective_date,
-        worker_positions,
-        worker_levels,
-        position_days,
-        case when days_of_employment >= 365 
+        days_employed,
+        case when days_employed >= 365 
             then true 
             else false 
         end as is_employed_one_year,
-        case when days_of_employment >= 365*5 
+        case when days_employed >= 365*5 
             then true 
             else false 
         end as is_employed_five_years,
-        case when days_of_employment >= 365*10 
+        case when days_employed >= 365*10 
             then true 
             else false 
         end as is_employed_ten_years,
-        case when days_of_employment >= 365*20 
+        case when days_employed >= 365*20 
             then true 
             else false 
         end as is_employed_twenty_years,
-        case when days_of_employment >= 365*30 
+        case when days_employed >= 365*30 
             then true 
             else false 
         end as is_employed_thirty_years,
-        case when days_of_employment >= 365 and is_user_active 
+        case when days_employed >= 365 and is_user_active 
             then true 
             else false 
         end as is_current_employee_one_year,
-        case when days_of_employment >= 365*5 and is_user_active
+        case when days_employed >= 365*5 and is_user_active
             then true 
             else false 
         end as is_current_employee_five_years,
-        case when days_of_employment >= 365*10 and is_user_active 
+        case when days_employed >= 365*10 and is_user_active 
             then true 
             else false 
         end as is_current_employee_ten_years,
-        case when days_of_employment >= 365*20 and is_user_active 
+        case when days_employed >= 365*20 and is_user_active 
             then true 
             else false 
         end as is_current_employee_twenty_years,
-        case when days_of_employment >= 365*30 and is_user_active 
+        case when days_employed >= 365*30 and is_user_active 
             then true 
             else false 
         end as is_current_employee_thirty_years
