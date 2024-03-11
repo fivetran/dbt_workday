@@ -1,3 +1,5 @@
+{{ config(enabled=var('employee_history_enabled', False)) }}
+
 with row_month_partition as (
 
     select *, 
