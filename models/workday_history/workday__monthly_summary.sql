@@ -49,10 +49,10 @@ monthly_active_employee_metrics as (
         sum(case when gender is not null and lower(gender) = 'male' then 1 else 0 end) as active_male_employees,
         sum(case when gender is not null and lower(gender) = 'female' then 1 else 0 end) as active_female_employees,
         sum(case when gender is not null then 1 else 0 end) as active_known_gender_employees,
-        round(avg(annual_currency_summary_primary_compensation_basis)/12, 2) as avg_employee_primary_compensation,
-        round(avg(annual_currency_summary_total_base_pay)/12, 2) as avg_employee_base_pay,
-        round(avg(annual_currency_summary_total_salary_and_allowances)/12, 2) as avg_employee_salary_and_allowances,
-        round(avg(days_as_employee), 2) as avg_days_as_employee
+        avg(annual_currency_summary_primary_compensation_basis) as avg_employee_primary_compensation,
+        avg(annual_currency_summary_total_base_pay) as avg_employee_base_pay,
+        avg(annual_currency_summary_total_salary_and_allowances) as avg_employee_salary_and_allowances,
+        avg(days_as_employee) as avg_days_as_employee
     from months_employed
     where date_month >= {{ dbt.date_trunc("month", "effective_date") }}
         and (date_month <= {{ dbt.date_trunc("month", "wph_end_employment_date") }}
@@ -64,10 +64,10 @@ monthly_active_worker_metrics as (
     
     select date_month,
         count(distinct worker_id) as active_workers,
-        round(avg(annual_currency_summary_primary_compensation_basis)/12, 2) as avg_worker_primary_compensation,
-        round(avg(annual_currency_summary_total_base_pay)/12, 2) as avg_worker_base_pay,
-        round(avg(annual_currency_summary_total_salary_and_allowances)/12, 2) as avg_worker_salary_and_allowances,
-        round(avg(days_as_worker), 1) as avg_days_as_worker
+        avg(annual_currency_summary_primary_compensation_basis) as avg_worker_primary_compensation,
+        avg(annual_currency_summary_total_base_pay) as avg_worker_base_pay,
+        avg(annual_currency_summary_total_salary_and_allowances) as avg_worker_salary_and_allowances,
+        avg(days_as_worker) as avg_days_as_worker
     from months_employed
     where (date_month >= {{ dbt.date_trunc("month", "effective_date") }}
         and date_month <= {{ dbt.date_trunc("month", "wh_end_employment_date") }})

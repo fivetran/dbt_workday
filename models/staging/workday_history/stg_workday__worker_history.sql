@@ -1,9 +1,23 @@
+{{ config(
+        enabled= var('employee_history_enabled', False),
+        materialized='incremental',
+        unique_key='history_unique_key',
+        incremental_strategy='insert_overwrite' if target.type in ('bigquery', 'spark', 'databricks') else 'delete+insert',
+        partition_by={
+            "field": "_fivetran_date", 
+            "data_type": "date"
+        } if target.type not in ('spark','databricks') else ['_fivetran_date'],
+        file_format='parquet',
+        on_schema_change='fail'
+    )
+}}
+
 with base as (
 
     select *      
     from {{ source('workday','worker_history') }} 
-    {% if var('worker_history_start_date',[]) %}
-    where cast(_fivetran_start as {{ dbt.type_timestamp() }}) >= "{{ var('worker_history_start_date') }}"
+    {% if var('employee_history_start_date',[]) %}
+    where cast(_fivetran_start as {{ dbt.type_timestamp() }}) >= "{{ var('employee_history_start_date') }}"
     {% endif %} 
 ),
 

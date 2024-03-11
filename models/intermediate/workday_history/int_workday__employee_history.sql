@@ -1,19 +1,54 @@
+{{ config(
+        enabled= var('employee_history_enabled', False),
+        materialized='incremental',
+        unique_key='history_unique_key',
+        incremental_strategy='insert_overwrite' if target.type in ('bigquery', 'spark', 'databricks') else 'delete+insert',
+        partition_by={
+            "field": "_fivetran_date", 
+            "data_type": "date"
+        } if target.type not in ('spark','databricks') else ['_fivetran_date'],
+        file_format='parquet',
+        on_schema_change='fail'
+    )
+}}
+
 with worker_history as (
 
     select *
     from {{ ref('stg_workday__worker_history') }}
+    {% if is_incremental() %}
+    where cast(_fivetran_start as {{ dbt.type_timestamp() }}) >= (select max(cast((_fivetran_start) as {{ dbt.type_timestamp() }})) from {{ this }} )
+    {% else %}
+        {% if var('employee_history_start_date',[]) %}
+        where cast(_fivetran_start as {{ dbt.type_timestamp() }}) >= "{{ var('employee_history_start_date') }}"
+        {% endif %}
+    {% endif %} 
 ),
 
 worker_position_history as (
 
     select *
     from {{ ref('stg_workday__worker_position_history') }}
+    {% if is_incremental() %}
+    where cast(_fivetran_start as {{ dbt.type_timestamp() }}) >= (select max(cast((_fivetran_start) as {{ dbt.type_timestamp() }})) from {{ this }} )
+    {% else %}
+        {% if var('employee_history_start_date',[]) %}
+        where cast(_fivetran_start as {{ dbt.type_timestamp() }}) >= "{{ var('employee_history_start_date') }}"
+        {% endif %}
+    {% endif %} 
 ),
 
 personal_information_history as (
 
     select *
     from {{ ref('stg_workday__personal_information_history') }}
+    {% if is_incremental() %}
+    where cast(_fivetran_start as {{ dbt.type_timestamp() }}) >= (select max(cast((_fivetran_start) as {{ dbt.type_timestamp() }})) from {{ this }} )
+    {% else %}
+        {% if var('employee_history_start_date',[]) %}
+        where cast(_fivetran_start as {{ dbt.type_timestamp() }}) >= "{{ var('employee_history_start_date') }}"
+        {% endif %}
+    {% endif %} 
 ),
 
 worker_start_records as (
@@ -70,7 +105,7 @@ employee_history_scd as (
         and worker_history_scd._fivetran_start <= worker_history._fivetran_end
         and worker_history_scd._fivetran_end >= worker_history._fivetran_start
 
-    left join  worker_position_history 
+    left join worker_position_history 
         on worker_history_scd.worker_id = worker_position_history.worker_id
         and worker_history_scd._fivetran_start <= worker_position_history._fivetran_end
         and worker_history_scd._fivetran_end >= worker_position_history._fivetran_start

@@ -1,3 +1,18 @@
+{{
+    config(
+        enabled = var('employee_history_enabled', False),
+        materialized = 'incremental',
+        partition_by = {
+            'field': 'date_day', 
+            'data_type': 'date'
+        } if target.type not in ['spark', 'databricks'] else ['date_day'],
+        unique_key = 'employee_day_id',
+        incremental_strategy = 'insert_overwrite' if target.type in ('bigquery', 'spark', 'databricks') else 'delete+insert',
+        file_format = 'parquet',
+        on_schema_change = 'fail'
+    )
+}}
+
 {% if execute %}
     {% set date_query %}
     select 
@@ -9,12 +24,12 @@
     {# If only compiling, creates range going back 1 year #}
     {% else %} 
         {% set last_date = dbt.dateadd("year", "-1", "current_date") %}
-    {% endif %}
+{% endif %}
 
 
 with spine as (
     {# Prioritizes variables over calculated dates #}
-    {% set first_date = var('worker_history_start_date', '2020-01-01')|string %}
+    {% set first_date = var('employee_history_start_date', '2020-01-01')|string %}
     {% set last_date = last_date|string %}
 
     {{ dbt_utils.date_spine(
@@ -31,6 +46,10 @@ employee_history as (
     from {{ ref('int_workday__employee_history') }}
     {% if is_incremental() %}
         where _fivetran_start >= (select max(cast((_fivetran_start) as {{ dbt.type_timestamp() }})) from {{ this }} )
+    {% else %}
+        {% if var('employee_history_start_date',[]) %}
+        where cast(_fivetran_start as {{ dbt.type_timestamp() }}) >= "{{ var('employee_history_start_date') }}"
+        {% endif %}
     {% endif %} 
 ),
 
