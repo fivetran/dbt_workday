@@ -46,7 +46,7 @@ worker_position_enriched as (
         worker_position_data_enhanced.days_employed,
         worker_position_data_enhanced.position_start_date,
         worker_position_data_enhanced.position_end_date,
-        worker_position_data_enhanced.position_effective_date, 
+        worker_position_data_enhanced.position_effective_date
     from worker_position_data_enhanced
 )
 
