@@ -1,54 +1,21 @@
-{{ config(
-        enabled= var('employee_history_enabled', False),
-        materialized='incremental',
-        unique_key='history_unique_key',
-        incremental_strategy='insert_overwrite' if target.type in ('bigquery', 'spark', 'databricks') else 'delete+insert',
-        partition_by={
-            "field": "_fivetran_date", 
-            "data_type": "date"
-        } if target.type not in ('spark','databricks') else ['_fivetran_date'],
-        file_format='parquet',
-        on_schema_change='fail'
-    )
-}}
+{{ config(enabled=var('employee_history_enabled', False)) }}
 
 with worker_history as (
 
     select *
     from {{ ref('stg_workday__worker_history') }}
-    {% if is_incremental() %}
-    where cast(_fivetran_start as {{ dbt.type_timestamp() }}) >= (select max(cast((_fivetran_start) as {{ dbt.type_timestamp() }})) from {{ this }} )
-    {% else %}
-        {% if var('employee_history_start_date',[]) %}
-        where cast(_fivetran_start as {{ dbt.type_timestamp() }}) >= "{{ var('employee_history_start_date') }}"
-        {% endif %}
-    {% endif %} 
 ),
 
 worker_position_history as (
 
     select *
     from {{ ref('stg_workday__worker_position_history') }}
-    {% if is_incremental() %}
-    where cast(_fivetran_start as {{ dbt.type_timestamp() }}) >= (select max(cast((_fivetran_start) as {{ dbt.type_timestamp() }})) from {{ this }} )
-    {% else %}
-        {% if var('employee_history_start_date',[]) %}
-        where cast(_fivetran_start as {{ dbt.type_timestamp() }}) >= "{{ var('employee_history_start_date') }}"
-        {% endif %}
-    {% endif %} 
 ),
 
 personal_information_history as (
 
     select *
     from {{ ref('stg_workday__personal_information_history') }}
-    {% if is_incremental() %}
-    where cast(_fivetran_start as {{ dbt.type_timestamp() }}) >= (select max(cast((_fivetran_start) as {{ dbt.type_timestamp() }})) from {{ this }} )
-    {% else %}
-        {% if var('employee_history_start_date',[]) %}
-        where cast(_fivetran_start as {{ dbt.type_timestamp() }}) >= "{{ var('employee_history_start_date') }}"
-        {% endif %}
-    {% endif %} 
 ),
 
 worker_start_records as (
@@ -91,6 +58,7 @@ employee_history_scd as (
         worker_history_scd._fivetran_end,
         worker_history._fivetran_active as wh_active,
         worker_position_history._fivetran_active as wph_active,
+        personal_information_history._fivetran_active as pih_active,
         worker_history.end_employment_date as wh_end_employment_date,
         worker_position_history.end_employment_date as wph_end_employment_date,
         worker_history.pay_through_date as wh_pay_through_date,
@@ -124,9 +92,16 @@ employee_key as (
         cast(_fivetran_start as date) as _fivetran_date,
         employee_history_scd.*
     from employee_history_scd
+),
+
+history_surrogate_key as (
+
+    select {{ dbt_utils.generate_surrogate_key(['employee_id', '_fivetran_date']) }} as history_unique_key,
+        employee_key.*
+    from employee_key
 )
 
 select * 
-from employee_key
+from history_surrogate_key
 
 

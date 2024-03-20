@@ -507,7 +507,7 @@ models:
       - name: difficulty_to_fill
         description: '{{ doc("difficulty_to_fill") }}'
 
-      - name: position_effective_date
+      - name: effective_date
         description: '{{ doc("effective_date") }}'
 
       - name: employee_type

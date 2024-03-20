@@ -1,16 +1,4 @@
-{{ config(
-        enabled= var('employee_history_enabled', False),
-        materialized='incremental',
-        unique_key='history_unique_key',
-        incremental_strategy='insert_overwrite' if target.type in ('bigquery', 'spark', 'databricks') else 'delete+insert',
-        partition_by={
-            "field": "_fivetran_date", 
-            "data_type": "date"
-        } if target.type not in ('spark','databricks') else ['_fivetran_date'],
-        file_format='parquet',
-        on_schema_change='fail'
-    )
-}}
+{{ config(enabled=var('employee_history_enabled', False)) }}
 
 with base as (
 

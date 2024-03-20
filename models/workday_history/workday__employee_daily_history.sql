@@ -1,17 +1,4 @@
-{{
-    config(
-        enabled = var('employee_history_enabled', False),
-        materialized = 'incremental',
-        partition_by = {
-            'field': 'date_day', 
-            'data_type': 'date'
-        } if target.type not in ['spark', 'databricks'] else ['date_day'],
-        unique_key = 'employee_day_id',
-        incremental_strategy = 'insert_overwrite' if target.type in ('bigquery', 'spark', 'databricks') else 'delete+insert',
-        file_format = 'parquet',
-        on_schema_change = 'fail'
-    )
-}}
+{{ config(enabled=var('employee_history_enabled', False)) }}
 
 {% if execute %}
     {% set date_query %}
@@ -44,13 +31,6 @@ employee_history as (
 
     select *        
     from {{ ref('int_workday__employee_history') }}
-    {% if is_incremental() %}
-        where _fivetran_start >= (select max(cast((_fivetran_start) as {{ dbt.type_timestamp() }})) from {{ this }} )
-    {% else %}
-        {% if var('employee_history_start_date',[]) %}
-        where cast(_fivetran_start as {{ dbt.type_timestamp() }}) >= "{{ var('employee_history_start_date') }}"
-        {% endif %}
-    {% endif %} 
 ),
 
 order_daily_values as (
@@ -73,7 +53,7 @@ get_latest_daily_value as (
 daily_history as (
 
     select 
-        {{ dbt_utils.generate_surrogate_key(['spine.date_day','get_latest_daily_value.employee_id']) }} as employee_day_id,
+        {{ dbt_utils.generate_surrogate_key(['spine.date_day','get_latest_daily_value.history_unique_key']) }} as employee_day_id,
         cast(spine.date_day as date) as date_day,
         get_latest_daily_value.*
     from get_latest_daily_value
