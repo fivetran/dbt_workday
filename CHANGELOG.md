@@ -7,18 +7,22 @@
 - Using this surrogate key as our grain will hopefully provide uniqueness for the majority of Workday HCM customer cases. 
 
 ## 🚀 Feature Updates 🚀 
-- We have added staging history mode models in the [`models/history`](https://github.com/fivetran/dbt_workday/tree/main/models/staging/history) folder [to support Fivetran's history mode feature](https://fivetran.com/docs/core-concepts/sync-modes/history-mode). 
+- We have added three end models in the [`models/workday_history`](https://github.com/fivetran/dbt_workday/tree/main/models/workday_history) folder 
 
-This will allow customers to utilize the Fivetran history mode feature, which records every version of each record in the source table from the moment this mode is activated in the equivalent tables. 
+- We have added staging history mode models in the [`models/staging/workday_history`](https://github.com/fivetran/dbt_workday/tree/main/models/staging/workday_history) folder [to support Fivetran's history mode feature](https://fivetran.com/docs/core-concepts/sync-modes/history-mode). 
 
-These staging models include:
+- This will allow customers to utilize the Fivetran history mode feature, which records every version of each record in the source table from the moment this mode is activated in the equivalent tables. 
+
+- These staging models include:
 
   - `stg_workday__personal_information_history`: Containing historical records of a worker's personal information.
   - `stg_workday__worker_history`: Containing historical records of a worker's history.
   - `stg_workday__worker_position_history`: Containing historical records of a worker's position history.
-  - `stg_workday__worker_position_organization_history`: Containing historical records of a worker's position history.
+  - `stg_workday__worker_position_organization_history`: Containing historical records of a worker's position and organization history.
 
-- We have then utilized the `workday__employee_daily_history` model in the [`models/workday_history`](https://github.com/fivetran/dbt_workday/tree/main/models/workday_history) folder [based off of Fivetran's history mode feature](https://fivetran.com/docs/core-concepts/sync-modes/history-mode), pulling from Workday HCM source models you can view in the [`models/staging/workday_history`](https://github.com/fivetran/dbt_workday/tree/main/models/staging/workday_history) folder.
+- We have then utilized the `workday__employee_daily_history` model in the [`models/workday_history`](https://github.com/fivetran/dbt_workday/tree/main/models/workday_history) folder [based off of Fivetran's history mode feature](https://fivetran.com/docs/core-concepts/sync-modes/history-mode), pulling from Workday HCM source models you can view in the [`models/staging/workday_history`](https://github.com/fivetran/dbt_workday/tree/main/models/staging/
+
+- We have kept the `stg_workday__worker_position_organization_history` model separate, as organizational data is too flexible in Workday to effectively join in the majority of data. We leave it to the customer 
 
 - These models are disabled by default due to their size, so you will need to set the below variable configurations for each of the individual models you want to utilize in your `dbt_project.yml`.
 

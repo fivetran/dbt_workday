@@ -194,6 +194,8 @@
 
 {% docs email_comment %} Any additional comments or notes related to the email address. {% enddocs %}
 
+{% docs employee_id %} Surrogate key on `worker_id`, `position_id`, `position_start_date` to create unique identifier for a Workday employee. {% enddocs %}
+
 {% docs employed_five_years %} Tracks whether a worker was employed at least five years. {% enddocs %}
 
 {% docs employed_one_year %} Tracks whether a worker was employed at least one year. {% enddocs %}

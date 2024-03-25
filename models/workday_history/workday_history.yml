@@ -368,66 +368,57 @@ models:
       - name: avg_days_as_worker
         description: Average days as a worker this month. 
 
-models:
-  - name: workday__monthly_summary
-    description: Each record is a month, with aggregated metrics regarding employees for a customer.
+  - name: workday__worker_position_org_daily_history
+    description: Each record is a daily record for a worker/position/organization combination, starting with its first active date and updating up toward either the current date (if still active) or its last active date.
     columns:
-      - name: metrics_month
-        description: Month with aggregated metrics
+      - name: wpo_day_id
+        description: Surrogate key hashed on `date_day` and `history_unique_key`
         tests:
           - unique
           - not_null
-      
-      - name: new_employees
-        description: New employees added in the specified month.
-      
-      - name: churned_employees
-        description: Employees that churned in the specified month.
-      
-      - name: churned_voluntary_employees
-        description: Employees that churned voluntarily in the specified month.
-      
-      - name: churned_involuntary_employees
-        description: Employees that churned involuntarily in the specified month.
-      
-      - name: churned_workers
-        description: Workers that churned in the specified month.
-      
-      - name: active_employees
-        description: Employees considered active in the specified month.
-      
-      - name: active_male_employees
-        description: Employees with a known gender of male that were active in the specified month.
-      
-      - name: active_female_employees
-        description: Employees with a known gender of female that were active in the specified month.
-      
-      - name: active_workers
-        description: Workers considered active in the specified month.
-      
-      - name: active_known_gender_employees
-        description: Employees with a known gender that were active in the specified month.
-      
-      - name: avg_employee_primary_compensation
-        description: Average primary compensation for employees in the specified month.
-      
-      - name: avg_employee_base_pay 
-        description: Average base pay for employees in the specified month.
-      
-      - name: avg_employee_salary_and_allowances
-        description: Average salary and allowances for employees in the specified month.
-      
-      - name: avg_days_as_employee
-        description: Average number of days an employee has been employed in the specified month.
-      
-      - name: avg_worker_primary_compensation
-        description: Average primary compensation for workers in the specified month.
-      
-      - name: avg_worker_base_pay
-        description: Average base pay for workers in the specified month.
-      
-      - name: avg_worker_salary_and_allowances
-        description: Average salary and allowances for workers in the specified month.
-      
-      - name: avg_days_as_worker
-        description: Average number of days a worker has been employed in the specified month.
+      - name: date_day
+        description: Date on which the account had these field values.
+      - name: worker_id
+        description: '{{ doc("worker_id") }}'
+        tests:
+          - not_null
+
+      - name: position_id
+        description: '{{ doc("position_id") }}'
+        tests:
+          - not_null
+
+      - name: organization_id
+        description: '{{ doc("organization_id") }}'
+        tests:
+          - not_null 
+
+      - name: _fivetran_start
+        description: '{{ doc("_fivetran_start") }}'
+
+      - name: _fivetran_end
+        description: '{{ doc("_fivetran_end") }}'
+
+      - name: _fivetran_date
+        description: '{{ doc("_fivetran_date") }}'
+
+      - name: history_unique_key
+        description: Surrogate key hashed on `position_id`, `worker_id`, `organization_id`, and `_fivetran_start` .
+
+      - name: _fivetran_active
+        description: '{{ doc("_fivetran_active") }}'
+
+      - name: _fivetran_synced
+        description: '{{ doc("_fivetran_synced") }}'
+
+      - name: index
+        description: '{{ doc("index") }}'
+
+      - name: date_of_pay_group_assignment
+        description: '{{ doc("date_of_pay_group_assignment") }}'
+
+      - name: primary_business_site
+        description: '{{ doc("primary_business_site") }}'
+
+      - name: is_used_in_change_organization_assignments
+        description: '{{ doc("used_in_change_organization_assignments") }}'

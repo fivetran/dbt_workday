@@ -27,20 +27,21 @@ with spine as (
     }}
 ),
 
-employee_history as (
+worker_position_org_history as (
 
     select *        
-    from {{ ref('int_workday__employee_history') }}
+    from {{ ref('stg_workday__worker_position_organization_history') }}
 ),
+
 
 order_daily_values as (
 
     select 
         *,
         row_number() over (
-            partition by _fivetran_date, employee_id
+            partition by _fivetran_date, history_unique_key
             order by _fivetran_start desc) as row_num    
-    from employee_history
+    from worker_position_org_history  
 ),
 
 get_latest_daily_value as (
@@ -53,7 +54,9 @@ get_latest_daily_value as (
 daily_history as (
 
     select 
-        {{ dbt_utils.generate_surrogate_key(['spine.date_day','get_latest_daily_value.history_unique_key']) }} as employee_day_id,
+        {{ dbt_utils.generate_surrogate_key(['spine.date_day',
+                                            'get_latest_daily_value.history_unique_key']) }} 
+                                            as wpo_day_id,
         cast(spine.date_day as date) as date_day,
         get_latest_daily_value.*
     from get_latest_daily_value

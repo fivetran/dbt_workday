@@ -8,3 +8,11 @@ However, in the Workday HCM case, we have found that History Mode does not fit t
 For this reason, we will recommend users utilize the `--full-refresh` method to grab records to maintain accuracy. So we recommend that you optimize your refresh strategy when using this package to reduce warehouse load and minimize costs. 
 
 We welcome all attempts to optimize this strategy though, and would be open to enhancements to the package!
+
+## Why we kept the worker position organization history model separate from the employee daily history model
+
+The intent of the `workday__employee_daily_history` model was to combine historical data from all relevant worker history models and gather a daily look at that data based on employee and worker. 
+
+However, with `stg_workday__worker_position_organization_history`, the values for organization are too customizable, and thus impossible to just into an `employee_daily_history` model with any clear definitions.
+
+Instead we have decided to keep the model separate in `workday__worker_position_org_history`, leaving end customers the ability to configure what organizations they end up joining into the employee daily history within their warehouses. The `int_workday__employee_history` model provides a solid guide into configuring your own custom-type history mode model. 
