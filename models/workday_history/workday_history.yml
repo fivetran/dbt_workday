@@ -2,7 +2,7 @@ version: 2
 
 models:
   - name: workday__employee_daily_history
-    description: Each record is a daily record in an employee, starting with its first active date and updating up toward either the current date (if still active) or its last active date.
+    description: Each record is a daily record in an employee, starting with its first active date and updating up toward either the current date (if still active) or its last active date. This will allow customers to track the daily history of their employees from when they started.
     columns:
       - name: employee_day_id
         description: Surrogate key hashed on `date_day` and `employee_id`
@@ -299,14 +299,16 @@ models:
         description: '{{ doc("worker_code") }}'
 
       - name: effective_date
+        description: '{{ doc("effective_date") }}'
 
       - name: position_start_date
+        description: '{{ doc("start_date") }}'
 
       - name: position_end_date
-
+        description: '{{ doc("end_date") }}'
 
   - name: workday__monthly_summary
-    description: Each record is a month, aggregated from the last day of each month of the employee daily history. This captures monthly metrics. 
+    description: Each record is a month, aggregated from the last day of each month of the employee daily history. This captures monthly metrics of workers, such as average salary, churned and retained employees, etc. 
     columns:
       - name: metrics_month
         description: Month in which metrics are being aggregated.
@@ -369,7 +371,7 @@ models:
         description: Average days as a worker this month. 
 
   - name: workday__worker_position_org_daily_history
-    description: Each record is a daily record for a worker/position/organization combination, starting with its first active date and updating up toward either the current date (if still active) or its last active date.
+    description: Each record is a daily record for a worker/position/organization combination, starting with its first active date and updating up toward either the current date (if still active) or its last active date. This will allow customers to tie in organizations to employees via other organization models (such as `workday__organization_overview`) more easily in their warehouses. 
     columns:
       - name: wpo_day_id
         description: Surrogate key hashed on `date_day` and `history_unique_key`
