@@ -8,6 +8,8 @@ models:
           combination_of_columns:
             - source_relation
             - worker_id
+            - position_id
+            - position_start_date
 
     columns:
       - name: worker_id

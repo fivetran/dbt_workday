@@ -27,7 +27,7 @@ worker_details as (
         case when termination_date is null
             then {{ dbt.datediff('hire_date', 'current_date', 'day') }}
             else {{ dbt.datediff('hire_date', 'termination_date', 'day') }}
-        end as days_of_employment,
+        end as days_as_worker,
         is_terminated,
         primary_termination_category,
         primary_termination_reason,

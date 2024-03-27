@@ -6,6 +6,8 @@
 
 {% docs _fivetran_end %} Timestamp marking the end of a record being active. {% enddocs %}
 
+{% docs _fivetran_date %} Date when the record was first created or modified in the source. {% enddocs %}
+
 {% docs _fivetran_active %} TRUE if it is the currently active record. FALSE if it is a historical version of the record. Only one version of the record can be TRUE. {% enddocs %}
 
 {% docs source_relation %} The record's source if the unioning functionality is used. Otherwise this field will be empty. {% enddocs %}
@@ -191,6 +193,8 @@
 {% docs email_code %} A code or label associated with the type or purpose of the email address. {% enddocs %}
 
 {% docs email_comment %} Any additional comments or notes related to the email address. {% enddocs %}
+
+{% docs employee_id %} Surrogate key on `worker_id`, `position_id`, `position_start_date` to create unique identifier for a Workday employee. {% enddocs %}
 
 {% docs employed_five_years %} Tracks whether a worker was employed at least five years. {% enddocs %}
 
