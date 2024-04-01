@@ -32,8 +32,6 @@ worker_position_data_enhanced as (
 worker_position_enriched as (
 
     select
-        {{ dbt_utils.generate_surrogate_key(['worker_position_data_enhanced.worker_id', 
-                                            'position_id', 'position_start_date']) }} as employee_id,
         worker_position_data_enhanced.worker_id,
         worker_position_data_enhanced.source_relation,
         worker_position_data_enhanced.position_id, 

@@ -13,6 +13,12 @@ models:
       - name: date_day
         description: Date on which the account had these field values.
 
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
+
+      - name: history_unique_key
+        description: Surrogate key hashed on 'employee_id' and '_fivetran_date'.
+
       - name: employee_id
         description: '{{ doc("employee_id") }}'
 
@@ -31,11 +37,14 @@ models:
       - name: _fivetran_end
         description: '{{ doc("_fivetran_end") }}'
 
-      - name: wh_active
-        description: Is the worker history record the most recently active.
+      - name: is_wh_fivetran_active
+        description: Is the worker history record the most recent fivetran active record.
 
-      - name: wph_active
-        description: Is the worker position history record the most recently active.
+      - name: is_wph_fivetran_active
+        description: Is the worker position history record the most recent fivetranactive record.
+
+      - name: is_pih_fivetran_active
+        description: Is the personal information history record the most recent fivetran active record.
 
       - name: wh_end_employment_date
         description: '{{ doc("end_employment_date") }}'
@@ -316,6 +325,9 @@ models:
           - unique
           - not_null
 
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
+
       - name: new_employees 
         description: New employees that came in this month.
 
@@ -378,8 +390,10 @@ models:
         tests:
           - unique
           - not_null
+
       - name: date_day
         description: Date on which the account had these field values.
+
       - name: worker_id
         description: '{{ doc("worker_id") }}'
         tests:
@@ -395,6 +409,9 @@ models:
         tests:
           - not_null 
 
+      - name: source_relation
+        description: '{{ doc("source_relation") }}'
+
       - name: _fivetran_start
         description: '{{ doc("_fivetran_start") }}'
 
@@ -405,7 +422,7 @@ models:
         description: '{{ doc("_fivetran_date") }}'
 
       - name: history_unique_key
-        description: Surrogate key hashed on `position_id`, `worker_id`, `organization_id`, and `_fivetran_start` .
+        description: Surrogate key hashed on `position_id`, `worker_id`, `organization_id`, `source_relation`, and `_fivetran_start` .
 
       - name: _fivetran_active
         description: '{{ doc("_fivetran_active") }}'

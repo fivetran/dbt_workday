@@ -8,10 +8,12 @@ models:
     +schema: workday
     +materialized: table
     intermediate:
-      +materialized: table
+      +materialized: ephemeral
     staging:
       +materialized: view
       +schema: stg_workday
+      stg_workday_history:
+        +materialized: ephemeral
     workday_history:
       +materialized: table
 

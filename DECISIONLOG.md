@@ -5,8 +5,6 @@ However, in the Workday HCM case, we have found that History Mode does not fit t
 * Transactions can be future-dated. The most common case is an employee being hired for a future date beyond the current date, so an incremental run will pick up numerous records in the future, leading to potential duplications down the road for an employee's records.
 * There are additional cases where an employee's record can be updated in the past beyond a common incremental window.
 
-For this reason, we will recommend users utilize the `--full-refresh` method to grab records to maintain accuracy. So we recommend that you optimize your refresh strategy when using this package to reduce warehouse load and minimize costs. 
-
 We welcome all attempts to optimize this strategy though, and would be open to enhancements to the package!
 
 ## Why we kept the worker position organization history model separate from the employee daily history model

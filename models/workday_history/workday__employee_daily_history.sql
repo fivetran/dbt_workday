@@ -1,22 +1,34 @@
 {{ config(enabled=var('employee_history_enabled', False)) }}
 
-{% if execute %}
-    {% set date_query %}
+{% if execute %} 
+    with max_start_value as (
+
+        select max(_fivetran_start) as max_start 
+        from {{ ref('int_workday__employee_history') }}
+    )
+
     select 
-        {{ dbt.date_trunc('day', dbt.current_timestamp()) }} as max_date
-    {% endset %}
+        case when max_start >= dbt.current_timestamp() 
+            then max_start
+            else {{ dbt.date_trunc('day', dbt.current_timestamp()) }} 
+            end as max_date
+    from max_start_value 
 
-    {% set last_date = run_query(date_query).columns[0][0]|string %}
+    {% set last_date = run_query(max_date).columns[0][0]|string %}
 
-    {# If only compiling, creates range going back 1 year #}
-    {% else %} 
+{# If only compiling, creates range going back 1 year #}
+{% else %} 
         {% set last_date = dbt.dateadd("year", "-1", "current_date") %}
 {% endif %}
 
 
+{% set min_start = run_query("select min(_fivetran_start) from {{ ref('int_workday__employee_history') }}") %}
+
+
 with spine as (
     {# Prioritizes variables over calculated dates #}
-    {% set first_date = var('employee_history_start_date', '2020-01-01')|string %}
+    {% set first_date = coalesce(var('employee_history_start_date')|string,
+        min_start[0][0]|string)  %}
     {% set last_date = last_date|string %}
 
     {{ dbt_utils.date_spine(

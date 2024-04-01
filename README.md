@@ -34,14 +34,16 @@ This package generates a comprehensive data dictionary of your Workday HCM data 
 The following table provides a detailed list of all models materialized within this package by default. 
 > TIP: See more details about these models in the package's [dbt docs site](https://fivetran.github.io/dbt_workday/#!/overview/workday).
 
-| **model**                 | **description**                                                                                                    |**available in Quickstart?**
+| **model**                 | **description**                                                                                                     
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------|------------------------------
-| [workday__employee_overview](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__employee_overview)  | Each record represents an employee with enriched personal information and the positions they hold. This helps measure employee demographic and geographical distribution, overall retention and turnover, and compensation analysis of their employees. | Yes
-| [workday__job_overview](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__job_overview)  | Each record represents a job with enriched details on job profiles and job families. This allows users to understand recruitment patterns and details within a job and job groupings. | Yes
-| [workday__organization_overview](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__organization_overview) |  Each record represents organization, organization roles, as well as positions and workers tied to these organizations. This allows end users to slice organizational data at any grain to better analyze organizational structures.  | Yes
-| [workday__position_overview](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__position_overview) | Each record represents a position with enriched data on positions. This allows end users to understand position availabilities, vacancies, cost to optimize hiring efforts. | Yes
-|  [workday__employee_daily_history](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__employee_daily_history)  | Each record represents a daily record for an employee, employee position, and employee personal information within Workday HCM, to help customers gather the most historically accurate data regarding their employees. | No
-| [workday__monthly_summary](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__monthly_summary)  | Each record is a month, aggregated from the last day of each month of the employee daily history. This captures monthly aggregated metrics to track trends like employee additions and churns, salary movements, demographic changes, etc.  | No
+| [workday__employee_overview](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__employee_overview)  | Each record represents an employee with enriched personal information and the positions they hold. This helps measure employee demographic and geographical distribution, overall retention and turnover, and compensation analysis of their employees. 
+| [workday__job_overview](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__job_overview)  | Each record represents a job with enriched details on job profiles and job families. This allows users to understand recruitment patterns and details within a job and job groupings.  
+| [workday__organization_overview](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__organization_overview) |  Each record represents organization, organization roles, as well as positions and workers tied to these organizations. This allows end users to slice organizational data at any grain to better analyze organizational structures.  
+| [workday__position_overview](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__position_overview) | Each record represents a position with enriched data on positions. This allows end users to understand position availabilities, vacancies, cost to optimize hiring efforts.  
+| [workday__employee_daily_history](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__employee_daily_history)  | Each record represents a daily record for an employee, employee position, and employee personal information within Workday HCM, to help customers gather the most historically accurate data regarding their employees.  
+| [workday__monthly_summary](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__monthly_summary)  | Each record is a month, aggregated from the last day of each month of the employee daily history. This captures monthly aggregated metrics to track trends like employee additions and churns, salary movements, demographic changes, etc.    
+| [workday__worker_position_org_daily](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__worker_position_org_daily)  | Each record is a daily record for a worker/position/organization combination, starting with its first active date and updating up toward either the current date (if still active) or its last active date. This will allow customers to tie in organizations to employees via other organization models (such as `workday__organization_overview`) more easily in their warehouses. 
+   
 <!--section-end-->
 
 # 🎯 How do I use the dbt package?
@@ -95,50 +97,18 @@ Please be aware that the native `source.yml` connection set up in the package wi
 
 To connect your multiple schema/database sources to the package models, follow the steps outlined in the [Union Data Defined Sources Configuration](https://github.com/fivetran/dbt_fivetran_utils/tree/releases/v0.4.latest#union_data-source) section of the Fivetran Utils documentation for the union_data macro. This will ensure a proper configuration and correct visualization of connections in the DAG.
 
-## (Optional) Step 4: Utilizing Workday HCM History Mode records
+## (Optional) Step 4: Utilizing Workday HCM History Mode
 
-If you have History Mode enabled for your Workday HCM connector, we now include support for the worker, worker position, worker position organization, and personal information tables directly. You can view these files in the [`staging/workday_history`](https://github.com/fivetran/dbt_workday/blob/main/models/staging/workday_history) folder. This staging data then flows into the employee daily history model, which in turn populates the monthly summary model. This will allow you access to your historical data for these tables for the most accurate record of your data over time.
+If you have History Mode enabled for your Workday HCM connector, we now include support for the worker, worker position, worker position organization, and personal information tables directly. You can view these files in the [`staging/stg_workday_history`](https://github.com/fivetran/dbt_workday/blob/main/models/staging/stg_workday_history) folder. This staging data then flows into the employee daily history model, which in turn populates the monthly summary model. This will allow you access to your historical data for these tables for the most accurate record of your data over time.
 
 ### IMPORTANT: How To Update Your History Models
 To ensure maximum value for these history mode models and avoid messy historical data that could come with picking and choosing which fields you bring in, **all fields in your Workday HCM history mode connector are being synced into the workday history staging models**.
 
-
 To update the history mode models, you must follow these steps: 
 1) Go to your Fivetran Workday HCM History Mode connector page.
-2) Update the fields that you are bringing into the model. 
-3) Run a `dbt run --full-refresh` on the specific staging models you've updated to bring in these fields and all the historical data available with these fields.
+2) Update the fields that you are bringing into the model.  
 
 We are aware that bringing in additional fields will be very process-heavy, so we do emphasize caution in making changes to your history mode connector. It would be best to batch as many field changes as possible before executing a `--full-refresh` to save on processing. 
-
-
-### Configuring Your Workday HCM History Mode Database and Schema Variables
-Customers leveraging the Workday HCM connector generally fall into one of two categories when taking advantage of History mode. They either have one connector that is syncing non-historical records and a separate connector that syncs historical records, **or** they have one connector that is syncing historical records. We have designed this feature to support both scenarios.
-
-#### Option 1: Two connectors, one with non-historical data and another with historical data
-If you are gathering data from both standard Workday HCM as well as Workday HCM History Mode, and your target database and schema differ as well, you will need to add an additional configuration for the history schema and database to your `dbt_project.yml`.
-
-```yml
-vars:
-    workday_database: your_database_name # workday by default
-    workday_schema: your_schema_name
-
-    workday_history_database: your_history_database_name # workday_history by default
-    workday_history_schema: your_history_schema_name
-```
-
-#### Option 2: One connector being used to sync historical data
-Perhaps you may only want to use the Workday HCM History Mode to bring in your data. Because the Workday HCM schema is pointing to the default `workday` schema and database, you will want to add the following variable into your `dbt_project.yml` to point it to the `workday_history` equivalents.
-
-```yml
-vars:
-    workday_database: your_history_database_name # workday by default
-    workday_schema: your_history_schema_name
-
-    workday_history_database: your_history_database_name # workday_history by default
-    workday_history_schema: your_history_schema_name
-```
-
-**IMPORTANT**: If you utilize Option 2, you must sync the equivalent enabled tables and fields in your history mode connector that are being brought into your end reports. Examine your data lineage and the model fields within the `workday` folder to see which tables and fields you are using and need to bring in and sync in the history mode connector. 
 
 ### Enabling Workday HCM History Mode Models  
 The History Mode models can get quite expansive since it will take in **ALL** historical records, so we've disabled them by default. You can enable the history models you'd like to utilize by adding the below variable configurations within your `dbt_project.yml` file for the equivalent models.
@@ -152,10 +122,9 @@ vars:
 ```
 
 ### Filter your Workday HCM History Mode models 
-By default, these history models are set to bring in all your data from Workday HCM History, but you may be interested in bringing in only a smaller sample of historical records, given the relative size of the Workday HCM history source tables. By default, the package will use `2020-01-01` as the minimum date for the historical end models. This date was chosen to ensure there was a limit to the amount of historical data processed on first run. This default may be overwritten to your liking by leveraging the below variables.
+By default, these history models are set to bring in all your data from Workday HCM History, but you may be interested in bringing in only a smaller sample of historical records, given the relative size of the Workday HCM history source tables. By default, the package will use the minimum `_fivetran_start` date for the historical end models. This default may be overwritten to your liking by leveraging the below variable.
 
 We have set up where conditions in our staging models to allow you to bring in only the data you need to run in. You can set a global history filter that would apply to all of our staging history models in your `dbt_project.yml`:
-
 
 ```yml 
 vars:
