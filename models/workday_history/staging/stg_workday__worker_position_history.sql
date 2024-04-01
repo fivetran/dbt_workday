@@ -9,6 +9,26 @@ with base as (
     {% endif %}
 ),
 
+fill_columns as (
+
+    select
+        {{
+            fivetran_utils.fill_staging_columns(
+                source_columns=adapter.get_columns_in_relation(ref('stg_workday__worker_position_base')),
+                staging_columns=get_worker_position_history_columns()
+            )
+        }}
+
+        {{ 
+            fivetran_utils.source_relation(
+                union_schema_variable='workday_union_schemas', 
+                union_database_variable='workday_union_databases'
+                ) 
+        }}
+
+    from base
+),
+
 final as (
 
     select 
@@ -18,6 +38,7 @@ final as (
         cast(_fivetran_start as {{ dbt.type_timestamp() }}) as _fivetran_start,
         cast(_fivetran_end as {{ dbt.type_timestamp() }}) as _fivetran_end,
         cast(_fivetran_start as date) as _fivetran_date,
+        _fivetran_active,
         {{ dbt_utils.generate_surrogate_key(['worker_id', 'position_id', '_fivetran_start']) }} as stg_history_unique_key,
         business_site_summary_location as position_location,
         exclude_from_head_count as is_exclude_from_head_count,
@@ -33,7 +54,6 @@ final as (
         academic_pay_setup_data_disbursement_plan_period_start_date,
         business_site_summary_display_language,
         business_site_summary_local,
-        business_site_summary_location as position_location,
         business_site_summary_location_type,
         business_site_summary_name,
         business_site_summary_scheduled_weekly_hours,
@@ -46,18 +66,15 @@ final as (
         employee_type,
         cast(end_date as {{ dbt.type_timestamp() }}) as position_end_date,
         cast(end_employment_date as {{ dbt.type_timestamp() }}) as end_employment_date,
-        exclude_from_head_count as is_exclude_from_head_count,
         expected_assignment_end_date,
         external_employee,
         federal_withholding_fein,
         frequency,
-        full_time_equivalent_percentage as fte_percent,
         headcount_restriction_code,
         home_country,
         host_country,
         international_assignment_type,
         is_primary_job,
-        job_exempt as is_job_exempt,
         job_profile_id,
         management_level_code,
         paid_fte,
@@ -69,21 +86,17 @@ final as (
         payroll_file_number,
         regular_paid_equivalent_hours,
         scheduled_weekly_hours,
-        specify_paid_fte as is_specify_paid_fte,
-        specify_working_fte as is_specify_working_fte,
         cast(start_date as {{ dbt.type_timestamp() }}) as position_start_date,
         start_international_assignment_reason,
         work_hours_profile,
         work_shift,
-        work_shift_required as is_work_shift_required,
         work_space,
         worker_hours_profile_classification,
-        worker_id,
         working_fte,
         working_time_frequency,
         working_time_unit,
         working_time_value
-    from base
+    from fill_columns
 )
 
 select *

@@ -50,12 +50,12 @@ worker_history_scd as (
         coalesce(cast(eventual_fivetran_end as {{ dbt.type_timestamp() }}),
             cast('9999-12-31 23:59:59.999000' as {{ dbt.type_timestamp() }})) as _fivetran_end
     from worker_history_end_values
-    order by worker_id, source_relation, _fivetran_start, _fivetran_end
 ),
 
 employee_history_scd as (
 
-    select worker_history_scd.worker_id,
+    select 
+        worker_history_scd.worker_id,
         worker_history_scd.source_relation,
         worker_position_history.position_id,
         worker_history_scd._fivetran_start,
@@ -159,7 +159,6 @@ employee_history_scd as (
         worker_position_history.academic_pay_setup_data_disbursement_plan_period_start_date,
         worker_position_history.business_site_summary_display_language,
         worker_position_history.business_site_summary_local,
-        worker_position_history.position_location,
         worker_position_history.business_site_summary_location_type,
         worker_position_history.business_site_summary_name,
         worker_position_history.business_site_summary_scheduled_weekly_hours,
@@ -171,40 +170,30 @@ employee_history_scd as (
         worker_position_history.position_effective_date,
         worker_position_history.employee_type,
         worker_position_history.position_end_date,
-        worker_position_history.end_employment_date,
-        worker_position_history.is_exclude_from_head_count,
         worker_position_history.expected_assignment_end_date,
         worker_position_history.external_employee,
         worker_position_history.federal_withholding_fein,
         worker_position_history.frequency,
-        worker_position_history.fte_percent,
         worker_position_history.headcount_restriction_code,
-        worker_position_history.home_country,
         worker_position_history.host_country,
         worker_position_history.international_assignment_type,
         worker_position_history.is_primary_job,
-        worker_position_history.is_job_exempt,
         worker_position_history.job_profile_id,
         worker_position_history.management_level_code,
         worker_position_history.paid_fte,
         worker_position_history.pay_group,
         worker_position_history.pay_rate,
         worker_position_history.pay_rate_type,
-        worker_position_history.pay_through_date,
         worker_position_history.payroll_entity,
         worker_position_history.payroll_file_number,
         worker_position_history.regular_paid_equivalent_hours,
         worker_position_history.scheduled_weekly_hours,
-        worker_position_history.is_specify_paid_fte,
-        worker_position_history.is_specify_working_fte,
         worker_position_history.position_start_date,
         worker_position_history.start_international_assignment_reason,
         worker_position_history.work_hours_profile,
         worker_position_history.work_shift,
-        worker_position_history.is_work_shift_required,
         worker_position_history.work_space,
         worker_position_history.worker_hours_profile_classification,
-        worker_position_history.worker_id,
         worker_position_history.working_fte,
         worker_position_history.working_time_frequency,
         worker_position_history.working_time_unit,
@@ -262,7 +251,6 @@ employee_history_scd as (
         and worker_history_scd._fivetran_start <= personal_information_history._fivetran_end
         and worker_history_scd._fivetran_end >= personal_information_history._fivetran_start
 
-    order by worker_id, source_relation, _fivetran_start, _fivetran_end
 ),
 
 employee_key as (

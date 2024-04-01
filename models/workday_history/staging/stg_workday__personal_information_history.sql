@@ -9,6 +9,26 @@ with base as (
     {% endif %} 
 ),
 
+fill_columns as (
+
+    select
+        {{
+            fivetran_utils.fill_staging_columns(
+                source_columns=adapter.get_columns_in_relation(ref('stg_workday__personal_information_base')),
+                staging_columns=get_personal_information_history_columns()
+            )
+        }}
+
+        {{ 
+            fivetran_utils.source_relation(
+                union_schema_variable='workday_union_schemas', 
+                union_database_variable='workday_union_databases'
+                ) 
+        }}
+
+    from base
+),
+
 final as (
 
     select 
@@ -17,6 +37,7 @@ final as (
         cast(_fivetran_start as {{ dbt.type_timestamp() }}) as _fivetran_start,
         cast(_fivetran_end as {{ dbt.type_timestamp() }}) as _fivetran_end,
         cast(_fivetran_start as date) as _fivetran_date,
+        _fivetran_active,
         {{ dbt_utils.generate_surrogate_key(['id', '_fivetran_start']) }} as stg_history_unique_key,
         additional_nationality,
         blood_type,
@@ -50,7 +71,7 @@ final as (
         social_benefit,
         tobacco_use as is_tobacco_use,
         type
-    from base
+    from fill_columns
 )
 
 select *

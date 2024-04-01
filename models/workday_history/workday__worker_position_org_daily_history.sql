@@ -1,39 +1,40 @@
+-- depends_on: {{ ref('stg_workday__worker_position_organization_base') }}
 {{ config(enabled=var('employee_history_enabled', False)) }}
 
 {% if execute %} 
-    with max_start_value as (
-        select max(_fivetran_start) as max_start 
-        from {{ ref('stg_workday__worker_position_organization_history') }}
+    {% set first_last_date_query %}
+    with min_max_values as (
+        select 
+            min(_fivetran_start) as min_start,
+            max(_fivetran_start) as max_start 
+        from {{ ref('stg_workday__worker_position_organization_base') }}
     )
 
     select 
-        case when max_start >= dbt.current_timestamp() 
+        min_start,
+        case when max_start >= {{ dbt.current_timestamp() }}
             then max_start
             else {{ dbt.date_trunc('day', dbt.current_timestamp()) }} 
         end as max_date
-    from max_start_value;
+    from min_max_values
 
-    {% set last_date_query = run_query("select max(_fivetran_start) from {{ ref('stg_workday__worker_position_organization_history') }}") %}
-    {% set last_date = last_date_query.columns[0][0]|string %}
+    {% endset %}
+
+    {% set start_date = run_query(first_last_date_query).columns[0][0]|string %}
+    {% set last_date = run_query(first_last_date_query).columns[1][0]|string %}
 
 {# If only compiling, creates range going back 1 year #}
 {% else %} 
+    {% set start_date = dbt.dateadd("year", "-2", "current_date") %} -- Arbitrarily picked. Choose a more appropriate default if necessary.
     {% set last_date = dbt.dateadd("year", "-1", "current_date") %}
 {% endif %}
 
-{% set min_start = run_query("select min(_fivetran_start) from {{ ref('stg_workday__worker_position_organization_history') }}y") %}
-
-
 with spine as (
     {# Prioritizes variables over calculated dates #}
-
-    {% set first_date = coalesce(var('employee_history_start_date')|string,
-        min_start[0][0]|string) %}
-    {% set last_date = last_date|string %}
-
+    {# Arbitrarily picked employee_history_start_date variable value. Choose a more appropriate default if necessary. #}
     {{ dbt_utils.date_spine(
         datepart="day",
-        start_date = "cast('" ~ first_date[0:10] ~ "'as date)",
+        start_date = "greatest(cast('" ~ start_date[0:10] ~ "'as date),'" ~ var('employee_history_start_date','2000-12-31') ~ "')",
         end_date = "cast('" ~ last_date[0:10] ~ "'as date)"
         )
     }}

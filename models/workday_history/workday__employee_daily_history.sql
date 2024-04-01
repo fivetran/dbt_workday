@@ -1,39 +1,42 @@
+-- depends_on: {{ ref('int_workday__employee_history') }}
 {{ config(enabled=var('employee_history_enabled', False)) }}
 
 {% if execute %} 
-    with max_start_value as (
+    {% set first_last_date_query %}
+    with min_max_values as (
 
-        select max(_fivetran_start) as max_start 
+        select 
+            min(_fivetran_start) as min_start,
+            max(_fivetran_start) as max_start 
         from {{ ref('int_workday__employee_history') }}
     )
 
     select 
-        case when max_start >= dbt.current_timestamp() 
+        min_start,
+        case when max_start >= {{ dbt.current_timestamp() }}
             then max_start
             else {{ dbt.date_trunc('day', dbt.current_timestamp()) }} 
-            end as max_date
-    from max_start_value 
+        end as max_start
+    from min_max_values
+    
+    {% endset %}
 
-    {% set last_date = run_query(max_date).columns[0][0]|string %}
+    {% set start_date = run_query(first_last_date_query).columns[0][0]|string %}
+    {% set last_date = run_query(first_last_date_query).columns[1][0]|string %}
 
 {# If only compiling, creates range going back 1 year #}
 {% else %} 
-        {% set last_date = dbt.dateadd("year", "-1", "current_date") %}
+    {% set start_date = dbt.dateadd("year", "-2", "current_date") %} -- Arbitrarily picked. Choose a more appropriate default if necessary.
+    {% set last_date = dbt.dateadd("year", "-1", "current_date") %}
 {% endif %}
-
-
-{% set min_start = run_query("select min(_fivetran_start) from {{ ref('int_workday__employee_history') }}") %}
 
 
 with spine as (
     {# Prioritizes variables over calculated dates #}
-    {% set first_date = coalesce(var('employee_history_start_date')|string,
-        min_start[0][0]|string)  %}
-    {% set last_date = last_date|string %}
-
+    {# Arbitrarily picked employee_history_start_date variable value. Choose a more appropriate default if necessary. #}
     {{ dbt_utils.date_spine(
         datepart="day",
-        start_date = "cast('" ~ first_date[0:10] ~ "'as date)",
+        start_date = "greatest(cast('" ~ start_date[0:10] ~ "'as date),'" ~ var('employee_history_start_date','2000-12-31') ~ "')", 
         end_date = "cast('" ~ last_date[0:10] ~ "'as date)"
         )
     }}
