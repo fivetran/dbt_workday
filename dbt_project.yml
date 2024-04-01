@@ -10,12 +10,16 @@ models:
     intermediate:
       +materialized: ephemeral
     staging:
-      +materialized: view
+      +materialized: ephemeral
       +schema: stg_workday
-      stg_workday_history:
-        +materialized: ephemeral
+      base:
+        +materialized: view
     workday_history:
       +materialized: table
+      intermediate: 
+        +materialized: view
+      staging:
+        +materialized: ephemeral
 
 vars:
     job_profile: "{{ source('workday','job_profile') }}"

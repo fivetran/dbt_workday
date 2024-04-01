@@ -42,7 +42,6 @@ with employee_surrogate_key as (
         position_location,
         management_level_code,
         fte_percent,
-        position_start_date,
         position_end_date,
         position_effective_date,
         days_employed,
