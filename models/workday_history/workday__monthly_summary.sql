@@ -32,15 +32,16 @@ months_employed as (
 
 monthly_employee_metrics as (
 
-    select date_month,
+    select 
+        date_month,
         source_relation,
-        sum(case when date_month = {{ dbt.date_trunc("month", "effective_date") }} then 1 else 0 end) as new_employees,
-        sum(case when date_month = {{ dbt.date_trunc("month", "termination_date") }} then 1 else 0 end) as churned_employees,
-        sum(case when (date_month = {{ dbt.date_trunc("month", "termination_date") }} and lower(primary_termination_category) = 'terminate_employee_voluntary') then 1 else 0 end) as churned_voluntary_employees,
-        sum(case when (date_month = {{ dbt.date_trunc("month", "termination_date") }} and lower(primary_termination_category) = 'terminate_employee_involuntary') then 1 else 0 end) as churned_involuntary_employees,
-        sum(case when date_month = {{ dbt.date_trunc("month", "wh_end_employment_date") }} then 1 else 0 end) as churned_workers
+        sum(case when cast(date_month as date) = cast({{ dbt.date_trunc("month", "position_effective_date") }} as date) then 1 else 0 end) as new_employees,
+        sum(case when cast(date_month as date) = cast({{ dbt.date_trunc("month", "termination_date") }} as date) then 1 else 0 end) as churned_employees,
+        sum(case when (cast(date_month as date) = cast({{ dbt.date_trunc("month", "termination_date") }} as date) and lower(primary_termination_category) = 'terminate_employee_voluntary') then 1 else 0 end) as churned_voluntary_employees,
+        sum(case when (cast(date_month as date) = cast({{ dbt.date_trunc("month", "termination_date") }} as date) and lower(primary_termination_category) = 'terminate_employee_involuntary') then 1 else 0 end) as churned_involuntary_employees,
+        sum(case when cast(date_month as date) = cast({{ dbt.date_trunc("month", "end_employment_date") }} as date) then 1 else 0 end) as churned_workers
     from months_employed
-    group by 1
+    group by 1, 2
 ),
 
 monthly_active_employee_metrics as (
@@ -56,9 +57,9 @@ monthly_active_employee_metrics as (
         avg(annual_currency_summary_total_salary_and_allowances) as avg_employee_salary_and_allowances,
         avg(days_as_employee) as avg_days_as_employee
     from months_employed
-    where date_month >= {{ dbt.date_trunc("month", "effective_date") }}
-        and (date_month <= {{ dbt.date_trunc("month", "wph_end_employment_date") }}
-            or wph_end_employment_date is null)
+    where cast(date_month as date) >= cast({{ dbt.date_trunc("month", "position_effective_date") }} as date)
+        and (cast(date_month as date) <= cast({{ dbt.date_trunc("month", "end_employment_date") }} as date)
+            or end_employment_date is null)
     group by 1, 2
 ),
 
@@ -72,9 +73,9 @@ monthly_active_worker_metrics as (
         avg(annual_currency_summary_total_salary_and_allowances) as avg_worker_salary_and_allowances,
         avg(days_as_worker) as avg_days_as_worker
     from months_employed
-    where (date_month >= {{ dbt.date_trunc("month", "effective_date") }}
-        and date_month <= {{ dbt.date_trunc("month", "wh_end_employment_date") }})
-            or wh_end_employment_date is null
+    where (cast(date_month as date) >= cast({{ dbt.date_trunc("month", "position_effective_date") }} as date)
+        and cast(date_month as date) <= cast({{ dbt.date_trunc("month", "end_employment_date") }} as date))
+            or end_employment_date is null
     group by 1, 2
 ),
 
@@ -104,10 +105,10 @@ monthly_summary as (
     from monthly_employee_metrics
     left join monthly_active_employee_metrics 
         on monthly_employee_metrics.date_month = monthly_active_employee_metrics.date_month
-        on monthly_employee_metrics.source_relation = monthly_active_employee_metrics.source_relation
+        and monthly_employee_metrics.source_relation = monthly_active_employee_metrics.source_relation
     left join monthly_active_worker_metrics
         on monthly_employee_metrics.date_month = monthly_active_worker_metrics.date_month
-        on monthly_employee_metrics.source_relation = monthly_active_worker_metrics.source_relation
+        and monthly_employee_metrics.source_relation = monthly_active_worker_metrics.source_relation
 )
 
 select *
