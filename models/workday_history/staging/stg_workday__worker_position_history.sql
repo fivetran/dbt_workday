@@ -39,7 +39,7 @@ final as (
         cast(_fivetran_end as {{ dbt.type_timestamp() }}) as _fivetran_end,
         cast(_fivetran_start as date) as _fivetran_date,
         _fivetran_active,
-        {{ dbt_utils.generate_surrogate_key(['worker_id', 'position_id', '_fivetran_start']) }} as stg_history_unique_key,
+        {{ dbt_utils.generate_surrogate_key(['worker_id', 'position_id', '_fivetran_start']) }} as history_unique_key,
         business_site_summary_location as position_location,
         exclude_from_head_count as is_exclude_from_head_count,
         full_time_equivalent_percentage as fte_percent,
