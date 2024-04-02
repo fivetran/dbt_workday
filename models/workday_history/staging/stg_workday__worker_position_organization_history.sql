@@ -32,6 +32,7 @@ fill_columns as (
 final as (
 
     select 
+        {{ dbt_utils.generate_surrogate_key(['worker_id', 'position_id', 'organization_id', 'source_relation', '_fivetran_start']) }} as history_unique_key,
         worker_id,
         position_id,
         organization_id,
@@ -39,7 +40,7 @@ final as (
         cast(_fivetran_start as {{ dbt.type_timestamp() }}) as _fivetran_start,
         cast(_fivetran_end as {{ dbt.type_timestamp() }}) as _fivetran_end,
         cast(_fivetran_start as date) as _fivetran_date, 
-        {{ dbt_utils.generate_surrogate_key(['worker_id', 'position_id', 'organization_id', 'source_relation', '_fivetran_start']) }} as history_unique_key,
+        _fivetran_active,
         index,   
         date_of_pay_group_assignment, 
         primary_business_site,

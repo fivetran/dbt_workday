@@ -70,7 +70,19 @@ daily_history as (
                                             'get_latest_daily_value.history_unique_key']) }} 
                                             as wpo_day_id,
         cast(spine.date_day as date) as date_day,
-        get_latest_daily_value.*
+        worker_id,
+        position_id,
+        organization_id,
+        source_relation,
+        _fivetran_start,
+        _fivetran_end,
+        _fivetran_active,
+        _fivetran_date,
+        history_unique_key,
+        index,
+        date_of_pay_group_assignment,
+        primary_business_site,
+        is_used_in_change_organization_assignments
     from get_latest_daily_value
     join spine on get_latest_daily_value._fivetran_start <= cast(spine.date_day as {{ dbt.type_timestamp() }})
         and get_latest_daily_value._fivetran_end >= cast(spine.date_day as {{ dbt.type_timestamp() }})

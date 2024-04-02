@@ -32,13 +32,13 @@ fill_columns as (
 final as (
 
     select 
+        {{ dbt_utils.generate_surrogate_key(['id', 'source_relation', '_fivetran_start']) }} as history_unique_key,
         id as worker_id, 
         source_relation,
         cast(_fivetran_start as {{ dbt.type_timestamp() }}) as _fivetran_start,
         cast(_fivetran_end as {{ dbt.type_timestamp() }}) as _fivetran_end,
         cast(_fivetran_start as date) as _fivetran_date,
         _fivetran_active,
-        {{ dbt_utils.generate_surrogate_key(['id', '_fivetran_start']) }} as history_unique_key,
         academic_tenure_date,
         active as is_active,
         active_status_date,

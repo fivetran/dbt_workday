@@ -164,7 +164,7 @@
 
 {% docs days_employed %} The number of days the employee held their position. {% enddocs %}
 
-{% docs days_of_employment %} Number of days employed by the worker. {% enddocs %}
+{% docs days_as_worker %} Number of days since the worker has been created. {% enddocs %}
 
 {% docs days_unemployed %}  Number of days the worker has been unemployed. {% enddocs %}
 

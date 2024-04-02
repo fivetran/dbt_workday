@@ -35,11 +35,11 @@ monthly_employee_metrics as (
     select 
         date_month,
         source_relation,
-        sum(case when cast(date_month as date) = cast({{ dbt.date_trunc("month", "position_effective_date") }} as date) then 1 else 0 end) as new_employees,
-        sum(case when cast(date_month as date) = cast({{ dbt.date_trunc("month", "termination_date") }} as date) then 1 else 0 end) as churned_employees,
-        sum(case when (cast(date_month as date) = cast({{ dbt.date_trunc("month", "termination_date") }} as date) and lower(primary_termination_category) = 'terminate_employee_voluntary') then 1 else 0 end) as churned_voluntary_employees,
-        sum(case when (cast(date_month as date) = cast({{ dbt.date_trunc("month", "termination_date") }} as date) and lower(primary_termination_category) = 'terminate_employee_involuntary') then 1 else 0 end) as churned_involuntary_employees,
-        sum(case when cast(date_month as date) = cast({{ dbt.date_trunc("month", "end_employment_date") }} as date) then 1 else 0 end) as churned_workers
+        sum(case when date_month = cast({{ dbt.date_trunc("month", "position_effective_date") }} as date) then 1 else 0 end) as new_employees,
+        sum(case when date_month = cast({{ dbt.date_trunc("month", "termination_date") }} as date) then 1 else 0 end) as churned_employees,
+        sum(case when (date_month = cast({{ dbt.date_trunc("month", "termination_date") }} as date) and lower(primary_termination_category) = 'terminate_employee_voluntary') then 1 else 0 end) as churned_voluntary_employees,
+        sum(case when (date_month = cast({{ dbt.date_trunc("month", "termination_date") }} as date) and lower(primary_termination_category) = 'terminate_employee_involuntary') then 1 else 0 end) as churned_involuntary_employees,
+        sum(case when date_month = cast({{ dbt.date_trunc("month", "end_employment_date") }} as date) then 1 else 0 end) as churned_workers
     from months_employed
     group by 1, 2
 ),

@@ -3,13 +3,13 @@ version: 2
 models:
   - name: stg_workday__personal_information_history
     description: Represents historical records of a worker's personal information.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - worker_id
-            - _fivetran_start 
-
     columns:
+      - name: history_unique_key
+        description: Surrogate key hashed on `worker_id`, `source_relation` and `_fivetran_start`.
+        tests:
+          - unique
+          - not_null
+
       - name: worker_id
         description: '{{ doc("worker_id") }}'
         tests:
@@ -26,12 +26,6 @@ models:
 
       - name: _fivetran_date
         description: '{{ doc("_fivetran_date") }}'
-
-      - name: history_unique_key
-        description: Surrogate key hashed on `worker_id` and `_fivetran_start`.
-        tests:
-          - unique
-          - not_null
 
       - name: _fivetran_active
         description: '{{ doc("_fivetran_active") }}'
@@ -138,13 +132,13 @@ models:
 
   - name: stg_workday__worker_history
     description: Represents historical records of a worker's personal information.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - worker_id
-            - _fivetran_start
-    
     columns:
+      - name: history_unique_key 
+        description: Surrogate key hashed on `worker_id`, `source_relation` and `_fivetran_start`.
+        tests:
+          - unique
+          - not_null
+
       - name: worker_id
         description: '{{ doc("worker_id") }}'
         tests:
@@ -161,12 +155,6 @@ models:
 
       - name: _fivetran_date
         description: '{{ doc("_fivetran_date") }}'
-
-      - name: history_unique_key 
-        description: Surrogate key hashed on `worker_id` and `_fivetran_start`.
-        tests:
-          - unique
-          - not_null
 
       - name: _fivetran_active
         description: '{{ doc("_fivetran_active") }}'
@@ -423,14 +411,13 @@ models:
 
   - name: stg_workday__worker_position_history
     description: Represents historical records of a worker's personal information.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - worker_id
-            - position_id
-            - _fivetran_start 
-
     columns:
+      - name: history_unique_key
+        description: Surrogate key hashed on `position_id`, `worker_id`, `source_relation` and `_fivetran_start` .
+        tests:
+          - unique
+          - not_null
+
       - name: worker_id
         description: '{{ doc("worker_id") }}'
         tests:
@@ -452,12 +439,6 @@ models:
 
       - name: _fivetran_date
         description: '{{ doc("_fivetran_date") }}'
-
-      - name: history_unique_key
-        description: Surrogate key hashed on `position_id`, `worker_id` and `_fivetran_start` .
-        tests:
-          - unique
-          - not_null
 
       - name: _fivetran_active
         description: '{{ doc("_fivetran_active") }}'
@@ -636,15 +617,13 @@ models:
 
   - name: stg_workday__worker_position_organization_history
     description: Represents historical records of a worker's personal information.
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - worker_id
-            - position_id
-            - organization_id
-            - _fivetran_start
-
     columns:
+      - name: history_unique_key
+        description: Surrogate key hashed on `worker_id`, `position_id`, `organization_id`, `source_relation`, and `_fivetran_start` .
+        tests:
+          - unique
+          - not_null
+
       - name: worker_id
         description: '{{ doc("worker_id") }}'
         tests:
@@ -671,12 +650,6 @@ models:
 
       - name: _fivetran_date
         description: '{{ doc("_fivetran_date") }}'
-
-      - name: history_unique_key
-        description: Surrogate key hashed on `position_id`, `worker_id`, `organization_id`, and `_fivetran_start` .
-        tests:
-          - unique
-          - not_null
 
       - name: _fivetran_active
         description: '{{ doc("_fivetran_active") }}'

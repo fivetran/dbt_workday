@@ -33,8 +33,6 @@ vars:
     workday_worker_leave_status_identifier: "workday_worker_leave_status_data"
     workday_worker_position_organization_history_identifier: "workday_worker_position_organization_history_data"
 
-    employee_history_enabled: true
-
 seeds:
   +quote_columns: "{{ true if target.type in ('redshift', 'postgres') else false }}"
   +column_types:

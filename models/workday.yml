@@ -42,8 +42,8 @@ models:
       - name: departure_date
         description: '{{ doc("departure_date") }}' 
 
-      - name: days_of_employment
-        description: '{{ doc("days_of_employment") }}' 
+      - name: days_as_worker
+        description: '{{ doc("days_as_worker") }}' 
 
       - name: is_terminated
         description: '{{ doc("is_terminated") }}' 
@@ -90,6 +90,15 @@ models:
       - name: date_of_birth
         description: '{{ doc("date_of_birth") }}' 
 
+      - name: days_as_worker
+        description: '{{ doc("days_as_worker") }}' 
+
+      - name: employee_type
+        description: '{{ doc("employee_type") }}' 
+
+      - name: management_level_code
+        description: '{{ doc("management_level_code") }}' 
+
       - name: gender
         description: '{{ doc("gender") }}' 
 
@@ -119,6 +128,18 @@ models:
 
       - name: fte_percent
         description: '{{ doc("fte_percent") }}' 
+
+      - name: position_start_date
+        description: '{{ doc("position_start_date") }}' 
+
+      - name: position_end_date
+        description: '{{ doc("position_end_date") }}' 
+
+      - name: position_effective_date
+        description: '{{ doc("position_effective_date") }}'
+
+      - name: position_location
+        description: '{{ doc("position_location") }}'  
 
       - name: days_employed
         description: '{{ doc("days_employed") }}' 
