@@ -34,7 +34,7 @@ with spine as (
     {# Arbitrarily picked employee_history_start_date variable value. Choose a more appropriate default if necessary. #}
     {{ dbt_utils.date_spine(
         datepart="day",
-        start_date = "greatest(cast('" ~ start_date[0:10] ~ "' as date), cast('" ~ var('employee_history_start_date','2000-12-31') ~ "' as date))",
+        start_date = "greatest(cast('" ~ start_date[0:10] ~ "' as date), cast('" ~ var('employee_history_start_date','2005-03-01') ~ "' as date))",
         end_date = "cast('" ~ last_date[0:10] ~ "'as date)"
         )
     }}
