@@ -24,7 +24,9 @@ The main focus of the package is to transform the core object tables into analyt
   - Adds column-level testing where applicable. For example, all primary keys are tested for uniqueness and non-null values.
   - Provides insight into your Workday HCM data across the following grains:     
     - Employee, job, organization, position.
-  - Generates a comprehensive data dictionary of your Workday HCM data through the [dbt docs site](https://fivetran.github.io/dbt_workday/).
+  - Gather daily historical records of employees.
+
+This package generates a comprehensive data dictionary of your Workday HCM data through the [dbt docs site](https://fivetran.github.io/dbt_workday/).
 
 > This package does not apply freshness tests to source data due to the variability of survey cadences.
 
@@ -32,12 +34,16 @@ The main focus of the package is to transform the core object tables into analyt
 The following table provides a detailed list of all models materialized within this package by default. 
 > TIP: See more details about these models in the package's [dbt docs site](https://fivetran.github.io/dbt_workday/#!/overview/workday).
 
-| **model**                 | **description**                                                                                                    |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| [workday__employee_overview](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__employee_overview)  | Each record represents an employee with enriched personal information and the positions they hold. This helps measure employee demographic and geographical distribution, overall retention and turnover, and compensation analysis of their employees. |
-| [workday__job_overview](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__job_overview)  | Each record represents a job with enriched details on job profiles and job families. This allows users to understand recruitment patterns and details within a job and job groupings. |
-| [workday__organization_overview](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__organization_overview) |  Each record represents organization, organization roles, as well as positions and workers tied to these organizations. This allows end users to slice organizational data at any grain to better analyze organizational structures.  |
-| [workday__position_overview](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__position_overview) | Each record represents a position with enriched data on positions. This allows end users to understand position availabilities, vacancies, cost to optimize hiring efforts. |
+| **model**                 |    **description**             | Available in Quickstart?                                                                                         
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------|------------------------------
+| [workday__employee_overview](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__employee_overview)  | Each record represents an employee with enriched personal information and the positions they hold. This helps measure employee demographic and geographical distribution, overall retention and turnover, and compensation analysis of their employees. |  Yes
+[workday__job_overview](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__job_overview)  | Each record represents a job with enriched details on job profiles and job families. This allows users to understand recruitment patterns and details within a job and job groupings.  | Yes
+| [workday__organization_overview](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__organization_overview) |  Each record represents organization, organization roles, as well as positions and workers tied to these organizations. This allows end users to slice organizational data at any grain to better analyze organizational structures.  | Yes
+| [workday__position_overview](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__position_overview) | Each record represents a position with enriched data on positions. This allows end users to understand position availabilities, vacancies, cost to optimize hiring efforts.  | Yes
+| [workday__employee_daily_history](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__employee_daily_history)  | Each record represents a daily record for an employee, employee position, and employee personal information within Workday HCM, to help customers gather the most historically accurate data regarding their employees.  | No
+| [workday__monthly_summary](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__monthly_summary)  | Each record is a month, aggregated from the last day of each month of the employee daily history. This captures monthly aggregated metrics to track trends like employee additions and churns, salary movements, demographic changes, etc.    | No
+| [workday__worker_position_org_daily_history](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__worker_position_org_daily_history)  | Each record is a daily record for a worker/position/organization combination, starting with its first active date and updating up toward either the current date (if still active) or its last active date. This will allow customers to tie in organizations to employees via other organization models (such as `workday__organization_overview`) more easily in their warehouses. | No
+   
 <!--section-end-->
 
 # 🎯 How do I use the dbt package?
@@ -57,12 +63,12 @@ dispatch:
 ```
 
 ## Step 2: Install the package
-Include the following Workday  package version in your `packages.yml` file:
+Include the following Workday HCM package version in your `packages.yml` file:
 > TIP: Check [dbt Hub](https://hub.getdbt.com/) for the latest installation instructions or [read the dbt docs](https://docs.getdbt.com/docs/package-management) for more information on installing packages.
 ```yml
 packages:
   - package: fivetran/workday
-    version: [">=0.1.0", "<0.2.0"] # we recommend using ranges to capture non-breaking changes automatically
+    version: [">=0.2.0", "<0.3.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
 
 ## Step 3: Define database and schema variables
@@ -91,8 +97,34 @@ Please be aware that the native `source.yml` connection set up in the package wi
 
 To connect your multiple schema/database sources to the package models, follow the steps outlined in the [Union Data Defined Sources Configuration](https://github.com/fivetran/dbt_fivetran_utils/tree/releases/v0.4.latest#union_data-source) section of the Fivetran Utils documentation for the union_data macro. This will ensure a proper configuration and correct visualization of connections in the DAG.
 
+## (Optional) Step 4: Utilizing Workday HCM History Mode
 
-## (Optional) Step 4: Additional configurations
+If you have History Mode enabled for your Workday HCM connector, we now include support for the worker, worker position, worker position organization, and personal information tables directly. You can view these files in the [`staging`](https://github.com/fivetran/dbt_workday/blob/main/models/workday_history/staging) folder. This staging data then flows into the employee daily history model, which in turn populates the monthly summary model. This will allow you access to your historical data for these tables for the most accurate record of your data over time.
+
+### Enabling Workday HCM History Mode Models  
+The History Mode models can get quite expansive since it will take in **ALL** historical records, so we've disabled them by default. You can enable the history models you'd like to utilize by adding the below variable configurations within your `dbt_project.yml` file for the equivalent models.
+
+```yml
+# dbt_project.yml
+
+...
+vars:
+  employee_history_enabled: true  # False by default. Only use if you have history mode enabled and wish to view the full historical record. 
+```
+
+### Filter your Workday HCM History Mode models 
+By default, these history models are set to bring in all your data from Workday HCM History, but you may be interested in bringing in only a smaller sample of historical records, given the relative size of the Workday HCM history source tables. By default, the package will use the minimum `_fivetran_start` date for the historical end models. This default may be overwritten to your liking by leveraging the below variable.
+
+We have set up where conditions in our staging models to allow you to bring in only the data you need to run in. You can set a global history filter that would apply to all of our staging history models in your `dbt_project.yml`:
+
+```yml 
+vars:
+    employee_history_start_date: 'YYYY-MM-DD' # The first `_fivetran_start` date you'd like to filter data on in all your history models.
+```
+
+The default date value in our models is set at `2005-03-01` (the month Workday was founded), designed for if you want to capture all available data by default. If you choose to set a custom date value as outlined above, these models will take the greater of either this value or the minimum `_fivetran_start` date in the source data. They will then be used for creating the first dates available with historical data in your daily history models.
+
+## (Optional) Step 5: Additional configurations
 
 ### Changing the Build Schema
 By default this package will build the Workday HCM staging models within a schema titled (<target_schema> + `_stg_workday`) and the Workday HCM final models within a schema titled (<target_schema> + `_workday`) in your target database. If this is not where you would like your modeled Workday HCM data to be written to, add the following configuration to your `dbt_project.yml` file:
@@ -121,7 +153,7 @@ vars:
 </details>
 
 
-## (Optional) Step 5: Orchestrate your models with Fivetran Transformations for dbt Core™
+## (Optional) Step 6: Orchestrate your models with Fivetran Transformations for dbt Core™
 <details><summary>Expand for details</summary>
 <br>
     

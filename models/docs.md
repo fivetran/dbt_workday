@@ -6,6 +6,8 @@
 
 {% docs _fivetran_end %} Timestamp marking the end of a record being active. {% enddocs %}
 
+{% docs _fivetran_date %} Date when the record was first created or modified in the source. {% enddocs %}
+
 {% docs _fivetran_active %} TRUE if it is the currently active record. FALSE if it is a historical version of the record. Only one version of the record can be TRUE. {% enddocs %}
 
 {% docs source_relation %} The record's source if the unioning functionality is used. Otherwise this field will be empty. {% enddocs %}
@@ -160,9 +162,9 @@
 
 {% docs date_of_recall %} The date of recall. {% enddocs %}
 
-{% docs days_at_position %} The number of days the worker has held their most recent position. {% enddocs %}
+{% docs days_employed %} The number of days the employee held their position. {% enddocs %}
 
-{% docs days_of_employment %} Number of days employed by the worker. {% enddocs %}
+{% docs days_as_worker %} Number of days since the worker has been created. {% enddocs %}
 
 {% docs days_unemployed %}  Number of days the worker has been unemployed. {% enddocs %}
 
@@ -191,6 +193,8 @@
 {% docs email_code %} A code or label associated with the type or purpose of the email address. {% enddocs %}
 
 {% docs email_comment %} Any additional comments or notes related to the email address. {% enddocs %}
+
+{% docs employee_id %} Surrogate key on `worker_id`, `source_relation`, `position_id`, `position_start_date` to create unique identifier for a Workday employee. {% enddocs %}
 
 {% docs employed_five_years %} Tracks whether a worker was employed at least five years. {% enddocs %}
 
@@ -475,17 +479,13 @@
 
 {% docs months_continuous_prior_employment %} Number of months of continuous prior employment. {% enddocs %}
 
-{% docs most_recent_level %} The most recent level of the worker. {% enddocs %}
+{% docs position_location %} The position location of the employee. {% enddocs %}
 
-{% docs most_recent_location %} The most recent location of the worker. {% enddocs %}
+{% docs position_effective_date %} The position effective date for the employee.  {% enddocs %}
 
-{% docs most_recent_position_effective_date %} The most recent position effective date for the employee.  {% enddocs %}
+{% docs position_end_date %} The position end date for this employee. {% enddocs %}
 
-{% docs most_recent_position_end_date %} The most recent position end date for the employee. {% enddocs %}
-
-{% docs most_recent_position_start_date %} The most recent position start date for the employee. {% enddocs %} 
-
-{% docs most_recent_position_type %} The most recent position type of the worker. {% enddocs %}
+{% docs position_start_date %} The position start date for this employee. {% enddocs %} 
 
 {% docs multiple_child_indicator %} Indicator for multiple children. {% enddocs %}
 

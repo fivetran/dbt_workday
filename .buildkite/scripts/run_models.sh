@@ -19,7 +19,6 @@ dbt deps
 dbt seed --target "$db" --full-refresh
 dbt run --target "$db" --full-refresh
 dbt test --target "$db"
-dbt run --target "$db"
-dbt test --target "$db"
-
+dbt run --vars '{employee_history_enabled: true}' --target "$db" 
+dbt test --vars '{employee_history_enabled: true}' --target "$db"
 dbt run-operation fivetran_utils.drop_schemas_automation --target "$db"

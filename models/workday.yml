@@ -3,17 +3,20 @@ version: 2
 models:
   - name: workday__employee_overview
     description: '{{ doc("workday__employee_overview") }}'
-    tests:
-      - dbt_utils.unique_combination_of_columns:
-          combination_of_columns:
-            - source_relation
-            - worker_id
-
     columns:
+      - name: employee_id
+        description: '{{ doc("employee_id") }}'
+        tests:
+          - unique
+          - not_null
+
       - name: worker_id
         description: '{{ doc("worker_id") }}'
         tests:
           - not_null
+
+      - name: position_id
+        description: '{{ doc("position_id") }}' 
 
       - name: source_relation
         description: '{{ doc("source_relation") }}'
@@ -39,8 +42,8 @@ models:
       - name: departure_date
         description: '{{ doc("departure_date") }}' 
 
-      - name: days_of_employment
-        description: '{{ doc("days_of_employment") }}' 
+      - name: days_as_worker
+        description: '{{ doc("days_as_worker") }}' 
 
       - name: is_terminated
         description: '{{ doc("is_terminated") }}' 
@@ -87,6 +90,15 @@ models:
       - name: date_of_birth
         description: '{{ doc("date_of_birth") }}' 
 
+      - name: days_as_worker
+        description: '{{ doc("days_as_worker") }}' 
+
+      - name: employee_type
+        description: '{{ doc("employee_type") }}' 
+
+      - name: management_level_code
+        description: '{{ doc("management_level_code") }}' 
+
       - name: gender
         description: '{{ doc("gender") }}' 
 
@@ -108,47 +120,29 @@ models:
       - name: military_status
         description: '{{ doc("military_status") }}' 
 
-      - name: position_id
-        description: '{{ doc("position_id") }}' 
-
       - name: business_title
         description: '{{ doc("business_title") }}' 
 
       - name: job_profile_id
         description: '{{ doc("job_profile_id") }}' 
-      
-      - name: most_recent_position_type
-        description: '{{ doc("most_recent_position_type") }}' 
-
-      - name: most_recent_location
-        description: '{{ doc("most_recent_location") }}' 
-
-      - name: most_recent_level
-        description: '{{ doc("most_recent_level") }}' 
 
       - name: fte_percent
         description: '{{ doc("fte_percent") }}' 
 
-      - name: days_at_position
-        description: '{{ doc("days_at_position") }}' 
+      - name: position_start_date
+        description: '{{ doc("position_start_date") }}' 
 
-      - name: most_recent_position_start_date
-        description: '{{ doc("most_recent_position_start_date") }}' 
-      
-      - name: most_recent_position_end_date
-        description: '{{ doc("most_recent_position_end_date") }}' 
+      - name: position_end_date
+        description: '{{ doc("position_end_date") }}' 
 
-      - name: most_recent_position_effective_date
-        description: '{{ doc("most_recent_position_effective_date") }}' 
+      - name: position_effective_date
+        description: '{{ doc("position_effective_date") }}'
 
-      - name: worker_positions
-        description: '{{ doc("worker_positions") }}'
+      - name: position_location
+        description: '{{ doc("position_location") }}'  
 
-      - name: worker_levels
-        description: '{{ doc("worker_levels") }}' 
-
-      - name: position_days
-        description: '{{ doc("position_days") }}' 
+      - name: days_employed
+        description: '{{ doc("days_employed") }}' 
 
       - name: is_employed_one_year
         description: '{{ doc("employed_one_year") }}' 

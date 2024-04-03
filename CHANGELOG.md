@@ -1,3 +1,60 @@
+# dbt_workday v0.2.0
+Lots of major updates! [PR #5](https://github.com/fivetran/dbt_workday/pull/5) includes the following changes:
+
+## 🚨 Breaking Changes 🚨
+- We are now materializing staging models as ephemeral rather than views, as they are mostly redundant with the source tables and are primarily designed for preparing models for final transformation. Previous staging views will no longer be used and will be considered stale.
+
+## 🔑 New Primary Key 🔑 
+- Created a surrogate key `employee_id` in `workday__employee_overview` that combines `worker_id`, `source_relation`, `position_id`, and `position_start_date`. This accounts for edge cases like when:
+  - A worker can hold multiple positions concurrently.
+  - A position being held by multiple workers concurrently.
+  - A worker being rehired for the same position.
+
+## 🚀 Feature Updates 🚀 
+- We have added three end models in the [`models/workday_history`](https://github.com/fivetran/dbt_workday/tree/main/models/workday_history) folder [thanks to support from Fivetran's history mode feature](https://fivetran.com/docs/core-concepts/sync-modes/history-mode). These models provide historical daily data looks into crucial worker/employee Workday models, as well as allowing users to assess monthly summary metrics. These end models include:
+
+  - `workday__employee_daily_history`: Each record is a daily record in an employee, starting with its first active date and updating up toward either the current date (if still active) or its last active date. This will allow customers to track the daily history of their employees from when they started.
+
+  - `workday__monthly_summary`: Each record is a month, aggregated from the last day of each month of the employee daily history. This captures monthly metrics of workers, such as average salary, churned and retained employees, etc.
+
+  - `workday_worker_position_org_daily_history`: Each record is a daily record for a worker/position/organization combination, starting with its first active date and updating up toward either the current date (if still active) or its last active date. This will allow customers to tie in organizations to employees via other organization models (such as `workday__organization_overview`) more easily in their warehouses.
+
+- We have added staging history mode models in the [`models/workday_history/staging`](https://github.com/fivetran/dbt_workday/tree/main/models/workday_history/staging) folder.  This allows customers to utilize the Fivetran history mode feature, which records every version of each record in the source table from the moment this mode is activated in the equivalent tables. 
+
+- These staging models include:
+
+  - `stg_workday__personal_information_history`: Containing historical records of a worker's personal information.
+  - `stg_workday__worker_history`: Containing historical records of a worker's history.
+  - `stg_workday__worker_position_history`: Containing historical records of a worker's position history.
+  - `stg_workday__worker_position_organization_history`: Containing historical records of a worker's position and organization history.
+
+- We have then utilized the `workday__employee_daily_history` model in the [`models/workday_history`](https://github.com/fivetran/dbt_workday/tree/main/models/workday_history) folder [based off of Fivetran's history mode feature](https://fivetran.com/docs/core-concepts/sync-modes/history-mode), pulling from Workday HCM source models you can view in the [`models/workday_history/staging`](https://github.com/fivetran/dbt_workday/tree/main/models/workday_history/staging) folder.
+
+- We have kept the `stg_workday__worker_position_organization_history` model separate, as organizational data is too flexible in Workday to effectively join in the majority of data. We leave it to the customer to use their best judgement in joining this data into other end models in their own warehouse. [See the DECISIONLOG for more details](https://github.com/fivetran/dbt_workday/blob/main/DECISIONLOG.md).
+
+- These models are disabled by default due to their size, so you will need to set the below variable configurations for each of the individual models you want to utilize in your `dbt_project.yml`.
+
+```yml
+vars:
+   employee_history_enabled: true   
+```
+
+- Users can set a custom `employee_history_start_date` filter to narrow down the number of historical records they bring into your staging and end models. By default, the package will use the minimum `_fivetran_start` date to generate the start date for the final daily history models. This default may be overwritten to your liking by leveraging the below variable.
+
+```yml 
+vars:
+    employee_history_start_date: 'YYYY-MM-DD' # The first `_fivetran_start` date you'd like to filter data on in all your history models.
+```
+
+- We have also added the `workday__monthly_summary` model in the [`models/workday_history`](https://github.com/fivetran/dbt_workday/tree/main/models/workday_history) folder. This table aggregates high-level monthly metrics to track changes over time to overall employee data for a customer. 
+
+- We have chosen not to implement incremental logic in the history models due to the future-facing updating of Workday HCM transactions beyond current daily updates. [See the DECISIONLOG](https://github.com/fivetran/dbt_workday/blob/main/DECISIONLOG.md) for more details.
+
+- Workday HCM History Mode models can contain a multitude of rows if you bring in all historical data, so we've introduced the flexibility to set first date filters to bring in only the historical data you need. [More details can be found in the README](https://github.com/fivetran/dbt_workday/blob/main/README.md#filter-your-workday-hcm-history-mode-models).
+
+## 🚘 Under the Hood 🚘
+- Created `int_workday__worker_employee_enhanced` model to simplify end model processing in the `workday__employee_overview`, which is now focused on generating the surrogate key. 
+
 # dbt_workday v0.1.1
 
 [PR #4](https://github.com/fivetran/dbt_workday/pull/4) contains the following updates:

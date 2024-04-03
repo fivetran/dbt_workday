@@ -1,26 +1,33 @@
-with int_worker_base as (
-
-    select * 
-    from {{ ref('int_workday__worker_details') }} 
-),
-
-int_worker_personal_details as (
-
-    select * 
-    from {{ ref('int_workday__personal_details') }} 
-),
-
-
-int_worker_position_enriched as (
-
-    select * 
-    from {{ ref('int_workday__worker_position_enriched') }} 
-), 
-
-worker_employee_enhanced as (
-
+with employee_surrogate_key as (
+    
     select 
-        int_worker_base.*,
+        {{ dbt_utils.generate_surrogate_key(['worker_id', 'source_relation', 'position_id', 'position_start_date']) }} as employee_id,
+        worker_id,
+        source_relation,
+        position_id,
+        position_start_date,
+        worker_code,
+        user_id,
+        universal_id,
+        is_user_active,
+        is_employed,
+        hire_date,
+        departure_date,    
+        days_as_worker,
+        is_terminated,
+        primary_termination_category,
+        primary_termination_reason,
+        is_regrettable_termination, 
+        compensation_effective_date,
+        employee_compensation_frequency,
+        annual_currency_summary_currency,
+        annual_currency_summary_total_base_pay,
+        annual_currency_summary_primary_compensation_basis,
+        annual_summary_currency,
+        annual_summary_total_base_pay,
+        annual_summary_primary_compensation_basis,
+        compensation_grade_id,
+        compensation_grade_profile_id
         first_name,
         last_name,
         date_of_birth,
@@ -29,68 +36,27 @@ worker_employee_enhanced as (
         email_address,
         ethnicity_codes,
         military_status,
-        position_id,
         business_title,
         job_profile_id,
-        most_recent_position_type,
-        most_recent_location,
-        most_recent_level,
+        employee_type,
+        position_location,
+        management_level_code,
         fte_percent,
-        days_at_position,
-        most_recent_position_start_date,
-        most_recent_position_end_date,
-        most_recent_position_effective_date,
-        worker_positions,
-        worker_levels,
-        position_days,
-        case when days_of_employment >= 365 
-            then true 
-            else false 
-        end as is_employed_one_year,
-        case when days_of_employment >= 365*5 
-            then true 
-            else false 
-        end as is_employed_five_years,
-        case when days_of_employment >= 365*10 
-            then true 
-            else false 
-        end as is_employed_ten_years,
-        case when days_of_employment >= 365*20 
-            then true 
-            else false 
-        end as is_employed_twenty_years,
-        case when days_of_employment >= 365*30 
-            then true 
-            else false 
-        end as is_employed_thirty_years,
-        case when days_of_employment >= 365 and is_user_active 
-            then true 
-            else false 
-        end as is_current_employee_one_year,
-        case when days_of_employment >= 365*5 and is_user_active
-            then true 
-            else false 
-        end as is_current_employee_five_years,
-        case when days_of_employment >= 365*10 and is_user_active 
-            then true 
-            else false 
-        end as is_current_employee_ten_years,
-        case when days_of_employment >= 365*20 and is_user_active 
-            then true 
-            else false 
-        end as is_current_employee_twenty_years,
-        case when days_of_employment >= 365*30 and is_user_active 
-            then true 
-            else false 
-        end as is_current_employee_thirty_years
-    from int_worker_base
-    left join int_worker_personal_details 
-        on int_worker_base.worker_id = int_worker_personal_details.worker_id
-        and int_worker_base.source_relation = int_worker_personal_details.source_relation
-    left join int_worker_position_enriched
-        on int_worker_base.worker_id = int_worker_position_enriched.worker_id
-        and int_worker_base.source_relation = int_worker_position_enriched.source_relation
+        position_end_date,
+        position_effective_date,
+        days_employed,
+        is_employed_one_year,
+        is_employed_five_years,
+        is_employed_ten_years,
+        is_employed_twenty_years,
+        is_employed_thirty_years,
+        is_current_employee_one_year,
+        is_current_employee_five_years,
+        is_current_employee_ten_years,
+        is_current_employee_twenty_years,
+        is_current_employee_thirty_years
+    from {{ ref('int_workday__worker_employee_enhanced') }} 
 )
 
-select *
-from worker_employee_enhanced
+select * 
+from employee_surrogate_key
