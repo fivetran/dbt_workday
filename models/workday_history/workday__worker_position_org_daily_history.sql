@@ -24,9 +24,9 @@
     {% set last_date = run_query(first_last_date_query).columns[1][0]|string %}
 
 {# If only compiling, creates range going back 1 year #}
-{% else %} 
-    {% set start_date = dbt.dateadd("year", "-2", "current_date") %} -- Arbitrarily picked. Choose a more appropriate default if necessary.
-    {% set last_date = dbt.dateadd("year", "-1", "current_date") %}
+{% else %}
+    {% set start_date = dbt.dateadd("year", "-1", "current_date") %} -- One year in the past for first date
+    {% set last_date = dbt.dateadd("day", "-1", "current_date") %} -- Yesterday as last date
 {% endif %}
 
 with spine as (

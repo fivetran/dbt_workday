@@ -1,4 +1,9 @@
 # dbt_workday v0.2.0
+Lots of major updates! [PR #5](https://github.com/fivetran/dbt_workday/pull/5) includes the following changes:
+
+## 🚨 Breaking Changes 🚨
+- We are now materializing staging models as ephemeral rather than views, as they are mostly redundant with the source tables and are primarily designed for preparing models for final transformation. Previous staging views will no longer be used and will be considered stale.
+
 ## 🔑 New Primary Key 🔑 
 - Created a surrogate key `employee_id` in `workday__employee_overview` that combines `worker_id`, `source_relation`, `position_id`, and `position_start_date`. This accounts for edge cases like when:
   - A worker can hold multiple positions concurrently.
