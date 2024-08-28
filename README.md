@@ -21,8 +21,8 @@ The main focus of the package is to transform the core object tables into analyt
 - Materializes [Workday HCM staging tables](https://fivetran.github.io/dbt_workday/#!/overview/workday_source/models/?g_v=1) which leverage data in the format described by [this ERD](https://fivetran.com/docs/applications/workday-hcm/#schemainformation). These staging tables clean, test, and prepare your Workday data from [Fivetran's connector](https://fivetran.com/docs/applications/workday-hcm) for analysis by doing the following:
 - Name columns for consistency across all packages and for easier analysis
       - Primary keys are renamed from `id` to `<table name>_id`.  
-- Adds column-level testing where applicable. For example, all primary keys are tested for uniqueness and non-null values.
-- Provides insight into your Workday HCM data across the following grains:
+  - Adds column-level testing where applicable. For example, all primary keys are tested for uniqueness and non-null values.
+  - Provides insight into your Workday HCM data across the following grains:
     - Employee, job, organization, position.
 - Gather daily historical records of employees.
 
@@ -30,11 +30,11 @@ This package generates a comprehensive data dictionary of your Workday HCM data 
 
 > This package does not apply freshness tests to source data due to the variability of survey cadences.
 
-<!--section="workday_model"-->
-The following table provides a detailed list of all models materialized within this package by default.
-> TIP: See more details about these models in the package's [dbt docs site](https://fivetran.github.io/dbt_workday/#!/overview/workday).
+<!--section="workday_transformation_model"-->
+The following table provides a detailed list of all tables materialized within this package by default.
+> TIP: See more details about these tables in the package's [dbt docs site](https://fivetran.github.io/dbt_workday/#!/overview/workday).
 
-| **model**                 |    **description**             | Available in Quickstart?
+| **Table**                 |    **Description**             | Available in Quickstart?
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------|------------------------------
 | [workday__employee_overview](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__employee_overview)  | Each record represents an employee with enriched personal information and the positions they hold. This helps measure employee demographic and geographical distribution, overall retention and turnover, and compensation analysis of their employees. |  Yes
 [workday__job_overview](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__job_overview)  | Each record represents a job with enriched details on job profiles and job families. This allows users to understand recruitment patterns and details within a job and job groupings.  | Yes
