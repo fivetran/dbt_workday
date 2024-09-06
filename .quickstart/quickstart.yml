@@ -8,3 +8,10 @@ destination_configurations:
     dispatch:
       - macro_namespace: dbt_utils
         search_order: [ 'spark_utils', 'dbt_utils' ]
+
+public_models: [
+  "workday__employee_overview",
+  "workday__job_overview",
+  "workday__position_overview",
+  "workday__organization_overview"
+]
