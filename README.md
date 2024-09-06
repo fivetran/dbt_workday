@@ -17,7 +17,6 @@
 This package models Workday HCM data from [Fivetran's connector](https://fivetran.com/docs/applications/workday-hcm). It uses data in the format described by [this ERD](https://fivetran.com/docs/applications/workday-hcm#schemainformation).
 
 The main focus of the package is to transform the core object tables into analytics-ready models, including:
-<!--section="workday_model"-->
 - Materializes [Workday HCM staging tables](https://fivetran.github.io/dbt_workday/#!/overview/workday_source/models/?g_v=1) which leverage data in the format described by [this ERD](https://fivetran.com/docs/applications/workday-hcm/#schemainformation). These staging tables clean, test, and prepare your Workday data from [Fivetran's connector](https://fivetran.com/docs/applications/workday-hcm) for analysis by doing the following:
 - Name columns for consistency across all packages and for easier analysis
       - Primary keys are renamed from `id` to `<table name>_id`.  
