@@ -3,8 +3,9 @@
 
 ## Bug Fixes
 - We have modified the logic in our `workday__monthly_summary` to segment out inactive employees within our monthly employee and worker active metrics.
-  - Added an `is_active` filter to account for employees within our CTEs who are not active at the end of a month to remove them from active employee and worker metrics, particularly all `active_*` and `avg_*` fields. 
-  - Created active flag fields, to account for employees that move between active and inactive states, so that `avg_days_as_employee` and `avg_days_as_worker` are properly calculated.
+  - Now utilize the `is_active` filter to account for employees who are active at the end of a month. We then filter them into active employee and worker metrics, particularly all `active_*` and `avg_*` fields. 
+  - This new logic should now account for employees that move between active and inactive states while still being employed, so that `avg_days_as_employee` and `avg_days_as_worker` are properly calculated.
+  - Removed existing conditions for active metrics as they only handled a subset of employee/worker cases, whereas `is_active` appears to provide more comprehensive coverage.
 
 ## Under The Hood
 - Added consistency and integrity tests within integration tests for `workday__monthly_summary` and `workday__employee_daily_history` to ensure proper validation of model changes. 
