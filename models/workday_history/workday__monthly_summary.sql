@@ -26,20 +26,6 @@ end_of_month_history as (
     where recent_dom_row = 1
 ),
 
-months_employment_metrics as (
-
-    select *,
-        case when termination_date is null
-            then {{ dbt.datediff("hire_date", "current_date", "day") }} 
-            else {{ dbt.datediff("hire_date", "termination_date", "day") }}
-        end as days_since_becoming_worker,
-        case when position_end_date is null
-            then {{ dbt.datediff('position_start_date', 'current_date', 'day') }}
-            else {{ dbt.datediff('position_start_date', 'position_end_date', 'day') }}
-        end as days_since_becoming_employee
-    from end_of_month_history
-),
-
 monthly_employee_metrics as (
 
     select 
