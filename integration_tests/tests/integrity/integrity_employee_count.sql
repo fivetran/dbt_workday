@@ -21,17 +21,6 @@ employee_daily_history as (
     from {{ ref('workday__employee_daily_history') }}
 ),
 
-
---to segment out workers who did not have a start date prior to the spine cutoff
-worker_last_start_date as (
-
-    select worker_id,  
-        source_relation,
-        cast(max(_fivetran_start) as date) as max_start_date
-    from worker_history
-    group by 1, 2
-),
-
 employee_source as (
 
     select
@@ -39,16 +28,15 @@ employee_source as (
         worker_history.source_relation,
         worker_position_history.position_id,
         worker_position_history.position_start_date
-    from worker_history 
-    join worker_last_start_date 
-        on worker_history.worker_id = worker_last_start_date.worker_id
-        and cast('{{ var('employee_history_start_date','2005-03-01') }}' as date) >= worker_last_start_date.max_start_date
+    from worker_history  
     left join worker_position_history 
         on worker_history.worker_id = worker_position_history.worker_id
         and worker_history.source_relation = worker_position_history.source_relation
         and worker_history._fivetran_start <= worker_position_history._fivetran_end
         and worker_history._fivetran_end >= worker_position_history._fivetran_start
     group by 1, 2, 3, 4 
+    --to segment out workers who did not have a start date prior to the spine cutoff
+    having cast(max(worker_history._fivetran_end) as date) >= cast('{{ var('employee_history_start_date','2005-03-01') }}' as date) 
 ),
 
 employee_end as (
