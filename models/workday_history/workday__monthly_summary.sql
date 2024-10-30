@@ -4,9 +4,9 @@ with row_month_partition as (
 
     select *, 
         cast({{ dbt.date_trunc("month", "date_day") }} as date) as date_month,
-        row_number() over (partition by employee_id, source_relation, extract(year from date_day), extract(month from date_day) order by date_day desc) AS recent_dom_row,
-        sum(case when is_active = true then 1 else 0 end) over (partition by employee_id, source_relation order by date_day asc rows unbounded preceding) AS days_employee_active,
-        sum(case when is_active = true then 1 else 0 end) over (partition by worker_id, source_relation order by date_day asc rows unbounded preceding) AS days_worker_active
+        row_number() over (partition by employee_id, source_relation, extract(year from date_day), extract(month from date_day) order by date_day desc) as recent_dom_row,
+        sum(case when is_active = true then 1 else 0 end) over (partition by employee_id, source_relation order by date_day asc rows unbounded preceding) as days_employee_active,
+        sum(case when is_active = true then 1 else 0 end) over (partition by worker_id, source_relation order by date_day asc rows unbounded preceding) as days_worker_active
     from {{ ref('workday__employee_daily_history') }}
 ), 
 
