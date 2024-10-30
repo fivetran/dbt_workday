@@ -4,9 +4,11 @@ with row_month_partition as (
 
     select *, 
         cast({{ dbt.date_trunc("month", "date_day") }} as date) as date_month,
-        row_number() over (partition by employee_id, source_relation, extract(year from date_day), extract(month from date_day) order by date_day desc) AS recent_dom_row
+        row_number() over (partition by employee_id, source_relation, extract(year from date_day), extract(month from date_day) order by date_day desc) as recent_dom_row,
+        sum(case when is_active = true then 1 else 0 end) over (partition by employee_id, source_relation order by date_day asc rows unbounded preceding) as days_employee_active,
+        sum(case when is_active = true then 1 else 0 end) over (partition by worker_id, source_relation order by date_day asc rows unbounded preceding) as days_worker_active
     from {{ ref('workday__employee_daily_history') }}
-),
+), 
 
 end_of_month_history as (
     
@@ -14,20 +16,6 @@ end_of_month_history as (
         {{ dbt.current_timestamp() }} as current_date
     from row_month_partition
     where recent_dom_row = 1
-),
-
-months_employed as (
-
-    select *,
-        case when termination_date is null
-            then {{ dbt.datediff("hire_date", "current_date", "day") }}
-            else {{ dbt.datediff("hire_date", "termination_date", "day") }}
-        end as days_as_worker,
-        case when position_end_date is null
-            then {{ dbt.datediff('position_start_date', 'current_date', 'day') }}
-            else {{ dbt.datediff('position_start_date', 'position_end_date', 'day') }}
-        end as days_as_employee
-    from end_of_month_history
 ),
 
 monthly_employee_metrics as (
@@ -40,7 +28,7 @@ monthly_employee_metrics as (
         sum(case when (date_month = cast({{ dbt.date_trunc("month", "termination_date") }} as date) and lower(primary_termination_category) = 'terminate_employee_voluntary') then 1 else 0 end) as churned_voluntary_employees,
         sum(case when (date_month = cast({{ dbt.date_trunc("month", "termination_date") }} as date) and lower(primary_termination_category) = 'terminate_employee_involuntary') then 1 else 0 end) as churned_involuntary_employees,
         sum(case when date_month = cast({{ dbt.date_trunc("month", "end_employment_date") }} as date) then 1 else 0 end) as churned_workers
-    from months_employed
+    from end_of_month_history
     group by 1, 2
 ),
 
@@ -55,11 +43,9 @@ monthly_active_employee_metrics as (
         avg(annual_currency_summary_primary_compensation_basis) as avg_employee_primary_compensation,
         avg(annual_currency_summary_total_base_pay) as avg_employee_base_pay,
         avg(annual_currency_summary_total_salary_and_allowances) as avg_employee_salary_and_allowances,
-        avg(days_as_employee) as avg_days_as_employee
-    from months_employed
-    where cast(date_month as date) >= cast({{ dbt.date_trunc("month", "position_effective_date") }} as date)
-        and (cast(date_month as date) <= cast({{ dbt.date_trunc("month", "end_employment_date") }} as date)
-            or end_employment_date is null)
+        avg(days_employee_active) as avg_days_as_employee
+    from end_of_month_history
+    where is_active = true
     group by 1, 2
 ),
 
@@ -71,11 +57,9 @@ monthly_active_worker_metrics as (
         avg(annual_currency_summary_primary_compensation_basis) as avg_worker_primary_compensation,
         avg(annual_currency_summary_total_base_pay) as avg_worker_base_pay,
         avg(annual_currency_summary_total_salary_and_allowances) as avg_worker_salary_and_allowances,
-        avg(days_as_worker) as avg_days_as_worker
-    from months_employed
-    where (cast(date_month as date) >= cast({{ dbt.date_trunc("month", "position_effective_date") }} as date)
-        and cast(date_month as date) <= cast({{ dbt.date_trunc("month", "end_employment_date") }} as date))
-            or end_employment_date is null
+        avg(days_worker_active) as avg_days_as_worker
+    from end_of_month_history
+    where is_active = true
     group by 1, 2
 ),
 
