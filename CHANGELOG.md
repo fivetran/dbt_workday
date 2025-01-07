@@ -1,3 +1,9 @@
+# dbt_workday version.version
+
+## Documentation
+- Added Quickstart model counts to README. ([#10](https://github.com/fivetran/dbt_workday/pull/10))
+- Corrected references to connectors and connections in the README. ([#10](https://github.com/fivetran/dbt_workday/pull/10))
+
 # dbt_workday v0.3.0
 [PR #8](https://github.com/fivetran/dbt_workday/pull/8) includes the following changes:
 
