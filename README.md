@@ -43,6 +43,8 @@ The following table provides a detailed list of all tables materialized within t
 | [workday__monthly_summary](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__monthly_summary)  | Each record is a month, aggregated from the last day of each month of the employee daily history. This captures monthly aggregated metrics to track trends like employee additions and churns, salary movements, demographic changes, etc.    | No
 | [workday__worker_position_org_daily_history](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__worker_position_org_daily_history)  | Each record is a daily record for a worker/position/organization combination, starting with its first active date and updating up toward either the current date (if still active) or its last active date. This will allow customers to tie in organizations to employees via other organization tables (such as `workday__organization_overview`) more easily in their warehouses. | No
 
+### Materialized Models
+Each Quickstart transformation job run materializes 29 models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
 <!--section-end-->
 
 ## How do I use the dbt package?
@@ -50,7 +52,7 @@ The following table provides a detailed list of all tables materialized within t
 ### Step 1: Prerequisites
 To use this dbt package, you must have the following:
 
-- At least one Fivetran Workday HCM connector syncing data into your destination.
+- At least one Fivetran Workday HCM connection syncing data into your destination.
 - A **BigQuery**, **Snowflake**, **Redshift**, **Databricks**, or **PostgreSQL** destination.
 
 #### Databricks dispatch configuration
@@ -71,7 +73,7 @@ packages:
 ```
 
 ### Step 3: Define database and schema variables
-#### Single connector
+#### Single connection
 By default, this package runs using your destination and the `workday` schema. If this is not where your Workday HCM data is (for example, if your Workday HCM schema is named `workday_fivetran`), add the following configuration to your root `dbt_project.yml` file:
 
 ```yml
@@ -81,8 +83,8 @@ vars:
     workday_database: your_database_name
     workday_schema: your_schema_name
 ```
-#### Union multiple connectors
-If you have multiple Workday HCM connectors in Fivetran and would like to use this package on all of them simultaneously, we have provided functionality to do so. The package will union all of the data together and pass the unioned table into the transformations. You will be able to see which source it came from in the `source_relation` column of each model. To use this functionality, you will need to set either the `workday_union_schemas` OR `workday_union_databases` variables (cannot do both) in your root `dbt_project.yml` file:
+#### Union multiple connections
+If you have multiple Workday HCM connections in Fivetran and would like to use this package on all of them simultaneously, we have provided functionality to do so. The package will union all of the data together and pass the unioned table into the transformations. You will be able to see which source it came from in the `source_relation` column of each model. To use this functionality, you will need to set either the `workday_union_schemas` OR `workday_union_databases` variables (cannot do both) in your root `dbt_project.yml` file:
 
 ```yml
 # dbt_project.yml
@@ -98,7 +100,7 @@ To connect your multiple schema/database sources to the package models, follow t
 
 ### (Optional) Step 4: Utilizing Workday HCM History Mode
 
-If you have History Mode enabled for your Workday HCM connector, we now include support for the worker, worker position, worker position organization, and personal information tables directly. You can view these files in the [`staging`](https://github.com/fivetran/dbt_workday/blob/main/models/workday_history/staging) folder. This staging data then flows into the employee daily history model, which in turn populates the monthly summary model. This will allow you access to your historical data for these tables for the most accurate record of your data over time.
+If you have History Mode enabled for your Workday HCM connection, we now include support for the worker, worker position, worker position organization, and personal information tables directly. You can view these files in the [`staging`](https://github.com/fivetran/dbt_workday/blob/main/models/workday_history/staging) folder. This staging data then flows into the employee daily history model, which in turn populates the monthly summary model. This will allow you access to your historical data for these tables for the most accurate record of your data over time.
 
 #### Enabling Workday HCM History Mode Models
 The History Mode models can get quite expansive since it will take in **ALL** historical records, so we've disabled them by default. You can enable the history models you'd like to utilize by adding the below variable configurations within your `dbt_project.yml` file for the equivalent models.
