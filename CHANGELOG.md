@@ -1,6 +1,9 @@
 # dbt_workday v0.4.0
 
-**2 total changes • 1 possible breaking change**
+## Schema Changes and Bug Fixes
+[PR #12](https://github.com/fivetran/dbt_workday/pull/12) contains the following updates:
+
+**2 total changes • 1 possible breaking change** 
 
 | Data Model                                    | Change Type | Old Name | New Name                                  | Notes                                                             |
 |---------------------------------------------------|-------------|----------|-------------------------------------------|-------------------------------------------------------------------|
