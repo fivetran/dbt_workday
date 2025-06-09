@@ -27,7 +27,7 @@ with employee_surrogate_key as (
         annual_summary_total_base_pay,
         annual_summary_primary_compensation_basis,
         compensation_grade_id,
-        compensation_grade_profile_id
+        compensation_grade_profile_id,
         first_name,
         last_name,
         date_of_birth,
