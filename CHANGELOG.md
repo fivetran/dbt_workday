@@ -7,7 +7,7 @@
 
 | Data Model                                    | Change Type | Old Name | New Name                                  | Notes                                                             |
 |---------------------------------------------------|-------------|----------|-------------------------------------------|-------------------------------------------------------------------|
-| [workday__employee_overview](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__employee_overview)        | New Field   | `first_name ` | `compensation_grade_profile_id` |  Fixed a bug where `compensation_grade_profile_id` was incorrectly included in the `first_name` field. This update introduces `compensation_grade_profile_id` as a distinct field. This results in a schema change. |
+| [workday__employee_overview](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__employee_overview)        | New Field   | `first_name ` | `compensation_grade_profile_id` |  Fixed a bug where `compensation_grade_profile_id` was incorrectly selected and aliased as `first_name`. This update introduces `compensation_grade_profile_id` as a distinct field. This results in a schema change. |
 | [workday__employee_overview](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__employee_overview)        | Corrected Field   | `first_name ` | `first_name` |  Resolved an issue where `first_name` was incorrectly displaying the `compensation_grade_profile_id` value. The field now returns the correct `first_name`. |
 
 ## Documentation
