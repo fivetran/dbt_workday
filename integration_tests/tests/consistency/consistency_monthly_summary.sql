@@ -1,6 +1,6 @@
 {{ config(
     tags="fivetran_validations",
-    enabled=var('fivetran_validation_tests_enabled', false)
+    enabled=var('fivetran_validation_tests_enabled', false) and var('employee_history_enabled', false)
 ) }}
 
 -- this test ensures the workday__monthly_summary end model matches the prior version.

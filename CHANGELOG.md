@@ -1,8 +1,22 @@
-# dbt_workday version.version
+# dbt_workday v0.4.0
+
+## Schema Changes and Bug Fixes
+[PR #12](https://github.com/fivetran/dbt_workday/pull/12) contains the following updates:
+
+**2 total changes • 1 possible breaking change** 
+
+| Data Model                                    | Change Type | Old Name | New Name                                  | Notes                                                             |
+|---------------------------------------------------|-------------|----------|-------------------------------------------|-------------------------------------------------------------------|
+| [workday__employee_overview](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__employee_overview)        | New Field   | `first_name ` | `compensation_grade_profile_id` |  Fixed a bug where `compensation_grade_profile_id` was incorrectly selected and aliased as `first_name`. This update introduces `compensation_grade_profile_id` as a distinct field. This results in a schema change. |
+| [workday__employee_overview](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__employee_overview)        | Corrected Field   | `first_name ` | `first_name` |  Resolved an issue where `first_name` was incorrectly displaying the `compensation_grade_profile_id` value. The field now returns the correct `first_name`. |
 
 ## Documentation
 - Added Quickstart model counts to README. ([#10](https://github.com/fivetran/dbt_workday/pull/10))
 - Corrected references to connectors and connections in the README. ([#10](https://github.com/fivetran/dbt_workday/pull/10))
+
+## Under the Hood
+- Introduced consistency test for `workday__employee_overview` end model.
+- Updated seed data to ensure proper test results.
 
 # dbt_workday v0.3.0
 [PR #8](https://github.com/fivetran/dbt_workday/pull/8) includes the following changes:
