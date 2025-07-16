@@ -39,6 +39,8 @@ models:
   +schema: "workday_{{ var('directed_schema','dev') }}"
 
 seeds:
+  +docs:
+    show: False
   +quote_columns: "{{ true if target.type in ('redshift', 'postgres') else false }}"
   +column_types:
     _fivetran_synced: timestamp
@@ -83,3 +85,6 @@ seeds:
       default_weekly_hours: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
       start_date: "timestamp"
       end_date: "timestamp"
+flags:
+  send_anonymous_usage_stats: False
+  use_colors: True
