@@ -1,3 +1,10 @@
+# dbt_workday v0.6.0
+
+[PR #17](https://github.com/fivetran/dbt_workday/pull/17) includes the following updates:
+
+## Features
+  - Increases the required dbt version upper limit to v3.0.0
+
 # dbt_workday v0.5.0
 [PR #15](https://github.com/fivetran/dbt_workday/pull/15) includes the following updates:
 
