@@ -1,13 +1,52 @@
+{%- set use_new_schema = var('workday__using_personal_info_v2_schema', false) -%}
+
+{% if use_new_schema %}
+with worker_personal_common_data as (
+
+    select
+        worker_id,
+        source_relation,
+        date_of_birth
+    from {{ ref('stg_workday__personal_information_common_data') }}
+),
+
+worker_personal_country_data as (
+
+    select
+        worker_id,
+        source_relation,
+        gender,
+        is_hispanic_or_latino
+    from {{ ref('stg_workday__country_personal_information_data') }}
+),
+
+worker_personal_info_data as (
+
+    select
+        worker_personal_common_data.worker_id,
+        worker_personal_common_data.source_relation,
+        worker_personal_common_data.date_of_birth,
+        worker_personal_country_data.gender,
+        worker_personal_country_data.is_hispanic_or_latino
+    from worker_personal_common_data
+    left join worker_personal_country_data
+        on worker_personal_common_data.worker_id = worker_personal_country_data.worker_id
+        and worker_personal_common_data.source_relation = worker_personal_country_data.source_relation
+),
+
+{% else %}
 with worker_personal_info_data as(
 
-    select 
-        worker_id, 
+    select
+        worker_id,
         source_relation,
         date_of_birth,
         gender,
         is_hispanic_or_latino
     from {{ ref('stg_workday__personal_information') }}
 ),
+
+{% endif %}
 
 worker_name as (
 

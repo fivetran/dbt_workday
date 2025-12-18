@@ -1,8 +1,8 @@
 {{
     fivetran_utils.union_data(
-        table_identifier='personal_information_ethnicity', 
-        database_variable='workday_database', 
-        schema_variable='workday_schema', 
+        table_identifier='personal_information_ethnicity_incoming' if var('workday__using_personal_information_ethnicity_incoming', workday.does_table_exist('personal_information_ethnicity_incoming')) else 'personal_information_ethnicity',
+        database_variable='workday_database',
+        schema_variable='workday_schema',
         default_database=target.database,
         default_schema='workday',
         default_variable='personal_information_ethnicity',

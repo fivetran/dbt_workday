@@ -73,7 +73,7 @@ Include the following Workday HCM package version in your `packages.yml` file:
 ```yml
 packages:
   - package: fivetran/workday
-    version: [">=0.6.0", "<0.7.0"] # we recommend using ranges to capture non-breaking changes automatically
+    version: [">=0.7.0", "<0.8.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
 
 ### Step 3: Define database and schema variables
@@ -101,6 +101,70 @@ vars:
 > NOTE: The native `source.yml` connection set up in the package will not function when the union schema/database feature is utilized. Although the data will be correctly combined, you will not observe the sources linked to the package models in the Directed Acyclic Graph (DAG). This happens because the package includes only one defined `source.yml`.
 
 To connect your multiple schema/database sources to the package models, follow the steps outlined in the [Union Data Defined Sources Configuration](https://github.com/fivetran/dbt_fivetran_utils/tree/releases/v0.4.latest#union_data-source) section of the Fivetran Utils documentation for the union_data macro. This will ensure a proper configuration and correct visualization of connections in the DAG.
+
+### (Optional) Step 3.5: Workday v42.2 API Schema Migration
+
+#### Overview
+Workday is migrating to v42.2 API with significant schema changes. Starting **January 5, 2025**, Fivetran Workday HCM connectors will begin syncing new tables with an "_INCOMING" suffix alongside existing tables during a transition period lasting until **April 6, 2026**. After the transition period, old tables will be renamed with a "_BACKUP_2026-04-06" suffix.
+
+This package automatically detects which tables are available in your warehouse and uses the appropriate tables. **No action is required in most cases.**
+
+#### Impacted Tables
+The following tables have new versions with "_INCOMING" suffix:
+- `MILITARY_SERVICE` → `MILITARY_SERVICE_INCOMING`
+- `PERSON_DISABILITY` → `PERSON_DISABILITY_INCOMING`
+- `PERSONAL_INFORMATION_ETHNICITY` → `PERSONAL_INFORMATION_ETHNICITY_INCOMING`
+- `RELATIVE_NAME` → `RELATIVE_NAME_INCOMING`
+
+Additionally, personal information fields have been split into new tables:
+- `PERSONAL_INFORMATION_COMMON_DATA` (contains date_of_birth and other common fields)
+- `COUNTRY_PERSONAL_INFORMATION_DATA` (contains gender, marital_status, hispanic_or_latino, and other country-specific fields)
+
+#### Automatic Table Detection
+By default, the package uses the `does_table_exist` macro to automatically detect which table version is available in your warehouse and uses the appropriate one. This ensures seamless operation during the transition period.
+
+#### Leveraging Legacy or Incoming Table Names
+If you need to override the automatic table detection behavior, you can set the following variables in your `dbt_project.yml`:
+
+```yml
+# dbt_project.yml
+
+vars:
+  # Control which _INCOMING tables to use (base model level)
+  # Force use of new _INCOMING tables (set to true)
+  workday__using_military_service_incoming: true
+  workday__using_person_disability_incoming: true
+  workday__using_personal_information_ethnicity_incoming: true
+  workday__using_relative_name_incoming: true
+
+  # OR force use of old legacy tables (set to false)
+  workday__using_military_service_incoming: false
+  workday__using_person_disability_incoming: false
+  workday__using_personal_information_ethnicity_incoming: false
+  workday__using_relative_name_incoming: false
+
+  # Control personal information schema version (intermediate model level)
+  # Enable new split personal information tables (common_data + country_data)
+  workday__using_personal_info_v2_schema: true  # Default: false
+```
+
+**When to use these variables:**
+
+**For _INCOMING table vars:**
+- **Leave unset (recommended)**: The package will automatically detect and use the correct table
+- **Set to `true`**: Force the package to use the new _INCOMING table (useful for testing before transition period ends)
+- **Set to `false`**: Force the package to use the old legacy table (useful if you need to temporarily use old tables)
+
+**For personal info schema var:**
+- **Leave unset or set to `false` (default)**: Uses original `PERSONAL_INFORMATION_HISTORY` table
+- **Set to `true`**: Uses new split tables (`PERSONAL_INFORMATION_COMMON_DATA` + `COUNTRY_PERSONAL_INFORMATION_DATA`)
+
+> **Note**: During the transition period (Jan 5, 2025 - Apr 6, 2026), both old and new tables will sync. After April 6, 2026, only the new tables will be available, and old tables will be renamed to *_BACKUP_2026-04-06.
+
+#### Migration Timeline
+- **Before January 5, 2025**: Old tables only
+- **January 5, 2025 - April 6, 2026**: Both old and new tables sync (transition period)
+- **After April 6, 2026**: New tables only; old tables renamed to *_BACKUP_2026-04-06
 
 ### (Optional) Step 4: Utilizing Workday HCM History Mode
 

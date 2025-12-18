@@ -711,6 +711,100 @@ sources:
           - name: status_begin_date
             description: '{{ doc("status_begin_date") }}'
 
+      - name: military_service_incoming
+        identifier: '{{ var("workday_military_service_incoming_identifier", "military_service_incoming") }}'
+        description: 'New Workday v42.2 API table for military service (available Jan 5, 2025 - Apr 6, 2026 transition period). Replaces MILITARY_SERVICE table. After Apr 6, 2026, old table will be renamed to MILITARY_SERVICE_BACKUP_2026-04-06.'
+        columns:
+          - name: index
+            description: Index field
+          - name: personal_info_system_id
+            description: Personal information system ID linking to worker
+          - name: _fivetran_deleted
+            description: Fivetran deletion marker
+          - name: _fivetran_synced
+            description: Fivetran last sync timestamp
+
+      - name: personal_information_common_data
+        identifier: '{{ var("workday_personal_information_common_data_identifier", "personal_information_common_data") }}'
+        description: 'New Workday v42.2 API table containing common personal information fields. Fields previously in PERSONAL_INFORMATION_HISTORY have been split into this table and COUNTRY_PERSONAL_INFORMATION_DATA.'
+        columns:
+          - name: id
+            description: Worker ID
+          - name: _fivetran_active
+            description: Fivetran active record indicator
+          - name: _fivetran_synced
+            description: Fivetran last sync timestamp
+          - name: _fivetran_start
+            description: Fivetran valid from timestamp
+          - name: _fivetran_end
+            description: Fivetran valid to timestamp
+          - name: date_of_birth
+            description: Worker date of birth
+          - name: date_of_death
+            description: Worker date of death
+
+      - name: country_personal_information_data
+        identifier: '{{ var("workday_country_personal_information_data_identifier", "country_personal_information_data") }}'
+        description: 'New Workday v42.2 API table containing country-specific personal information fields. Fields like gender, marital_status, and hispanic_or_latino moved here from PERSONAL_INFORMATION_HISTORY.'
+        columns:
+          - name: id
+            description: Worker ID
+          - name: _fivetran_active
+            description: Fivetran active record indicator
+          - name: _fivetran_synced
+            description: Fivetran last sync timestamp
+          - name: _fivetran_start
+            description: Fivetran valid from timestamp
+          - name: _fivetran_end
+            description: Fivetran valid to timestamp
+          - name: gender
+            description: Worker gender
+          - name: hispanic_or_latino
+            description: Hispanic or Latino indicator
+          - name: marital_status
+            description: Worker marital status
+          - name: marital_status_date
+            description: Date marital status was set
+
+      - name: personal_information_ethnicity_incoming
+        identifier: '{{ var("workday_personal_information_ethnicity_incoming_identifier", "personal_information_ethnicity_incoming") }}'
+        description: 'New Workday v42.2 API table for personal information ethnicity (available Jan 5, 2025 - Apr 6, 2026 transition period). Replaces PERSONAL_INFORMATION_ETHNICITY table. After Apr 6, 2026, old table will be renamed to PERSONAL_INFORMATION_ETHNICITY_BACKUP_2026-04-06.'
+        columns:
+          - name: index
+            description: Index field
+          - name: personal_info_system_id
+            description: Personal information system ID linking to worker
+          - name: _fivetran_deleted
+            description: Fivetran deletion marker
+          - name: _fivetran_synced
+            description: Fivetran last sync timestamp
+
+      - name: person_disability_incoming
+        identifier: '{{ var("workday_person_disability_incoming_identifier", "person_disability_incoming") }}'
+        description: 'New Workday v42.2 API table for person disability (available Jan 5, 2025 - Apr 6, 2026 transition period). Replaces PERSON_DISABILITY table. After Apr 6, 2026, old table will be renamed to PERSON_DISABILITY_BACKUP_2026-04-06.'
+        columns:
+          - name: index
+            description: Index field
+          - name: personal_info_system_id
+            description: Personal information system ID linking to worker
+          - name: _fivetran_deleted
+            description: Fivetran deletion marker
+          - name: _fivetran_synced
+            description: Fivetran last sync timestamp
+
+      - name: relative_name_incoming
+        identifier: '{{ var("workday_relative_name_incoming_identifier", "relative_name_incoming") }}'
+        description: 'New Workday v42.2 API table for relative names (available Jan 5, 2025 - Apr 6, 2026 transition period). Replaces RELATIVE_NAME table. After Apr 6, 2026, old table will be renamed to RELATIVE_NAME_BACKUP_2026-04-06.'
+        columns:
+          - name: index
+            description: Index field
+          - name: personal_info_system_id
+            description: Personal information system ID linking to worker
+          - name: _fivetran_deleted
+            description: Fivetran deletion marker
+          - name: _fivetran_synced
+            description: Fivetran last sync timestamp
+
       - name: person_contact_email_address
         identifier: '{{ var("workday_person_contact_email_address_identifier", "person_contact_email_address") }}'
         description: '{{ doc("person_contact_email_address") }}'
