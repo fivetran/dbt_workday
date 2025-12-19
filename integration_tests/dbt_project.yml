@@ -33,6 +33,22 @@ vars:
     workday_worker_leave_status_identifier: "workday_worker_leave_status_data"
     workday_worker_position_organization_history_identifier: "workday_worker_position_organization_history_data"
 
+    # New core tables (v42.2 split personal_information)
+    workday_personal_information_common_data_identifier: "workday_personal_information_common_data_data"
+    workday_country_personal_information_data_identifier: "workday_country_personal_information_data_data"
+
+    # Incoming tables (transition period: Jan 5, 2025 - Apr 6, 2026)
+    workday_military_service_incoming_identifier: "workday_military_service_incoming_data"
+    workday_personal_information_ethnicity_incoming_identifier: "workday_personal_information_ethnicity_incoming_data"
+    workday_person_disability_incoming_identifier: "workday_person_disability_incoming_data"
+    workday_relative_name_incoming_identifier: "workday_relative_name_incoming_data"
+
+    # New personal information child tables (v42.2)
+    workday_personal_information_gender_identity_identifier: "workday_personal_information_gender_identity_data"
+    workday_personal_information_pronoun_identifier: "workday_personal_information_pronoun_data"
+    workday_personal_information_sexual_orientation_identifier: "workday_personal_information_sexual_orientation_data"
+    workday_personal_information_sexual_orientation_and_gender_identity_identifier: "workday_personal_information_sexual_orientation_and_gender_identity_data"
+
     # employee_history_enabled: true  ## uncomment when generating docs/testing history models
     
 models:

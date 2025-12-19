@@ -1,0 +1,6 @@
+id,_fivetran_active,_fivetran_start,_fivetran_end,_fivetran_synced,additional_nationality,blood_type,citizenship_status,city_of_birth,city_of_birth_code,country_of_birth,country_region_of_birth,date_of_birth,date_of_death,last_medical_exam_date,last_medical_exam_valid_to,medical_exam_notes,primary_nationality,region_of_birth
+3aa5550b7fe348b98d7b5741afc65534,true,2000-01-01 00:00:00,9999-12-31 23:59:59,2023-10-30 05:37:46,,,"[""Citizen_by_Birth_Marshall_Islands""]",Bikini Bottom,,MH,,1983-10-24,,,,,MH,
+3aa5550b7fe348b98d7b5741afc65536,true,2000-01-01 00:00:00,9999-12-31 23:59:59,2023-10-30 05:37:46,,,"[""Citizen_by_Birth_United_States""]",Springfield,,USA,,1966-06-21,,,,,USA,
+aa9f3d767a7d101ce0f62a055bb21628,true,2000-01-01 00:00:00,9999-12-31 23:59:59,2023-10-30 05:40:20,,,"[""Citizen_United_States""]",Bedrock,,USA,,1000-07-22,,,,,USA,
+9d16e42ecde84c9087537fd5e7f303a2,true,2000-01-01 00:00:00,9999-12-31 23:59:59,2023-10-30 05:40:22,,,"[""Citizen_United_States""]",Westfield,,USA,,1889-01-28,,,,,USA,
+f57bf46a5f254ed48ed45b3228b57028,true,2000-01-01 00:00:00,9999-12-31 23:59:59,2023-10-30 05:38:35,,,"[""Citizen_United_Kingdom""]",London,,UK,,1990-08-05,,,,,UK,

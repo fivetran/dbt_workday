@@ -21,9 +21,10 @@
   - `workday__using_relative_name_incoming` - Force use of new or old RELATIVE_NAME table
 - Adds configuration variable for intermediate model level (avoids information schema queries for performance):
   - `workday__using_personal_info_v2_schema` - Enable new split personal information tables (default: `false`)
-- Creates new staging models for Workday v42.2 API tables:
-  - `stg_workday__personal_information_common_data` - Common personal information fields (date_of_birth, nationality, etc.)
-  - `stg_workday__country_personal_information_data` - Country-specific personal information fields (gender, marital_status, etc.)
+- Creates new staging models for Workday v42.2 API tables (10 total):
+  - Core split tables (2): `stg_workday__personal_information_common_data` (birth info, nationality), `stg_workday__country_personal_information_data` (gender, marital status, hukou)
+  - New tables for existing data (2): `stg_workday__person_disability`, `stg_workday__relative_name`
+  - New personal information child tables (4): `stg_workday__personal_information_gender_identity`, `stg_workday__personal_information_pronoun`, `stg_workday__personal_information_sexual_orientation`, `stg_workday__personal_information_sexual_orientation_and_gender_identity`
 
 ## Documentation
 - Added comprehensive "Workday v42.2 API Schema Migration" section to README explaining the migration timeline, impacted tables, automatic table detection, and configuration options.
@@ -35,10 +36,20 @@
 ## Under the Hood
 - Adds `does_table_exist` macro to dynamically detect table availability and enable automatic switching between old and new table naming conventions at base model level.
 - Updates base models (`stg_workday__military_service_base`, `stg_workday__personal_information_ethnicity_base`) with var override pattern: `table_identifier='new_table_incoming' if var('workday__using_new_table_incoming', workday.does_table_exist('new_table_incoming')) else 'new_table'`
-- Creates base models for new tables: `stg_workday__person_disability_base`, `stg_workday__relative_name_base`
+- Creates base models for new tables (6 total):
+  - `stg_workday__person_disability_base`, `stg_workday__relative_name_base`
+  - `stg_workday__personal_information_gender_identity_base`, `stg_workday__personal_information_pronoun_base`, `stg_workday__personal_information_sexual_orientation_base`, `stg_workday__personal_information_sexual_orientation_and_gender_identity_base`
 - Updates `int_workday__personal_details` with conditional logic using `workday__using_personal_info_v2_schema` var to support both old and new schemas
 - Updates `src_workday.yml` with source definitions for 6 new tables (2 core tables + 4 _INCOMING transition tables)
 - Adds `table_variables` section to `.quickstart/quickstart.yml` mapping configuration variables to their controlled tables
+- Adds 10 new source table variables to `dbt_project.yml` (6 new PERSONAL_INFORMATION split tables + 4 _INCOMING transition tables)
+- Creates 8 new `get_*_columns` macros following dbt_shopify dual-macro pattern (tables with _INCOMING versions + new personal information child tables)
+- Adds integration test seed files for all 10 new v42.2 tables:
+  - Core split tables (2): `workday_personal_information_common_data_data.csv`, `workday_country_personal_information_data_data.csv`
+  - _INCOMING transition tables (4): `workday_military_service_incoming_data.csv`, `workday_personal_information_ethnicity_incoming_data.csv`, `workday_person_disability_incoming_data.csv`, `workday_relative_name_incoming_data.csv`
+  - New personal information child tables (4): `workday_personal_information_gender_identity_data.csv`, `workday_personal_information_pronoun_data.csv`, `workday_personal_information_sexual_orientation_data.csv`, `workday_personal_information_sexual_orientation_and_gender_identity_data.csv`
+- Adds 10 identifier configurations for new tables in `integration_tests/dbt_project.yml`
+- Adds "Performance Optimization" section to README documenting cost implications of automatic table detection and how to eliminate information schema queries post-migration
 
 # dbt_workday v0.6.0
 [PR #17](https://github.com/fivetran/dbt_workday/pull/17) includes the following updates:

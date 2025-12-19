@@ -1,0 +1,6 @@
+index,personal_info_system_id,_fivetran_deleted,_fivetran_synced,discharge_date,notes,rank,service,service_type,status,status_begin_date
+0,3895af7993ff4c509cbea2e1817172e0,false,2023-10-30 05:35:35,1985-06-01,,,MILITARY_SERVICE_REFERENCE-1-8,,5_Reserve_United_States_of_America,
+0,aa9f3d767a7d101ce0f62a055bb21628,false,2023-10-30 05:40:22,,,,MILITARY_SERVICE_REFERENCE-16-172,,5_Reserve_United_States_of_America,
+0,f1c74d87428b479cb85daab73582d439,false,2023-10-30 05:37:14,,,,MILITARY_SERVICE_REFERENCE-1-170,,5_Reserve_United_States_of_America,
+0,d66d21e0b1c949b2b1a3decd2fad1375,false,2023-10-30 05:35:38,,,,MILITARY_SERVICE_REFERENCE-1-10,,5_Reserve_United_States_of_America,
+0,46f951d6a15f10284982469a662d061f,false,2023-10-30 05:40:27,,,,MILITARY_SERVICE_REFERENCE-16-174,,0_Inactive_United_States_of_America,

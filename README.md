@@ -161,6 +161,34 @@ vars:
 
 > **Note**: During the transition period (Jan 5, 2025 - Apr 6, 2026), both old and new tables will sync. After April 6, 2026, only the new tables will be available, and old tables will be renamed to *_BACKUP_2026-04-06.
 
+#### Performance Optimization (Post-Migration)
+
+The package uses automatic table detection which queries the information schema **~4 times per dbt run** to check if _INCOMING tables exist. While this provides seamless automatic migration support, you can eliminate these queries after the migration is complete for better performance.
+
+**Cost Impact:**
+- **Snowflake**: ~$5-20/year depending on warehouse size
+- **Databricks**: ~$2-3/year
+- **BigQuery**: Free but adds ~1 second latency per run
+- **Redshift**: ~$3-4/year
+
+**To eliminate information schema queries after April 6, 2026:**
+
+```yml
+# dbt_project.yml
+vars:
+  # Explicitly set all table variables to skip detection queries
+  workday__using_military_service_incoming: true
+  workday__using_person_disability_incoming: true
+  workday__using_personal_information_ethnicity_incoming: true
+  workday__using_relative_name_incoming: true
+  workday__using_personal_info_v2_schema: true  # Optional: improved performance
+```
+
+**Performance improvements:**
+- ✅ Eliminates 4 information schema queries per dbt run
+- ✅ Reduces dbt compile/run time by 1-2 seconds
+- ✅ Saves ~$5-20/year in compute costs per user (varies by warehouse)
+
 #### Migration Timeline
 - **Before January 5, 2025**: Old tables only
 - **January 5, 2025 - April 6, 2026**: Both old and new tables sync (transition period)
