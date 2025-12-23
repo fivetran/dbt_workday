@@ -36,9 +36,6 @@
 ## Under the Hood
 - Adds `does_table_exist` macro to dynamically detect table availability and enable automatic switching between old and new table naming conventions at base model level.
 - Updates base models (`stg_workday__military_service_base`, `stg_workday__personal_information_ethnicity_base`) with var override pattern: `table_identifier='new_table_incoming' if var('workday__using_new_table_incoming', workday.does_table_exist('new_table_incoming')) else 'new_table'`
-- Creates base models for new tables (6 total):
-  - `stg_workday__person_disability_base`, `stg_workday__relative_name_base`
-  - `stg_workday__personal_information_gender_identity_base`, `stg_workday__personal_information_pronoun_base`, `stg_workday__personal_information_sexual_orientation_base`, `stg_workday__personal_information_sexual_orientation_and_gender_identity_base`
 - Updates `int_workday__personal_details` with conditional logic using `workday__using_personal_info_v2_schema` var to support both old and new schemas
 - Updates `src_workday.yml` with source definitions for 6 new tables (2 core tables + 4 _INCOMING transition tables)
 - Adds `table_variables` section to `.quickstart/quickstart.yml` mapping configuration variables to their controlled tables

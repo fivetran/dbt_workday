@@ -72,7 +72,7 @@ final as (
         scheduled_weekly_hours,
         specify_paid_fte as is_specify_paid_fte,
         specify_working_fte as is_specify_working_fte,
-        start_date as position_start_date,
+        try_to_date(start_date) as position_start_date,
         start_international_assignment_reason,
         work_hours_profile,
         work_shift,

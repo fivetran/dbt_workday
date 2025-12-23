@@ -42,7 +42,6 @@ final as (
         primary_nationality,
         region_of_birth
     from fields
-    where {{ dbt.current_timestamp() }} between _fivetran_start and _fivetran_end
 )
 
 select *

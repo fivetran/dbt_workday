@@ -46,7 +46,7 @@ vars:
 
     # New core tables (v42.2) - PERSONAL_INFORMATION split into 6 tables
     personal_information_common_data: "{{ source('workday','personal_information_common_data') }}"
-    country_personal_information_data: "{{ source('workday','country_personal_information_data') }}"
+    country_personal_information: "{{ source('workday','country_personal_information') }}"
     personal_information_gender_identity: "{{ source('workday','personal_information_gender_identity') }}"
     personal_information_pronoun: "{{ source('workday','personal_information_pronoun') }}"
     personal_information_sexual_orientation: "{{ source('workday','personal_information_sexual_orientation') }}"

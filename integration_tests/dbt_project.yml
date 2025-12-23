@@ -9,7 +9,7 @@ dispatch:
     search_order: ['spark_utils', 'dbt_utils']
 
 vars: 
-  workday_schema: workday_integration_tests_2
+  workday_schema: zz_dbt_avinash_seed
   workday:
     workday_job_profile_identifier: "workday_job_profile_data"
     workday_job_family_job_profile_identifier: "workday_job_family_job_profile_data"

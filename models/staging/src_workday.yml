@@ -724,9 +724,28 @@ sources:
           - name: _fivetran_synced
             description: Fivetran last sync timestamp
 
+      - name: person_disability
+        identifier: '{{ var("workday_person_disability_identifier", "person_disability") }}'
+        description: Table containing worker disability information. This is the legacy table that will be replaced by PERSON_DISABILITY_INCOMING during the Workday v42.2 migration transition period.
+        columns:
+          - name: index
+            description: '{{ doc("index") }}'
+          - name: personal_info_system_id
+            description: '{{ doc("personal_info_system_id") }}'
+          - name: _fivetran_deleted
+            description: '{{ doc("_fivetran_deleted") }}'
+          - name: _fivetran_synced
+            description: '{{ doc("_fivetran_synced") }}'
+          - name: disability_degree
+            description: Degree of disability
+          - name: disability_grade
+            description: Grade or classification of disability
+          - name: disability_type
+            description: Type of disability
+
       - name: personal_information_common_data
         identifier: '{{ var("workday_personal_information_common_data_identifier", "personal_information_common_data") }}'
-        description: 'New Workday v42.2 API table containing common personal information fields. Fields previously in PERSONAL_INFORMATION_HISTORY have been split into this table and COUNTRY_PERSONAL_INFORMATION_DATA.'
+        description: Table containing common personal information fields. Fields previously in `personal_information_history` have been split into this table and `country_personal_information`.
         columns:
           - name: id
             description: Worker ID
@@ -743,9 +762,9 @@ sources:
           - name: date_of_death
             description: Worker date of death
 
-      - name: country_personal_information_data
-        identifier: '{{ var("workday_country_personal_information_data_identifier", "country_personal_information_data") }}'
-        description: 'New Workday v42.2 API table containing country-specific personal information fields. Fields like gender, marital_status, and hispanic_or_latino moved here from PERSONAL_INFORMATION_HISTORY.'
+      - name: country_personal_information
+        identifier: '{{ var("workday_country_personal_information_identifier", "country_personal_information") }}'
+        description: Table containing country-specific personal information fields. Fields previously in `personal_information_history` have been split into this table and `personal_information_common_data`.
         columns:
           - name: id
             description: Worker ID
@@ -791,6 +810,29 @@ sources:
             description: Fivetran deletion marker
           - name: _fivetran_synced
             description: Fivetran last sync timestamp
+
+      - name: relative_name
+        identifier: '{{ var("workday_relative_name_identifier", "relative_name") }}'
+        description: Table containing information about worker relatives and their relationships. This is the legacy table that will be replaced by RELATIVE_NAME_INCOMING during the Workday v42.2 migration transition period.
+        columns:
+          - name: index
+            description: '{{ doc("index") }}'
+          - name: personal_info_system_id
+            description: '{{ doc("personal_info_system_id") }}'
+          - name: _fivetran_deleted
+            description: '{{ doc("_fivetran_deleted") }}'
+          - name: _fivetran_synced
+            description: '{{ doc("_fivetran_synced") }}'
+          - name: first_name
+            description: '{{ doc("first_name") }}'
+          - name: last_name
+            description: '{{ doc("last_name") }}'
+          - name: middle_name
+            description: '{{ doc("middle_name") }}'
+          - name: relationship_type
+            description: Type of relationship to the worker
+          - name: relationship_type_id
+            description: ID for the relationship type
 
       - name: relative_name_incoming
         identifier: '{{ var("workday_relative_name_incoming_identifier", "relative_name_incoming") }}'

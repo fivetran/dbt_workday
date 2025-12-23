@@ -5,6 +5,7 @@
     {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()},
     {"name": "_fivetran_start", "datatype": dbt.type_timestamp()},
     {"name": "_fivetran_end", "datatype": dbt.type_timestamp()},
+    {"name": "_fivetran_deleted", "datatype": dbt.type_boolean()},
     {"name": "academic_pay_setup_data_annual_work_period_end_date", "datatype": "date"},
     {"name": "academic_pay_setup_data_annual_work_period_start_date", "datatype": "date"},
     {"name": "academic_pay_setup_data_annual_work_period_work_percent_of_year", "datatype": dbt.type_float()},

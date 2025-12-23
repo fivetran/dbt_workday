@@ -1,4 +1,4 @@
-_fivetran_deleted,_fivetran_synced,index,personal_info_system_id,disability_degree,disability_grade,disability_type
+_fivetran_deleted,_fivetran_synced,id,country_personal_information_id,code,degree,grade
 false,2023-10-30 05:37:46,1,3aa5550b7fe348b98d7b5741afc65534,,,
 false,2023-10-30 05:37:46,1,3aa5550b7fe348b98d7b5741afc65536,,,
 false,2023-10-30 05:40:20,1,aa9f3d767a7d101ce0f62a055bb21628,,,

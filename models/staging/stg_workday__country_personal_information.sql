@@ -2,7 +2,7 @@
 with base as (
 
     select *
-    from {{ ref('stg_workday__country_personal_information_data_base') }}
+    from {{ ref('stg_workday__country_personal_information_base') }}
 ),
 
 fields as (
@@ -10,8 +10,8 @@ fields as (
     select
         {{
             fivetran_utils.fill_staging_columns(
-                source_columns=adapter.get_columns_in_relation(ref('stg_workday__country_personal_information_data_base')),
-                staging_columns=get_country_personal_information_data_columns()
+                source_columns=adapter.get_columns_in_relation(ref('stg_workday__country_personal_information_base')),
+                staging_columns=get_country_personal_information_columns()
             )
         }}
         {{ fivetran_utils.source_relation(
@@ -43,8 +43,7 @@ final as (
         political_affiliation,
         religion,
         social_benefits_localilty
-    from fields
-    where {{ dbt.current_timestamp() }} between _fivetran_start and _fivetran_end
+    from fields 
 )
 
 select *
