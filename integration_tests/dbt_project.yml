@@ -43,12 +43,6 @@ vars:
     workday_person_disability_incoming_identifier: "workday_person_disability_incoming_data"
     workday_relative_name_incoming_identifier: "workday_relative_name_incoming_data"
 
-    # New personal information child tables (v42.2)
-    workday_personal_information_gender_identity_identifier: "workday_personal_information_gender_identity_data"
-    workday_personal_information_pronoun_identifier: "workday_personal_information_pronoun_data"
-    workday_personal_information_sexual_orientation_identifier: "workday_personal_information_sexual_orientation_data"
-    workday_personal_information_sexual_orientation_and_gender_identity_identifier: "workday_personal_information_sexual_orientation_and_gender_identity_data"
-
     # employee_history_enabled: true  ## uncomment when generating docs/testing history models
     
 models:

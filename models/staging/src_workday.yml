@@ -713,7 +713,7 @@ sources:
 
       - name: military_service_incoming
         identifier: '{{ var("workday_military_service_incoming_identifier", "military_service_incoming") }}'
-        description: 'New Workday v42.2 API table for military service (available Jan 5, 2025 - Apr 6, 2026 transition period). Replaces MILITARY_SERVICE table. After Apr 6, 2026, old table will be renamed to MILITARY_SERVICE_BACKUP_2026-04-06.'
+        description: 'Workday v42.2 API table containing military service records including branch, rank, service dates, discharge information, and veteran status. Replaces the legacy MILITARY_SERVICE table. Available during transition period (Jan 5, 2025 - Apr 6, 2026), after which the old table will be renamed to MILITARY_SERVICE_BACKUP_2026-04-06. Important for veteran benefits administration, compliance reporting, and diversity tracking. The package automatically detects and uses this table when available; no migration action required unless you want to force usage via `workday__using_military_service_incoming` variable.'
         columns:
           - name: index
             description: Index field
@@ -745,7 +745,7 @@ sources:
 
       - name: personal_information_common_data
         identifier: '{{ var("workday_personal_information_common_data_identifier", "personal_information_common_data") }}'
-        description: Table containing common personal information fields. Fields previously in `personal_information_history` have been split into this table and `country_personal_information`.
+        description: 'Workday v42.2 API table containing universal personal information attributes including date of birth, death records, nationality, citizenship status, birth location, and medical exam data. Part of the strategic split of the legacy PERSONAL_INFORMATION_HISTORY table into specialized tables for better data organization. Available starting Jan 5, 2025. Important for demographic analysis, age verification, compliance reporting, citizenship tracking, and employee health monitoring. Migration: Set `workday__using_personal_info_v2_schema: true` in dbt_project.yml to use this table along with country_personal_information (defaults to false for backward compatibility).'
         columns:
           - name: id
             description: Worker ID
@@ -764,7 +764,7 @@ sources:
 
       - name: country_personal_information
         identifier: '{{ var("workday_country_personal_information_identifier", "country_personal_information") }}'
-        description: Table containing country-specific personal information fields. Fields previously in `personal_information_history` have been split into this table and `personal_information_common_data`.
+        description: 'Workday v42.2 API table containing country-specific personal information attributes including gender, marital status, ethnicity indicators (hispanic_or_latino), political affiliation, religion, and China-specific fields (hukou locality/region/type, native region, personnel file agency). Part of the strategic split of the legacy PERSONAL_INFORMATION_HISTORY table into specialized tables for better regional data management. Available starting Jan 5, 2025. Important for diversity and inclusion reporting, marital status benefits administration, cultural demographic analysis, and country-specific compliance requirements. Migration: Set `workday__using_personal_info_v2_schema: true` in dbt_project.yml to use this table along with personal_information_common_data (defaults to false for backward compatibility).'
         columns:
           - name: id
             description: Worker ID
@@ -787,7 +787,7 @@ sources:
 
       - name: personal_information_ethnicity_incoming
         identifier: '{{ var("workday_personal_information_ethnicity_incoming_identifier", "personal_information_ethnicity_incoming") }}'
-        description: 'New Workday v42.2 API table for personal information ethnicity (available Jan 5, 2025 - Apr 6, 2026 transition period). Replaces PERSONAL_INFORMATION_ETHNICITY table. After Apr 6, 2026, old table will be renamed to PERSONAL_INFORMATION_ETHNICITY_BACKUP_2026-04-06.'
+        description: 'Workday v42.2 API table containing worker ethnicity information with ethnicity codes for diversity tracking and compliance reporting. Replaces the legacy PERSONAL_INFORMATION_ETHNICITY table with updated join keys (country_personal_information_id instead of personal_info_system_id). Available during transition period (Jan 5, 2025 - Apr 6, 2026), after which the old table will be renamed to PERSONAL_INFORMATION_ETHNICITY_BACKUP_2026-04-06. Important for EEO-1 reporting, diversity and inclusion analytics, pay equity analysis, and demographic workforce planning. The package automatically detects and uses this table when available; no migration action required unless you want to force usage via `workday__using_personal_information_ethnicity_incoming` variable.'
         columns:
           - name: index
             description: Index field
@@ -800,7 +800,7 @@ sources:
 
       - name: person_disability_incoming
         identifier: '{{ var("workday_person_disability_incoming_identifier", "person_disability_incoming") }}'
-        description: 'New Workday v42.2 API table for person disability (available Jan 5, 2025 - Apr 6, 2026 transition period). Replaces PERSON_DISABILITY table. After Apr 6, 2026, old table will be renamed to PERSON_DISABILITY_BACKUP_2026-04-06.'
+        description: 'Workday v42.2 API table containing disability information including disability type, grade/severity, certification details, date disclosed, accommodations, work restrictions, and status. Replaces the legacy PERSON_DISABILITY table. Available during transition period (Jan 5, 2025 - Apr 6, 2026), after which the old table will be renamed to PERSON_DISABILITY_BACKUP_2026-04-06. Important for ADA compliance, reasonable accommodation management, disability benefits administration, accessibility planning, and workforce inclusion initiatives. The package automatically detects and uses this table when available; no migration action required unless you want to force usage via `workday__using_person_disability_incoming` variable.'
         columns:
           - name: index
             description: Index field
@@ -836,7 +836,7 @@ sources:
 
       - name: relative_name_incoming
         identifier: '{{ var("workday_relative_name_incoming_identifier", "relative_name_incoming") }}'
-        description: 'New Workday v42.2 API table for relative names (available Jan 5, 2025 - Apr 6, 2026 transition period). Replaces RELATIVE_NAME table. After Apr 6, 2026, old table will be renamed to RELATIVE_NAME_BACKUP_2026-04-06.'
+        description: 'Workday v42.2 API table containing information about worker relatives and dependents including names, relationships, dates of birth/death, dependent status, beneficiary designation, and emergency contact details. Replaces the legacy RELATIVE_NAME table. Available during transition period (Jan 5, 2025 - Apr 6, 2026), after which the old table will be renamed to RELATIVE_NAME_BACKUP_2026-04-06. Important for benefits administration, dependent coverage tracking, emergency contact management, life insurance beneficiary processing, and family leave eligibility. The package automatically detects and uses this table when available; no migration action required unless you want to force usage via `workday__using_relative_name_incoming` variable.'
         columns:
           - name: index
             description: Index field

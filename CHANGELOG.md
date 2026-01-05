@@ -21,10 +21,11 @@
   - `workday__using_relative_name_incoming` - Force use of new or old RELATIVE_NAME table
 - Adds configuration variable for intermediate model level (avoids information schema queries for performance):
   - `workday__using_personal_info_v2_schema` - Enable new split personal information tables (default: `false`)
-- Creates new staging models for Workday v42.2 API tables (10 total):
+- Creates new staging models for Workday v42.2 API tables (6 total):
   - Core split tables (2): `stg_workday__personal_information_common_data` (birth info, nationality), `stg_workday__country_personal_information_data` (gender, marital status, hukou)
   - New tables for existing data (2): `stg_workday__person_disability`, `stg_workday__relative_name`
-  - New personal information child tables (4): `stg_workday__personal_information_gender_identity`, `stg_workday__personal_information_pronoun`, `stg_workday__personal_information_sexual_orientation`, `stg_workday__personal_information_sexual_orientation_and_gender_identity`
+  - Updated existing staging models (2): `stg_workday__military_service` (now supports _INCOMING table), `stg_workday__personal_information_ethnicity` (now supports _INCOMING table)
+  - Note: Staging models for the following child tables were intentionally deferred as they're not currently used by core models: `personal_information_gender_identity`, `personal_information_pronoun`, `personal_information_sexual_orientation`, `personal_information_sexual_orientation_and_gender_identity`. See DECISIONLOG.md for rationale.
 
 ## Documentation
 - Added comprehensive "Workday v42.2 API Schema Migration" section to README explaining the migration timeline, impacted tables, automatic table detection, and configuration options.
@@ -39,13 +40,12 @@
 - Updates `int_workday__personal_details` with conditional logic using `workday__using_personal_info_v2_schema` var to support both old and new schemas
 - Updates `src_workday.yml` with source definitions for 6 new tables (2 core tables + 4 _INCOMING transition tables)
 - Adds `table_variables` section to `.quickstart/quickstart.yml` mapping configuration variables to their controlled tables
-- Adds 10 new source table variables to `dbt_project.yml` (6 new PERSONAL_INFORMATION split tables + 4 _INCOMING transition tables)
-- Creates 8 new `get_*_columns` macros following dbt_shopify dual-macro pattern (tables with _INCOMING versions + new personal information child tables)
-- Adds integration test seed files for all 10 new v42.2 tables:
+- Adds 6 new source table variables to `dbt_project.yml` (2 new PERSONAL_INFORMATION split tables + 4 _INCOMING transition tables)
+- Creates 8 total `get_*_columns` macros following dbt_shopify dual-macro pattern: 4 new macro files for new tables (`get_country_personal_information_data_columns`, `get_personal_information_common_data_columns`, `get_person_disability_columns`, `get_relative_name_columns`) + 2 updated existing macro files with dual-macro pattern for _INCOMING variants (`get_military_service_columns`/`get_military_service_incoming_columns`, `get_personal_information_ethnicity_columns`/`get_personal_information_ethnicity_incoming_columns`)
+- Adds integration test seed files for 6 new v42.2 tables:
   - Core split tables (2): `workday_personal_information_common_data_data.csv`, `workday_country_personal_information_data_data.csv`
   - _INCOMING transition tables (4): `workday_military_service_incoming_data.csv`, `workday_personal_information_ethnicity_incoming_data.csv`, `workday_person_disability_incoming_data.csv`, `workday_relative_name_incoming_data.csv`
-  - New personal information child tables (4): `workday_personal_information_gender_identity_data.csv`, `workday_personal_information_pronoun_data.csv`, `workday_personal_information_sexual_orientation_data.csv`, `workday_personal_information_sexual_orientation_and_gender_identity_data.csv`
-- Adds 10 identifier configurations for new tables in `integration_tests/dbt_project.yml`
+- Adds 6 identifier configurations for new tables in `integration_tests/dbt_project.yml`
 - Adds "Performance Optimization" section to README documenting cost implications of automatic table detection and how to eliminate information schema queries post-migration
 
 # dbt_workday v0.6.0
