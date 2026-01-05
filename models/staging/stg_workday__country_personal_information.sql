@@ -42,7 +42,7 @@ final as (
         personnel_file_agency_for_person,
         political_affiliation,
         religion,
-        social_benefits_localilty
+        social_benefits_locality
     from fields 
 )
 

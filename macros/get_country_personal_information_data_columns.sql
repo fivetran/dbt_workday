@@ -21,7 +21,7 @@
     {"name": "personnel_file_agency_for_person", "datatype": dbt.type_string()},
     {"name": "political_affiliation", "datatype": dbt.type_string()},
     {"name": "religion", "datatype": dbt.type_string()},
-    {"name": "social_benefits_localilty", "datatype": dbt.type_string()}
+    {"name": "social_benefits_locality", "datatype": dbt.type_string()}
 ] %}
 
 {{ return(columns) }}
