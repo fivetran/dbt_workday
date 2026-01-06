@@ -1,10 +1,9 @@
 {% macro get_personal_information_common_data_columns() %}
 
 {% set columns = [
-    {"name": "_fivetran_active", "datatype": dbt.type_boolean()},
     {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()},
-    {"name": "_fivetran_start", "datatype": dbt.type_timestamp()},
-    {"name": "_fivetran_end", "datatype": dbt.type_timestamp()},
+    {"name": "_fivetran_deleted", "datatype": dbt.type_boolean()},
+    {"name": "fivetran_id", "datatype": dbt.type_string()},
     {"name": "id", "datatype": dbt.type_string()},
     {"name": "additional_nationality", "datatype": dbt.type_string()},
     {"name": "blood_type", "datatype": dbt.type_string()},

@@ -1,3 +1,5 @@
+{{ config(enabled=var('workday__using_personal_info_v2_schema', false)) }}
+
 {{
     fivetran_utils.union_data(
         table_identifier='country_personal_information',

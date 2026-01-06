@@ -1,3 +1,4 @@
+{{ config(enabled=var('workday__using_personal_info_v2_schema', false)) }}
 
 with base as (
 
@@ -24,6 +25,7 @@ fields as (
 final as (
 
     select
+        fivetran_id,
         id as worker_id,
         source_relation,
         _fivetran_synced,

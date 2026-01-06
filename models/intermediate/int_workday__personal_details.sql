@@ -4,6 +4,7 @@
 with worker_personal_common_data as (
 
     select
+        fivetran_id,
         worker_id,
         source_relation,
         date_of_birth
@@ -13,11 +14,11 @@ with worker_personal_common_data as (
 worker_personal_country_data as (
 
     select
-        worker_id,
+        personal_info_common_id,
         source_relation,
         gender,
         is_hispanic_or_latino
-    from {{ ref('stg_workday__country_personal_information_data') }}
+    from {{ ref('stg_workday__country_personal_information') }}
 ),
 
 worker_personal_info_data as (
@@ -30,7 +31,7 @@ worker_personal_info_data as (
         worker_personal_country_data.is_hispanic_or_latino
     from worker_personal_common_data
     left join worker_personal_country_data
-        on worker_personal_common_data.worker_id = worker_personal_country_data.worker_id
+        on worker_personal_common_data.fivetran_id = worker_personal_country_data.personal_info_common_id
         and worker_personal_common_data.source_relation = worker_personal_country_data.source_relation
 ),
 

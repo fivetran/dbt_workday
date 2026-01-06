@@ -32,7 +32,7 @@ final as (
         {% if use_incoming %}
         country_personal_information_id as worker_id,  -- NEW field name
         ethnicity_code,
-        id as index  -- NEW field name mapped to old output name
+        id as ethnicity_id  -- NEW field name mapped to old output name
         {% else %}
         personal_info_system_id as worker_id,  -- OLD field name
         ethnicity_code,

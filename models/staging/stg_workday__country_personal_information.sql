@@ -1,3 +1,4 @@
+{{ config(enabled=var('workday__using_personal_info_v2_schema', false)) }}
 
 with base as (
 
@@ -24,7 +25,9 @@ fields as (
 final as (
 
     select
-        id as worker_id,
+        fivetran_id,
+        personal_info_common_id,
+        country_code,
         source_relation,
         _fivetran_synced,
         gender,
@@ -43,7 +46,7 @@ final as (
         political_affiliation,
         religion,
         social_benefits_locality
-    from fields 
+    from fields
 )
 
 select *

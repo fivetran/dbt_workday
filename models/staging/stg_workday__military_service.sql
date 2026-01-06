@@ -27,28 +27,32 @@ fields as (
 final as (
     select
         {% if use_incoming %}
-        personal_info_common_id as worker_id,  -- NEW field name
+        -- New v42.2 schema fields
+        personal_info_common_id as worker_id,
+        source_relation,
+        _fivetran_synced,
+        discharge_date,
+        cast(null as {{ dbt.type_int() }}) as index,  -- Field removed in new schema
+        notes,
+        rank,
+        service,
+        discharge_type as service_type,  -- Renamed field
+        status_id as military_status,  -- Renamed field
+        status_begin_date
         {% else %}
-        personal_info_system_id as worker_id,  -- OLD field name
-        {% endif %}
+        -- Legacy schema fields
+        personal_info_system_id as worker_id,
         source_relation,
         _fivetran_synced,
         discharge_date,
         index,
-        {% if use_incoming %}
-        cast(null as {{ dbt.type_string() }}) as notes,  -- Field removed in new schema
-        {% else %}
-        notes,  -- Field exists in old schema
-        {% endif %}
+        notes,
         rank,
         service,
-        {% if use_incoming %}
-        discharge_type as service_type,  -- NEW field name mapped to old output name
-        {% else %}
         service_type,
-        {% endif %}
         status as military_status,
         status_begin_date
+        {% endif %}
     from fields
     where not coalesce(_fivetran_deleted, false)
 )

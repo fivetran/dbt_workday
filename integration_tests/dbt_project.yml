@@ -8,8 +8,16 @@ dispatch:
   - macro_namespace: dbt_utils
     search_order: ['spark_utils', 'dbt_utils']
 
-vars: 
-  workday_schema: workday_integration_tests
+vars:
+  workday_schema: zz_dbt_avinash_seed
+
+  # Schema migration variables (must be at root level for model configs)
+  workday__using_military_service_incoming: true
+  workday__using_person_disability_incoming: true
+  workday__using_personal_information_ethnicity_incoming: true
+  workday__using_relative_name_incoming: true
+  workday__using_personal_info_v2_schema: true
+
   workday:
     workday_job_profile_identifier: "workday_job_profile_data"
     workday_job_family_job_profile_identifier: "workday_job_family_job_profile_data"
@@ -35,7 +43,7 @@ vars:
 
     # New core tables (v42.2 split personal_information)
     workday_personal_information_common_data_identifier: "workday_personal_information_common_data_data"
-    workday_country_personal_information_data_identifier: "workday_country_personal_information_data_data"
+    workday_country_personal_information_identifier: "workday_country_personal_information_data"
 
     # Incoming tables (transition period: Jan 5, 2025 - Apr 6, 2026)
     workday_military_service_incoming_identifier: "workday_military_service_incoming_data"
@@ -43,14 +51,9 @@ vars:
     workday_person_disability_incoming_identifier: "workday_person_disability_incoming_data"
     workday_relative_name_incoming_identifier: "workday_relative_name_incoming_data"
 
-    # New personal information child tables (v42.2)
-    workday_personal_information_gender_identity_identifier: "workday_personal_information_gender_identity_data"
-    workday_personal_information_pronoun_identifier: "workday_personal_information_pronoun_data"
-    workday_personal_information_sexual_orientation_identifier: "workday_personal_information_sexual_orientation_data"
-    workday_personal_information_sexual_orientation_and_gender_identity_identifier: "workday_personal_information_sexual_orientation_and_gender_identity_data"
-
     # employee_history_enabled: true  ## uncomment when generating docs/testing history models
-    
+
+
 models:
   +schema: "workday_{{ var('directed_schema','dev') }}"
 
