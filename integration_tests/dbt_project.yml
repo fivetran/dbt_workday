@@ -9,14 +9,14 @@ dispatch:
     search_order: ['spark_utils', 'dbt_utils']
 
 vars:
-  workday_schema: zz_dbt_avinash_seed
+  workday_schema: workday_integration_tests
 
   # Schema migration variables (must be at root level for model configs)
-  workday__using_military_service_incoming: true
-  workday__using_person_disability_incoming: true
-  workday__using_personal_information_ethnicity_incoming: true
-  workday__using_relative_name_incoming: true
-  workday__using_personal_info_v2_schema: true
+  # workday__using_military_service_incoming: true
+  # workday__using_person_disability_incoming: true
+  # workday__using_personal_information_ethnicity_incoming: true
+  # workday__using_relative_name_incoming: true
+  # workday__using_personal_info_v2_schema: true
 
   workday:
     workday_job_profile_identifier: "workday_job_profile_data"
