@@ -669,12 +669,42 @@ sources:
 
       - name: personal_information_ethnicity
         identifier: '{{ var("workday_personal_information_ethnicity_identifier", "personal_information_ethnicity") }}'
-        description: '{{ doc("personal_information_ethnicity") }}'
+        description: 'Table containing worker ethnicity information for diversity tracking and compliance reporting.'
+        columns:
+          - name: id
+            description: Ethnicity record ID (new schema field)
+          - name: country_personal_information_id
+            description: Country personal information ID linking to worker (new schema join key, replaces `personal_info_system_id`)
+          - name: _fivetran_deleted
+            description: '{{ doc("_fivetran_deleted") }}'
+          - name: _fivetran_synced
+            description: '{{ doc("_fivetran_synced") }}'
+          - name: ethnicity_code
+            description: '{{ doc("ethnicity_code") }}'
+
+      - name: personal_information_ethnicity_incoming
+        identifier: '{{ var("workday_personal_information_ethnicity_incoming_identifier", "personal_information_ethnicity_incoming") }}'
+        description: 'Table containing worker ethnicity information for diversity tracking and compliance reporting. **NOTE** This table is for existing customers to leverage between January 5 and April 6, 2026 until transitioned over to `personal_information_ethnicity`.'
+        columns:
+          - name: id
+            description: Ethnicity record ID.
+          - name: country_personal_information_id
+            description: Country personal information ID linking to worker. 
+          - name: _fivetran_deleted
+            description: '{{ doc("_fivetran_deleted") }}'
+          - name: _fivetran_synced
+            description: '{{ doc("_fivetran_synced") }}'
+          - name: ethnicity_code
+            description: '{{ doc("ethnicity_code") }}'
+
+      - name: personal_information_ethnicity_legacy
+        identifier: '{{ var("workday_personal_information_ethnicity_legacy_identifier", "personal_information_ethnicity") }}'
+        description: 'Legacy Workday personal information ethnicity table. This source is for testing purposes only. The package does not support the legacy schema - all models use v42.2 API schema with legacy fields cast to null for backward compatibility. This will be removed after April 6.'
         columns:
           - name: index
             description: '{{ doc("index") }}'
           - name: personal_info_system_id
-            description: '{{ doc("personal_info_system_id") }}'
+            description: '{{ doc("personal_info_system_id") }}' 
           - name: _fivetran_deleted
             description: '{{ doc("_fivetran_deleted") }}'
           - name: _fivetran_synced
@@ -686,12 +716,62 @@ sources:
 
       - name: military_service
         identifier: '{{ var("workday_military_service_identifier", "military_service") }}'
-        description: '{{ doc("military_service") }}'
+        description: 'Table containing military service records including rank, service information, and veteran status.'
+        columns:
+          - name: personal_info_common_id
+            description: Personal information common data ID linking to worker.
+          - name: _fivetran_deleted
+            description: '{{ doc("_fivetran_deleted") }}'
+          - name: _fivetran_synced
+            description: '{{ doc("_fivetran_synced") }}'
+          - name: discharge_date
+            description: '{{ doc("discharge_date") }}'
+          - name: discharge_type
+            description: Type of military discharge.
+          - name: notes
+            description: '{{ doc("notes") }}'
+          - name: rank
+            description: '{{ doc("rank") }}'
+          - name: service
+            description: '{{ doc("service") }}'
+          - name: status_id
+            description: Military status identifier. 
+          - name: status_begin_date
+            description: '{{ doc("status_begin_date") }}'
+
+      - name: military_service_incoming
+        identifier: '{{ var("workday_military_service_incoming_identifier", "military_service_incoming") }}'
+        description: 'Table containing military service records including rank, service information, and veteran status. This table is for existing customers to leverage between January 5 and April 6, 2026 until transitioned over to `military_service`. This will be removed after April 6.'
+        columns:
+          - name: personal_info_common_id
+            description: Personal information common data ID linking to worker.
+          - name: _fivetran_deleted
+            description: '{{ doc("_fivetran_deleted") }}'
+          - name: _fivetran_synced
+            description: '{{ doc("_fivetran_synced") }}'
+          - name: discharge_date
+            description: '{{ doc("discharge_date") }}'
+          - name: discharge_type
+            description: Type of military discharge.
+          - name: notes
+            description: '{{ doc("notes") }}'
+          - name: rank
+            description: '{{ doc("rank") }}'
+          - name: service
+            description: '{{ doc("service") }}'
+          - name: status_id
+            description: Military status identifier (new schema field, replaces legacy `status` field)
+          - name: status_begin_date
+            description: '{{ doc("status_begin_date") }}'
+
+      - name: military_service_legacy
+        identifier: '{{ var("workday_military_service_legacy_identifier", "military_service") }}'
+        description: 'Legacy Workday military service table. This source is for testing purposes only. The package does not support the legacy schema - all models use new schema with legacy fields cast to null for backward compatibility. This table will be deprecated after April 6.'
         columns:
           - name: index
             description: '{{ doc("index") }}'
           - name: personal_info_system_id
-            description: '{{ doc("personal_info_system_id") }}'
+            description: '{{ doc("personal_info_system_id") }}'  
           - name: _fivetran_deleted
             description: '{{ doc("_fivetran_deleted") }}'
           - name: _fivetran_synced
@@ -705,47 +785,15 @@ sources:
           - name: service
             description: '{{ doc("service") }}'
           - name: service_type
-            description: '{{ doc("service_type") }}'
+            description: '{{ doc("service_type") }}. **Backward compatibility**: Cast to null in staging model (replaced by `discharge_type` in new schema).'
           - name: status
-            description: '{{ doc("status") }}'
+            description: '{{ doc("status") }}. **Backward compatibility**: Cast to null in staging model (replaced by `status_id` in new schema).'
           - name: status_begin_date
             description: '{{ doc("status_begin_date") }}'
 
-      - name: military_service_incoming
-        identifier: '{{ var("workday_military_service_incoming_identifier", "military_service_incoming") }}'
-        description: 'Workday v42.2 API table containing military service records including branch, rank, service dates, discharge information, and veteran status. Replaces the legacy MILITARY_SERVICE table. Available during transition period (Jan 5, 2025 - Apr 6, 2026), after which the old table will be renamed to MILITARY_SERVICE_BACKUP_2026-04-06. Important for veteran benefits administration, compliance reporting, and diversity tracking. The package automatically detects and uses this table when available; no migration action required unless you want to force usage via `workday__using_military_service_incoming` variable.'
-        columns:
-          - name: index
-            description: Index field
-          - name: personal_info_system_id
-            description: Personal information system ID linking to worker
-          - name: _fivetran_deleted
-            description: Fivetran deletion marker
-          - name: _fivetran_synced
-            description: Fivetran last sync timestamp
-
-      - name: person_disability
-        identifier: '{{ var("workday_person_disability_identifier", "person_disability") }}'
-        description: Table containing worker disability information. This is the legacy table that will be replaced by PERSON_DISABILITY_INCOMING during the Workday v42.2 migration transition period.
-        columns:
-          - name: index
-            description: '{{ doc("index") }}'
-          - name: personal_info_system_id
-            description: '{{ doc("personal_info_system_id") }}'
-          - name: _fivetran_deleted
-            description: '{{ doc("_fivetran_deleted") }}'
-          - name: _fivetran_synced
-            description: '{{ doc("_fivetran_synced") }}'
-          - name: disability_degree
-            description: Degree of disability
-          - name: disability_grade
-            description: Grade or classification of disability
-          - name: disability_type
-            description: Type of disability
-
       - name: personal_information_common_data
         identifier: '{{ var("workday_personal_information_common_data_identifier", "personal_information_common_data") }}'
-        description: 'Workday v42.2 API table containing universal personal information attributes including date of birth, death records, nationality, citizenship status, birth location, and medical exam data. Part of the strategic split of the legacy PERSONAL_INFORMATION_HISTORY table into specialized tables for better data organization. Available starting Jan 5, 2025. Important for demographic analysis, age verification, compliance reporting, citizenship tracking, and employee health monitoring. Migration: Set `workday__using_personal_info_v2_schema: true` in dbt_project.yml to use this table along with country_personal_information (defaults to false for backward compatibility).'
+        description: 'Table containing universal personal information attributes including date of birth, death records, nationality, citizenship status, birth location, and medical exam data.'
         columns:
           - name: id
             description: Worker ID
@@ -764,7 +812,7 @@ sources:
 
       - name: country_personal_information
         identifier: '{{ var("workday_country_personal_information_identifier", "country_personal_information") }}'
-        description: 'Workday v42.2 API table containing country-specific personal information attributes including gender, marital status, ethnicity indicators (hispanic_or_latino), political affiliation, religion, and China-specific fields (hukou locality/region/type, native region, personnel file agency). Part of the strategic split of the legacy PERSONAL_INFORMATION_HISTORY table into specialized tables for better regional data management. Available starting Jan 5, 2025. Important for diversity and inclusion reporting, marital status benefits administration, cultural demographic analysis, and country-specific compliance requirements. Migration: Set `workday__using_personal_info_v2_schema: true` in dbt_project.yml to use this table along with personal_information_common_data (defaults to false for backward compatibility).'
+        description: 'Table containing country-specific personal information attributes.'
         columns:
           - name: id
             description: Worker ID
@@ -784,68 +832,6 @@ sources:
             description: Worker marital status
           - name: marital_status_date
             description: Date marital status was set
-
-      - name: personal_information_ethnicity_incoming
-        identifier: '{{ var("workday_personal_information_ethnicity_incoming_identifier", "personal_information_ethnicity_incoming") }}'
-        description: 'Workday v42.2 API table containing worker ethnicity information with ethnicity codes for diversity tracking and compliance reporting. Replaces the legacy PERSONAL_INFORMATION_ETHNICITY table with updated join keys (country_personal_information_id instead of personal_info_system_id). Available during transition period (Jan 5, 2025 - Apr 6, 2026), after which the old table will be renamed to PERSONAL_INFORMATION_ETHNICITY_BACKUP_2026-04-06. Important for EEO-1 reporting, diversity and inclusion analytics, pay equity analysis, and demographic workforce planning. The package automatically detects and uses this table when available; no migration action required unless you want to force usage via `workday__using_personal_information_ethnicity_incoming` variable.'
-        columns:
-          - name: index
-            description: Index field
-          - name: personal_info_system_id
-            description: Personal information system ID linking to worker
-          - name: _fivetran_deleted
-            description: Fivetran deletion marker
-          - name: _fivetran_synced
-            description: Fivetran last sync timestamp
-
-      - name: person_disability_incoming
-        identifier: '{{ var("workday_person_disability_incoming_identifier", "person_disability_incoming") }}'
-        description: 'Workday v42.2 API table containing disability information including disability type, grade/severity, certification details, date disclosed, accommodations, work restrictions, and status. Replaces the legacy PERSON_DISABILITY table. Available during transition period (Jan 5, 2025 - Apr 6, 2026), after which the old table will be renamed to PERSON_DISABILITY_BACKUP_2026-04-06. Important for ADA compliance, reasonable accommodation management, disability benefits administration, accessibility planning, and workforce inclusion initiatives. The package automatically detects and uses this table when available; no migration action required unless you want to force usage via `workday__using_person_disability_incoming` variable.'
-        columns:
-          - name: index
-            description: Index field
-          - name: personal_info_system_id
-            description: Personal information system ID linking to worker
-          - name: _fivetran_deleted
-            description: Fivetran deletion marker
-          - name: _fivetran_synced
-            description: Fivetran last sync timestamp
-
-      - name: relative_name
-        identifier: '{{ var("workday_relative_name_identifier", "relative_name") }}'
-        description: Table containing information about worker relatives and their relationships. This is the legacy table that will be replaced by RELATIVE_NAME_INCOMING during the Workday v42.2 migration transition period.
-        columns:
-          - name: index
-            description: '{{ doc("index") }}'
-          - name: personal_info_system_id
-            description: '{{ doc("personal_info_system_id") }}'
-          - name: _fivetran_deleted
-            description: '{{ doc("_fivetran_deleted") }}'
-          - name: _fivetran_synced
-            description: '{{ doc("_fivetran_synced") }}'
-          - name: first_name
-            description: '{{ doc("first_name") }}'
-          - name: last_name
-            description: '{{ doc("last_name") }}'
-          - name: middle_name
-            description: '{{ doc("middle_name") }}'
-          - name: relationship_type
-            description: Type of relationship to the worker
-          - name: relationship_type_id
-            description: ID for the relationship type
-
-      - name: relative_name_incoming
-        identifier: '{{ var("workday_relative_name_incoming_identifier", "relative_name_incoming") }}'
-        description: 'Workday v42.2 API table containing information about worker relatives and dependents including names, relationships, dates of birth/death, dependent status, beneficiary designation, and emergency contact details. Replaces the legacy RELATIVE_NAME table. Available during transition period (Jan 5, 2025 - Apr 6, 2026), after which the old table will be renamed to RELATIVE_NAME_BACKUP_2026-04-06. Important for benefits administration, dependent coverage tracking, emergency contact management, life insurance beneficiary processing, and family leave eligibility. The package automatically detects and uses this table when available; no migration action required unless you want to force usage via `workday__using_relative_name_incoming` variable.'
-        columns:
-          - name: index
-            description: Index field
-          - name: personal_info_system_id
-            description: Personal information system ID linking to worker
-          - name: _fivetran_deleted
-            description: Fivetran deletion marker
-          - name: _fivetran_synced
-            description: Fivetran last sync timestamp
 
       - name: person_contact_email_address
         identifier: '{{ var("workday_person_contact_email_address_identifier", "person_contact_email_address") }}'

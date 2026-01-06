@@ -21,6 +21,6 @@ dbt run --target "$db" --full-refresh
 dbt test --target "$db"
 dbt run --vars '{employee_history_enabled: true}' --target "$db" 
 dbt test --target "$db"
-dbt run --vars '{workday__using_military_service_incoming: true,  workday__using_person_disability_incoming: true, workday__using_personal_information_ethnicity_incoming: true, workday__using_relative_name_incoming: true, workday__using_personal_info_v2_schema: true}' 
+dbt run --vars '{workday__using_military_service_incoming: true, workday__using_personal_information_ethnicity_incoming: true, workday__using_personal_info_v2_schema: true}' 
 dbt test --target "$db"
 dbt run-operation fivetran_utils.drop_schemas_automation --target "$db"

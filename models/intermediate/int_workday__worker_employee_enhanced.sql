@@ -19,8 +19,9 @@ int_worker_position_enriched as (
 
 worker_employee_enhanced as (
 
-    select 
+    select
         int_worker_base.*,
+        int_worker_personal_details.fivetran_id,
         first_name,
         last_name,
         date_of_birth,

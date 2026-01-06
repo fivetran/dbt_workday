@@ -6,15 +6,11 @@ dbt_versions: ">=1.3.0 <3.0.0"
 table_variables:
   workday__using_military_service_incoming:
     - military_service_incoming
-  workday__using_person_disability_incoming:
-    - person_disability_incoming
   workday__using_personal_information_ethnicity_incoming:
     - personal_information_ethnicity_incoming
-  workday__using_relative_name_incoming:
-    - relative_name_incoming
   workday__using_personal_info_v2_schema:
     - personal_information_common_data
-    - country_personal_information_data
+    - country_personal_information
 
 destination_configurations:
   databricks:

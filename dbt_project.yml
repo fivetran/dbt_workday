@@ -48,8 +48,6 @@ vars:
     personal_information_common_data: "{{ source('workday','personal_information_common_data') }}"
     country_personal_information: "{{ source('workday','country_personal_information') }}"
 
-    # Incoming tables (transition period: Jan 5, 2025 - Apr 6, 2026)
+    # Legacy tables (transition period: Jan 5, 2025 - Apr 6, 2026)
     military_service_incoming: "{{ source('workday','military_service_incoming') }}"
-    person_disability_incoming: "{{ source('workday','person_disability_incoming') }}"
     personal_information_ethnicity_incoming: "{{ source('workday','personal_information_ethnicity_incoming') }}"
-    relative_name_incoming: "{{ source('workday','relative_name_incoming') }}"

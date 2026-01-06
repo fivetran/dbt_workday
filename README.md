@@ -102,97 +102,6 @@ vars:
 
 To connect your multiple schema/database sources to the package models, follow the steps outlined in the [Union Data Defined Sources Configuration](https://github.com/fivetran/dbt_fivetran_utils/tree/releases/v0.4.latest#union_data-source) section of the Fivetran Utils documentation for the union_data macro. This will ensure a proper configuration and correct visualization of connections in the DAG.
 
-### (Optional) Step 3.5: Workday v42.2 API Schema Migration
-
-#### Overview
-Workday is migrating to v42.2 API with significant schema changes. Starting **January 5, 2025**, Fivetran Workday HCM connectors will begin syncing new tables with an "_INCOMING" suffix alongside existing tables during a transition period lasting until **April 6, 2026**. After the transition period, old tables will be renamed with a "_BACKUP_2026-04-06" suffix.
-
-This package automatically detects which tables are available in your warehouse and uses the appropriate tables. **No action is required in most cases.**
-
-#### Impacted Tables
-The following tables have new versions with "_INCOMING" suffix:
-- `MILITARY_SERVICE` → `MILITARY_SERVICE_INCOMING`
-- `PERSON_DISABILITY` → `PERSON_DISABILITY_INCOMING`
-- `PERSONAL_INFORMATION_ETHNICITY` → `PERSONAL_INFORMATION_ETHNICITY_INCOMING`
-- `RELATIVE_NAME` → `RELATIVE_NAME_INCOMING`
-
-Additionally, personal information fields have been split into new tables:
-- `PERSONAL_INFORMATION_COMMON_DATA` (contains date_of_birth and other common fields)
-- `COUNTRY_PERSONAL_INFORMATION_DATA` (contains gender, marital_status, hispanic_or_latino, and other country-specific fields)
-
-#### Automatic Table Detection
-By default, the package uses the `does_table_exist` macro to automatically detect which table version is available in your warehouse and uses the appropriate one. This ensures seamless operation during the transition period.
-
-#### Leveraging Legacy or Incoming Table Names
-If you need to override the automatic table detection behavior, you can set the following variables in your `dbt_project.yml`:
-
-```yml
-# dbt_project.yml
-
-vars:
-  # Control which _INCOMING tables to use (base model level)
-  # Force use of new _INCOMING tables (set to true)
-  workday__using_military_service_incoming: true
-  workday__using_person_disability_incoming: true
-  workday__using_personal_information_ethnicity_incoming: true
-  workday__using_relative_name_incoming: true
-
-  # OR force use of old legacy tables (set to false)
-  workday__using_military_service_incoming: false
-  workday__using_person_disability_incoming: false
-  workday__using_personal_information_ethnicity_incoming: false
-  workday__using_relative_name_incoming: false
-
-  # Control personal information schema version (intermediate model level)
-  # Enable new split personal information tables (common_data + country_data)
-  workday__using_personal_info_v2_schema: true  # Default: false
-```
-
-**When to use these variables:**
-
-**For _INCOMING table vars:**
-- **Leave unset (recommended)**: The package will automatically detect and use the correct table
-- **Set to `true`**: Force the package to use the new _INCOMING table (useful for testing before transition period ends)
-- **Set to `false`**: Force the package to use the old legacy table (useful if you need to temporarily use old tables)
-
-**For personal info schema var:**
-- **Leave unset or set to `false` (default)**: Uses original `PERSONAL_INFORMATION_HISTORY` table
-- **Set to `true`**: Uses new split tables (`PERSONAL_INFORMATION_COMMON_DATA` + `COUNTRY_PERSONAL_INFORMATION_DATA`)
-
-> **Note**: During the transition period (Jan 5, 2025 - Apr 6, 2026), both old and new tables will sync. After April 6, 2026, only the new tables will be available, and old tables will be renamed to *_BACKUP_2026-04-06.
-
-#### Performance Optimization (Post-Migration)
-
-The package uses automatic table detection which queries the information schema **~4 times per dbt run** to check if _INCOMING tables exist. While this provides seamless automatic migration support, you can eliminate these queries after the migration is complete for better performance.
-
-**Cost Impact:**
-- **Snowflake**: ~$5-20/year depending on warehouse size
-- **Databricks**: ~$2-3/year
-- **BigQuery**: Free but adds ~1 second latency per run
-- **Redshift**: ~$3-4/year
-
-**To eliminate information schema queries after April 6, 2026:**
-
-```yml
-# dbt_project.yml
-vars:
-  # Explicitly set all table variables to skip detection queries
-  workday__using_military_service_incoming: true
-  workday__using_person_disability_incoming: true
-  workday__using_personal_information_ethnicity_incoming: true
-  workday__using_relative_name_incoming: true
-  workday__using_personal_info_v2_schema: true  # Optional: improved performance
-```
-
-**Performance improvements:**
-- ✅ Eliminates 4 information schema queries per dbt run
-- ✅ Reduces dbt compile/run time by 1-2 seconds
-- ✅ Saves ~$5-20/year in compute costs per user (varies by warehouse)
-
-#### Migration Timeline
-- **Before January 5, 2025**: Old tables only
-- **January 5, 2025 - April 6, 2026**: Both old and new tables sync (transition period)
-- **After April 6, 2026**: New tables only; old tables renamed to *_BACKUP_2026-04-06
 
 ### (Optional) Step 4: Utilizing Workday HCM History Mode
 
@@ -220,6 +129,34 @@ vars:
 ```
 
 The default date value in our models is set at `2005-03-01` (the month Workday was founded), designed for if you want to capture all available data by default. If you choose to set a custom date value as outlined above, these models will take the greater of either this value or the minimum `_fivetran_start` date in the source data. They will then be used for creating the first dates available with historical data in your daily history models.
+
+### (Optional) Step 5: Workday Schema Migration Configuration
+
+#### Overview
+Workday is migrating to a new API version with significant schema changes that will last for several months. Starting **January 5, 2026**, existing Fivetran Workday HCM connectors will begin syncing new tables with an "_INCOMING" suffix alongside existing tables during a transition period lasting until **April 6, 2026**.  
+
+This package automatically detects which tables are available in your warehouse and uses the appropriate tables. **No action is required in most cases.**
+
+#### Impacted Tables
+The following tables have new versions with "_incoming" suffix:
+- `military_service` → `military_service_incoming` 
+- `personal_information_ethnicity` → `personal_information_ethnicity_incoming` 
+
+Additionally, fields from `personal_information_history` have been split into new tables:
+- `personal_information_common_data`
+- `country_personal_information` 
+
+#### Leveraging Legacy or Incoming Table Names
+If you need to override the automatic table detection behavior, you can set the following variables in your `dbt_project.yml`:
+
+```yml
+# dbt_project.yml
+
+vars: 
+  workday__using_military_service_incoming: false  # Default is currently true
+  workday__using_personal_information_ethnicity_incoming: false  # Default is currently true 
+  workday__using_personal_info_v2_schema: false  # To leverage old schema. Default is currently true
+```
 
 ### (Optional) Step 5: Additional configurations
 

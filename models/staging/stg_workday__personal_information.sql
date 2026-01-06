@@ -56,7 +56,7 @@ final as (
         region_of_birth,
         region_of_birth_code,
         religion,
-        social_benefits_locality,
+        social_benefit,
         tobacco_use as is_tobacco_use,
         type
     from fields

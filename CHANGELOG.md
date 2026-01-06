@@ -2,51 +2,43 @@
 [PR #XX](https://github.com/fivetran/dbt_workday/pull/XX) includes the following updates:
 
 ## Schema/Data Change
-**5 total changes • 0 possible breaking changes**
+**5 total changes • 2 possible breaking changes**
 
 | Data Model(s) | Change type | Old | New | Notes |
 | ---------- | ----------- | -------- | -------- | ----- |
-| `stg_workday__military_service` | Updated source table names | `MILITARY_SERVICE` | `MILITARY_SERVICE` or `MILITARY_SERVICE_INCOMING` | For Workday connections syncing v42.2 API data (after Jan 5, 2025), the source table has been renamed to `MILITARY_SERVICE_INCOMING`. The model will dynamically determine which table you have and transform your data accordingly. |
-| `stg_workday__personal_information_ethnicity` | Updated source table names | `PERSONAL_INFORMATION_ETHNICITY` | `PERSONAL_INFORMATION_ETHNICITY` or `PERSONAL_INFORMATION_ETHNICITY_INCOMING` | For Workday connections syncing v42.2 API data (after Jan 5, 2025), the source table has been renamed to `PERSONAL_INFORMATION_ETHNICITY_INCOMING`. The model will dynamically determine which table you have and transform your data accordingly. |
-| `stg_workday__person_disability` (new) | New staging model | N/A | `PERSON_DISABILITY` or `PERSON_DISABILITY_INCOMING` | New staging model created to support Workday v42.2 API migration. Dynamically selects between old and new table versions. |
-| `stg_workday__relative_name` (new) | New staging model | N/A | `RELATIVE_NAME` or `RELATIVE_NAME_INCOMING` | New staging model created to support Workday v42.2 API migration. Dynamically selects between old and new table versions. |
-| `int_workday__personal_details` | Updated data source logic | `PERSONAL_INFORMATION_HISTORY` | `PERSONAL_INFORMATION_HISTORY` or `PERSONAL_INFORMATION_COMMON_DATA` + `COUNTRY_PERSONAL_INFORMATION_DATA` | For Workday v42.2 API connections, personal information fields are now sourced from split tables. The model automatically detects which schema is available and transforms data accordingly. No changes to output schema. |
+| `stg_workday__personal_information_common_data` | New model | N/A | New staging model | New staging model for Workday v42.2 API containing personal information fields including date and city of birth, nationality and blood type. |
+| `stg_workday__country_personal_information` | New model | N/A | New staging model | New staging model for Workday v42.2 API containing country-specific personal information fields including gender and marital status. |
+| `stg_workday__military_service` | **BREAKING**: Fields changed | `worker_id` sourced from `personal_info_system_id` | `worker_id` sourced from `personal_info_common_id` | **Breaking change for customers using this staging model directly**. Model now uses v42.2 API schema. New fields: `discharge_type`, `status_id`. Legacy fields (`service_type`, `military_status`, `index`) cast to null for backward compatibility. Automatically uses `military_service_incoming` table if available, otherwise uses `military_service` table. |
+| `stg_workday__personal_information_ethnicity` | **BREAKING**: Join key changed | `worker_id` sourced from `personal_info_system_id` | `worker_id` sourced from `country_personal_information_id` | **Breaking change for customers using this staging model directly**. Model now uses v42.2 API schema with new join key. Legacy `index` field cast to null for backward compatibility. Automatically uses `personal_information_ethnicity_incoming` table if available, otherwise uses `personal_information_ethnicity` table. |
+| `workday__employee_overview` | Field added | N/A | `fivetran_id` | Added Fivetran composite key field to enable advanced joins with v42.2 API tables. Field is null for legacy schema connections. |
 
 ## Feature Update
-- Adds automatic detection and support for new Workday v42.2 API table naming conventions (tables with "_INCOMING" suffix) at the base model level. Models will automatically use the new table names when available while maintaining backward compatibility with existing connections.
-- Adds the following variables to override automatic detection behavior at base model level. See the [README](https://github.com/fivetran/dbt_workday#optional-step-35-workday-v422-api-schema-migration) for more details:
-  - `workday__using_military_service_incoming` - Force use of new or old MILITARY_SERVICE table
-  - `workday__using_person_disability_incoming` - Force use of new or old PERSON_DISABILITY table
-  - `workday__using_personal_information_ethnicity_incoming` - Force use of new or old PERSONAL_INFORMATION_ETHNICITY table
-  - `workday__using_relative_name_incoming` - Force use of new or old RELATIVE_NAME table
-- Adds configuration variable for intermediate model level (avoids information schema queries for performance):
-  - `workday__using_personal_info_v2_schema` - Enable new split personal information tables (default: `false`)
-- Creates new staging models for Workday v42.2 API tables (6 total):
-  - Core split tables (2): `stg_workday__personal_information_common_data` (birth info, nationality), `stg_workday__country_personal_information_data` (gender, marital status, hukou)
-  - New tables for existing data (2): `stg_workday__person_disability`, `stg_workday__relative_name`
-  - Updated existing staging models (2): `stg_workday__military_service` (now supports _INCOMING table), `stg_workday__personal_information_ethnicity` (now supports _INCOMING table)
-  - Note: Staging models for the following child tables were intentionally deferred as they're not currently used by core models: `personal_information_gender_identity`, `personal_information_pronoun`, `personal_information_sexual_orientation`, `personal_information_sexual_orientation_and_gender_identity`. See DECISIONLOG.md for rationale.
+- Adds automatic detection and support for Workday v42.2 API schema migration:
+  - `stg_workday__military_service` automatically detects and uses `military_service_incoming` table if available for existing customers if available, otherwise uses `military_service` table for new customers. 
+  - `stg_workday__personal_information_ethnicity` automatically detects and uses `personal_information_ethnicity_incoming`  for existing customers table if available, otherwise uses `personal_information_ethnicity` table.
+  - `int_workday__personal_details` automatically detects and uses new split tables (`personal_information_common_data` + `country_personal_information`) if both exist, otherwise it uses the old logic. 
+  - All models maintain backward compatibility by casting legacy fields to null
+- Adds configuration variables to default to existing customers with new schema. See the [README](https://github.com/fivetran/dbt_workday#optional-step-5-workday-schema-migration) for details:
+  - `workday__using_military_service_incoming` 
+  - `workday__using_personal_information_ethnicity_incoming`
+  - `workday__using_personal_info_v2_schema` 
+- 
 
 ## Documentation
-- Added comprehensive "Workday v42.2 API Schema Migration" section to README explaining the migration timeline, impacted tables, automatic table detection, and configuration options.
+- Updated README explaining the migration timeline, impacted tables, automatic table detection, and configuration options.
 - Updated DECISIONLOG.md with detailed rationale for:
   - Var override pattern selection (follows dbt_shopify pattern)
   - Decision to update existing `int_workday__personal_details` rather than create new model
   - Backward compatibility approach for Phase 2 (Jan 5, 2025 - Apr 6, 2026) and Phase 3 (after Apr 6, 2026)
 
 ## Under the Hood
-- Adds `does_table_exist` macro to dynamically detect table availability and enable automatic switching between old and new table naming conventions at base model level.
-- Updates base models (`stg_workday__military_service_base`, `stg_workday__personal_information_ethnicity_base`) with var override pattern: `table_identifier='new_table_incoming' if var('workday__using_new_table_incoming', workday.does_table_exist('new_table_incoming')) else 'new_table'`
-- Updates `int_workday__personal_details` with conditional logic using `workday__using_personal_info_v2_schema` var to support both old and new schemas
-- Updates `src_workday.yml` with source definitions for 6 new tables (2 core tables + 4 _INCOMING transition tables)
-- Adds `table_variables` section to `.quickstart/quickstart.yml` mapping configuration variables to their controlled tables
-- Adds 6 new source table variables to `dbt_project.yml` (2 new PERSONAL_INFORMATION split tables + 4 _INCOMING transition tables)
-- Creates 8 total `get_*_columns` macros following dbt_shopify dual-macro pattern: 4 new macro files for new tables (`get_country_personal_information_data_columns`, `get_personal_information_common_data_columns`, `get_person_disability_columns`, `get_relative_name_columns`) + 2 updated existing macro files with dual-macro pattern for _INCOMING variants (`get_military_service_columns`/`get_military_service_incoming_columns`, `get_personal_information_ethnicity_columns`/`get_personal_information_ethnicity_incoming_columns`)
-- Adds integration test seed files for 6 new v42.2 tables:
-  - Core split tables (2): `workday_personal_information_common_data_data.csv`, `workday_country_personal_information_data_data.csv`
-  - _INCOMING transition tables (4): `workday_military_service_incoming_data.csv`, `workday_personal_information_ethnicity_incoming_data.csv`, `workday_person_disability_incoming_data.csv`, `workday_relative_name_incoming_data.csv`
-- Adds 6 identifier configurations for new tables in `integration_tests/dbt_project.yml`
-- Adds "Performance Optimization" section to README documenting cost implications of automatic table detection and how to eliminate information schema queries post-migration
+- Adds `does_table_exist` macro to dynamically detect table availability for automatic schema migration
+- Updates base models (`stg_workday__military_service_base`, `stg_workday__personal_information_ethnicity_base`) to use `*_incoming` table when available via automatic detection
+- Updates staging models (`stg_workday__military_service`, `stg_workday__personal_information_ethnicity`) to always use new v42.2 API schema with legacy fields cast to null for backward compatibility
+- Updates `int_workday__personal_details` to automatically detect and use new split personal information tables when both are available
+- Updates `src_workday.yml` with source definitions for new v42.2 tables: `personal_information_common_data`, `country_personal_information`, plus `_legacy` variants for old schema
+- Adds 4 integration test seed files for v42.2 schema: `workday_military_service_data.csv`, `workday_personal_information_ethnicity_data.csv`, `workday_personal_information_common_data_data.csv`, `workday_country_personal_information_data.csv`
+- Rename seed files to keep reference to old `military_service `and `personal_information_ethnicity` schema; will deprecate after full transition to new tables in April: `workday_military_service_legacy_data.csv`, `workday_personal_information_ethnicity_legacy_data.csv` 
 
 # dbt_workday v0.6.0
 [PR #17](https://github.com/fivetran/dbt_workday/pull/17) includes the following updates:

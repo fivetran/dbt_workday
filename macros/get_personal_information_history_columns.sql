@@ -35,7 +35,7 @@
     {"name": "region_of_birth", "datatype": dbt.type_string()},
     {"name": "region_of_birth_code", "datatype": dbt.type_string()},
     {"name": "religion", "datatype": dbt.type_string()},
-    {"name": "social_benefits_locality", "datatype": dbt.type_string()},
+    {"name": "social_benefit", "datatype": dbt.type_string()},
     {"name": "tobacco_use", "datatype": dbt.type_boolean()},
     {"name": "type", "datatype": dbt.type_string()}
 ] %}

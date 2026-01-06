@@ -1,5 +1,4 @@
-{%- set use_incoming = var('workday__using_personal_information_ethnicity_incoming',
-    workday.does_table_exist('personal_information_ethnicity_incoming')) -%}
+{{ config(enabled=var('workday__using_personal_information_ethnicity_incoming', true)) }}
 
 with base as (
 
@@ -13,8 +12,7 @@ fields as (
         {{
             fivetran_utils.fill_staging_columns(
                 source_columns=adapter.get_columns_in_relation(ref('stg_workday__personal_information_ethnicity_base')),
-                staging_columns=get_personal_information_ethnicity_incoming_columns() if use_incoming
-                else get_personal_information_ethnicity_columns()
+                staging_columns=get_personal_information_ethnicity_columns()
             )
         }}
         {{ fivetran_utils.source_relation(
@@ -29,16 +27,11 @@ final as (
     select
         source_relation,
         _fivetran_synced,
-        {% if use_incoming %}
-        country_personal_information_id as worker_id,  -- NEW field name
+        -- New schema fields (always use new schema, cast legacy fields as null for backward compatibility)
+        country_personal_information_id as worker_id,
         ethnicity_code,
-        id as ethnicity_id  -- NEW field name mapped to old output name
-        {% else %}
-        personal_info_system_id as worker_id,  -- OLD field name
-        ethnicity_code,
-        ethnicity_id,
-        index
-        {% endif %}
+        id as ethnicity_id,
+        cast(null as {{ dbt.type_int() }}) as index  -- Legacy field (null for backward compatibility)
     from fields
     where not coalesce(_fivetran_deleted, false)
 )

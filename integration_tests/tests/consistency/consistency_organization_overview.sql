@@ -5,12 +5,12 @@
 
 with prod as (
     select *
-    from {{ target.schema }}_workday_prod.workday__employee_overview
+    from {{ target.schema }}_workday_prod.workday__organization_overview
 ),
 
 dev as (
     select *
-    from {{ target.schema }}_workday_dev.workday__employee_overview
+    from {{ target.schema }}_workday_dev.workday__organization_overview
 ), 
 
 prod_not_in_dev as (

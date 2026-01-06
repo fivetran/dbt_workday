@@ -1,9 +1,10 @@
 with employee_surrogate_key as (
-    
-    select 
+
+    select
         {{ dbt_utils.generate_surrogate_key(['worker_id', 'source_relation', 'position_id', 'position_start_date']) }} as employee_id,
         worker_id,
         source_relation,
+        fivetran_id,
         position_id,
         position_start_date,
         worker_code,

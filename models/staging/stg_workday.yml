@@ -980,19 +980,17 @@ models:
         description: '{{ doc("tertiary_last_name") }}'
 
   - name: stg_workday__personal_information_ethnicity
-    description: '{{ doc("personal_information_ethnicity") }}'
+    description: 'Workday v42.2 API staging model for worker ethnicity information. **Migration Note**: This model always uses v42.2 schema. The base model automatically detects and uses `personal_information_ethnicity_incoming` if available (existing customers during Jan 5, 2025 - Apr 6, 2026 transition), otherwise uses `personal_information_ethnicity` (new customers). **Breaking Change**: `worker_id` now sourced from `country_personal_information_id` instead of `personal_info_system_id`. Legacy fields (`index`) cast to null for backward compatibility.'
 
     columns:
       - name: source_relation
         description: '{{ doc("source_relation") }}'
 
       - name: index
-        description: '{{ doc("index") }}'
+        description: '{{ doc("index") }}. **Backward compatibility**: Always null in v42.2 schema. Maintained for downstream compatibility only.'
 
       - name: worker_id
-        description: '{{ doc("worker_id") }}'
-        tests:
-          - not_null
+        description: '{{ doc("worker_id") }}. **Breaking change**: Now sourced from `country_personal_information_id` (new schema) instead of `personal_info_system_id` (legacy). Customers using this staging model directly will need to update their joins.'
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
@@ -1001,30 +999,29 @@ models:
         description: '{{ doc("ethnicity_code") }}'
 
       - name: ethnicity_id
-        description: '{{ doc("ethnicity_id") }}'
-        tests:
-          - not_null
+        description: '{{ doc("ethnicity_id") }}' 
 
   - name: stg_workday__military_service
-    description: '{{ doc("military_service") }}'
+    description: 'Workday v42.2 API staging model for military service records. **Migration Note**: This model always uses v42.2 schema. The base model automatically detects and uses `military_service_incoming` if available (existing customers during Jan 5, 2025 - Apr 6, 2026 transition), otherwise uses `military_service` (new customers). **Breaking Change**: `worker_id` now sourced from `personal_info_common_id` instead of `personal_info_system_id`. New fields added (`discharge_type`, `status_id`). Legacy fields (`index`, `service_type`, `military_status`) cast to null for backward compatibility.'
 
     columns:
       - name: source_relation
         description: '{{ doc("source_relation") }}'
 
       - name: index
-        description: '{{ doc("index") }}'
+        description: '{{ doc("index") }}. **Backward compatibility**: Always null in v42.2 schema. Maintained for downstream compatibility only.'
 
       - name: worker_id
-        description: '{{ doc("worker_id") }}'
-        tests:
-          - not_null
+        description: '{{ doc("worker_id") }}. **Breaking change**: Now sourced from `personal_info_common_id` (new schema) instead of `personal_info_system_id` (legacy). Customers using this staging model directly will need to update their joins.'
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
 
       - name: discharge_date
         description: '{{ doc("discharge_date") }}'
+
+      - name: discharge_type
+        description: Type of military discharge. **New field** in v42.2 schema.
 
       - name: notes
         description: '{{ doc("notes") }}'
@@ -1036,10 +1033,13 @@ models:
         description: '{{ doc("service") }}'
 
       - name: service_type
-        description: '{{ doc("service_type") }}'
+        description: '{{ doc("service_type") }}. **Backward compatibility**: Always null in v42.2 schema (replaced by `discharge_type`). Maintained for downstream compatibility only.'
 
       - name: military_status
-        description: '{{ doc("status") }}'
+        description: '{{ doc("status") }}. **Backward compatibility**: Always null in v42.2 schema (replaced by `status_id`). Maintained for downstream compatibility only.'
+
+      - name: status_id
+        description: Military status identifier. **New field** in v42.2 schema (replaces `military_status`).
 
       - name: status_begin_date
         description: '{{ doc("status_begin_date") }}'

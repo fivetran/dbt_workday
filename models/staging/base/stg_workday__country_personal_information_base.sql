@@ -1,4 +1,4 @@
-{{ config(enabled=var('workday__using_personal_info_v2_schema', false)) }}
+{{ config(enabled=var('workday__using_personal_info_v2_schema', true)) }}
 
 {{
     fivetran_utils.union_data(
