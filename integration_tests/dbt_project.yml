@@ -105,5 +105,5 @@ seeds:
       +start_date: "timestamp"
       +end_date: "timestamp"
 flags:
-  send_anonymous_usage_stats: false
-  use_colors: true
+  send_anonymous_usage_stats: False
+  use_colors: True
