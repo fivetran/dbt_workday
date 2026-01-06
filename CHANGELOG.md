@@ -1,5 +1,5 @@
 # dbt_workday v0.7.0
-[PR #XX](https://github.com/fivetran/dbt_workday/pull/XX) includes the following updates:
+[PR #19](https://github.com/fivetran/dbt_workday/pull/19) includes the following updates:
 
 ## Schema/Data Change
 **5 total changes • 2 possible breaking changes**
