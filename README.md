@@ -130,12 +130,9 @@ vars:
 
 The default date value in our models is set at `2005-03-01` (the month Workday was founded), designed for if you want to capture all available data by default. If you choose to set a custom date value as outlined above, these models will take the greater of either this value or the minimum `_fivetran_start` date in the source data. They will then be used for creating the first dates available with historical data in your daily history models.
 
-### (Optional) Step 5: Workday Schema Migration Configuration
+### (Optional): Workday Schema Migration Configuration
 
-#### Overview
-Workday is migrating to a new API version with significant schema changes that will last for several months. Starting **January 5, 2026**, existing Fivetran Workday HCM connectors will begin syncing new tables with an "_INCOMING" suffix alongside existing tables during a transition period lasting until **April 6, 2026**.  
-
-This package automatically detects which tables are available in your warehouse and uses the appropriate tables. **No action is required in most cases.**
+Workday is migrating to a new API version with significant schema changes that will last for several months. Starting **January 5, 2026**, existing Fivetran Workday HCM connectors will begin syncing new tables with an "_INCOMING" suffix alongside existing tables during a transition period lasting until **April 6, 2026**.  This package automatically detects which tables are available in your warehouse and uses the appropriate tables. **No action is required in most cases.**
 
 #### Impacted Tables
 The following tables have new versions with "_incoming" suffix:
@@ -147,7 +144,7 @@ Additionally, fields from `personal_information_history` have been split into ne
 - `country_personal_information` 
 
 #### Leveraging Legacy or Incoming Table Names
-If you need to override the automatic table detection behavior, you can set the following variables in your `dbt_project.yml`:
+If you need to leverage the old personal information schema or have set up a Workday HCM connector after January 5, you can set the following variables in your `dbt_project.yml`:
 
 ```yml
 # dbt_project.yml
