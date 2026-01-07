@@ -1,3 +1,5 @@
+{%- set use_new_schema = var('workday__using_personal_info_v2_schema', true) -%}
+
 with int_worker_base as (
 
     select * 
@@ -83,7 +85,11 @@ worker_employee_enhanced as (
         end as is_current_employee_thirty_years
     from int_worker_base
     left join int_worker_personal_details 
+        {% if use_new_schema %}
+        on int_worker_base.worker_id = int_worker_personal_details.fivetran_id
+        {% else %} 
         on int_worker_base.worker_id = int_worker_personal_details.worker_id
+        {% endif %} 
         and int_worker_base.source_relation = int_worker_personal_details.source_relation
     left join int_worker_position_enriched
         on int_worker_base.worker_id = int_worker_position_enriched.worker_id

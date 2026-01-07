@@ -1,5 +1,3 @@
-{{ config(enabled=var('workday__using_military_service', true)) }}
-
 with base as (
 
     select * 

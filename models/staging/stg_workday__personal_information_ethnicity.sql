@@ -1,5 +1,3 @@
-{{ config(enabled=var('workday__using_personal_information_ethnicity_incoming', true)) }}
-
 with base as (
 
     select *

@@ -34,7 +34,7 @@ worker_personal_info_data as (
         worker_personal_country_data.is_hispanic_or_latino
     from worker_personal_common_data
     left join worker_personal_country_data
-        on worker_personal_common_data.fivetran_id = worker_personal_country_data.personal_info_common_id
+        on worker_personal_common_data.fivetran_id = worker_personal_country_data.country_fivetran_id
         and worker_personal_common_data.source_relation = worker_personal_country_data.source_relation
 ),
 
@@ -112,10 +112,18 @@ worker_personal_details as (
         worker_military.military_status
     from worker_personal_info_data
     left join worker_name
+        {% if use_new_schema %}
+        on worker_personal_info_data.fivetran_id = worker_name.worker_id
+        {% else %} 
         on worker_personal_info_data.worker_id = worker_name.worker_id
+        {% endif %}
         and worker_personal_info_data.source_relation = worker_name.source_relation
     left join worker_email
+        {% if use_new_schema %}
+        on worker_personal_info_data.fivetran_id = worker_email.worker_id
+        {% else %}  
         on worker_personal_info_data.worker_id = worker_email.worker_id
+        {% endif %}
         and worker_personal_info_data.source_relation = worker_email.source_relation
     left join worker_ethnicity
         {% if use_new_schema %}
