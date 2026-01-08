@@ -157,7 +157,7 @@ vars:
     workday_<default_source_table_name>_identifier: your_table_name 
 ```
 
-### (Optional): Workday Schema Migration Configuration
+#### (Optional): Workday Schema Migration Configuration
 
 Workday is migrating to a new API version with significant schema changes that will last for several months. Starting **January 5, 2026**, existing Fivetran Workday HCM connectors will begin syncing new tables with an "_INCOMING" suffix alongside existing tables during a transition period lasting until **April 6, 2026**.  This package automatically detects which tables are available in your warehouse and uses the appropriate tables. **No action is required in most cases.**
 
@@ -170,7 +170,7 @@ Additionally, fields from `personal_information_history` have been split into ne
 - `personal_information_common_data`
 - `country_personal_information` 
 
-#### Leveraging Legacy or Incoming Table Names
+##### Leveraging Legacy or Incoming Table Names
 If you need to leverage the old personal information schema or have set up a Workday HCM connector after January 5, you can set the following variables in your `dbt_project.yml`:
 
 ```yml

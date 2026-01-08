@@ -785,9 +785,9 @@ sources:
           - name: service
             description: '{{ doc("service") }}'
           - name: service_type
-            description: '{{ doc("service_type") }}.'
+            description: '{{ doc("service_type") }}'
           - name: status
-            description: '{{ doc("status") }}.'
+            description: '{{ doc("status") }}'
           - name: status_begin_date
             description: '{{ doc("status_begin_date") }}'
 

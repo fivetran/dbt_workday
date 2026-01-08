@@ -1,5 +1,3 @@
-{%- set use_new_schema = var('workday__using_personal_info_v2_schema', true) -%}
-
 with int_worker_base as (
 
     select * 

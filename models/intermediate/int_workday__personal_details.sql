@@ -43,7 +43,6 @@ with worker_personal_info_data as(
 
     select
         cast(null as {{ dbt.type_string() }}) as fivetran_id,
-        cast(null as {{ dbt.type_string() }}) as country_fivetran_id,
         worker_id,
         source_relation,
         date_of_birth,
