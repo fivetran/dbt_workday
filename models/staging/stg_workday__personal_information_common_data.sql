@@ -26,7 +26,7 @@ final as (
 
     select
         fivetran_id,
-        id as worker_id,
+        worker_id,
         source_relation,
         _fivetran_synced,
         additional_nationality,

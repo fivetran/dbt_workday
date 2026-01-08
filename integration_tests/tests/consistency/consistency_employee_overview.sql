@@ -9,7 +9,7 @@ with prod as (
 ),
 
 dev as (
-    select * except(fivetran_id)
+    select *
     from {{ target.schema }}_workday_dev.workday__employee_overview
 ), 
 

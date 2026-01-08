@@ -669,12 +669,12 @@ sources:
 
       - name: personal_information_ethnicity
         identifier: '{{ var("workday_personal_information_ethnicity_identifier", "personal_information_ethnicity") }}'
-        description: 'Table containing worker ethnicity information for diversity tracking and compliance reporting.'
+        description: '{{ doc("personal_information_ethnicity") }}'
         columns:
           - name: id
-            description: Ethnicity record ID (new schema field)
+            description: '{{ doc("ethnicity_id") }}'
           - name: country_personal_information_id
-            description: Country personal information ID linking to worker (new schema join key, replaces `personal_info_system_id`)
+            description: '{{ doc("country_personal_information_id") }}'
           - name: _fivetran_deleted
             description: '{{ doc("_fivetran_deleted") }}'
           - name: _fivetran_synced
@@ -684,12 +684,12 @@ sources:
 
       - name: personal_information_ethnicity_incoming
         identifier: '{{ var("workday_personal_information_ethnicity_incoming_identifier", "personal_information_ethnicity_incoming") }}'
-        description: 'Table containing worker ethnicity information for diversity tracking and compliance reporting. **NOTE** This table is for existing customers to leverage between January 5 and April 6, 2026 until transitioned over to `personal_information_ethnicity`.'
+        description: '{{ doc("personal_information_ethnicity_incoming") }}'
         columns:
           - name: id
-            description: Ethnicity record ID.
+            description: '{{ doc("ethnicity_id") }}'
           - name: country_personal_information_id
-            description: Country personal information ID linking to worker. 
+            description: '{{ doc("country_personal_information_id") }}' 
           - name: _fivetran_deleted
             description: '{{ doc("_fivetran_deleted") }}'
           - name: _fivetran_synced
@@ -699,7 +699,7 @@ sources:
 
       - name: personal_information_ethnicity_legacy
         identifier: '{{ var("workday_personal_information_ethnicity_legacy_identifier", "personal_information_ethnicity") }}'
-        description: 'Legacy Workday personal information ethnicity table. This source is for testing purposes only. The package does not support the legacy schema - all models use v42.2 API schema with legacy fields cast to null for backward compatibility. This will be removed after April 6.'
+        description: '{{ doc("personal_information_ethnicity_legacy") }}'
         columns:
           - name: index
             description: '{{ doc("index") }}'
@@ -716,10 +716,10 @@ sources:
 
       - name: military_service
         identifier: '{{ var("workday_military_service_identifier", "military_service") }}'
-        description: 'Table containing military service records including rank, service information, and veteran status.'
+        description: '{{ doc("military_service") }}'
         columns:
           - name: personal_info_common_id
-            description: Personal information common data ID linking to worker.
+            description: '{{ doc("personal_info_common_id") }}'
           - name: _fivetran_deleted
             description: '{{ doc("_fivetran_deleted") }}'
           - name: _fivetran_synced
@@ -727,7 +727,7 @@ sources:
           - name: discharge_date
             description: '{{ doc("discharge_date") }}'
           - name: discharge_type
-            description: Type of military discharge.
+            description: '{{ doc("discharge_type") }}'
           - name: notes
             description: '{{ doc("notes") }}'
           - name: rank
@@ -735,16 +735,16 @@ sources:
           - name: service
             description: '{{ doc("service") }}'
           - name: status_id
-            description: Military status identifier. 
+            description: '{{ doc("military_status_id") }}' 
           - name: status_begin_date
             description: '{{ doc("status_begin_date") }}'
 
       - name: military_service_incoming
         identifier: '{{ var("workday_military_service_incoming_identifier", "military_service_incoming") }}'
-        description: 'Table containing military service records including rank, service information, and veteran status. This table is for existing customers to leverage between January 5 and April 6, 2026 until transitioned over to `military_service`. This will be removed after April 6.'
+        description: '{{ doc("military_service_incoming") }}'
         columns:
           - name: personal_info_common_id
-            description: Personal information common data ID linking to worker.
+            description: '{{ doc("personal_info_common_id") }}'
           - name: _fivetran_deleted
             description: '{{ doc("_fivetran_deleted") }}'
           - name: _fivetran_synced
@@ -752,7 +752,7 @@ sources:
           - name: discharge_date
             description: '{{ doc("discharge_date") }}'
           - name: discharge_type
-            description: Type of military discharge.
+            description: '{{ doc("discharge_type") }}'
           - name: notes
             description: '{{ doc("notes") }}'
           - name: rank
@@ -760,13 +760,13 @@ sources:
           - name: service
             description: '{{ doc("service") }}'
           - name: status_id
-            description: Military status identifier (new schema field, replaces legacy `status` field)
+            description: '{{ doc("military_status_id") }}'
           - name: status_begin_date
             description: '{{ doc("status_begin_date") }}'
 
       - name: military_service_legacy
         identifier: '{{ var("workday_military_service_legacy_identifier", "military_service") }}'
-        description: 'Legacy Workday military service table. This source is for testing purposes only. The package does not support the legacy schema - all models use new schema with legacy fields cast to null for backward compatibility. This table will be deprecated after April 6.'
+        description: '{{ doc("military_service_legacy") }}'
         columns:
           - name: index
             description: '{{ doc("index") }}'
@@ -785,53 +785,99 @@ sources:
           - name: service
             description: '{{ doc("service") }}'
           - name: service_type
-            description: '{{ doc("service_type") }}. **Backward compatibility**: Cast to null in staging model (replaced by `discharge_type` in new schema).'
+            description: '{{ doc("service_type") }}.'
           - name: status
-            description: '{{ doc("status") }}. **Backward compatibility**: Cast to null in staging model (replaced by `status_id` in new schema).'
+            description: '{{ doc("status") }}.'
           - name: status_begin_date
             description: '{{ doc("status_begin_date") }}'
 
       - name: personal_information_common_data
         identifier: '{{ var("workday_personal_information_common_data_identifier", "personal_information_common_data") }}'
-        description: 'Table containing universal personal information attributes including date of birth, death records, nationality, citizenship status, birth location, and medical exam data.'
+        description: '{{ doc("personal_information_common_data") }}'
         columns:
-          - name: id
-            description: Worker ID
-          - name: _fivetran_active
-            description: Fivetran active record indicator
           - name: _fivetran_synced
-            description: Fivetran last sync timestamp
-          - name: _fivetran_start
-            description: Fivetran valid from timestamp
-          - name: _fivetran_end
-            description: Fivetran valid to timestamp
+            description: '{{ doc("_fivetran_synced") }}'
+          - name: _fivetran_deleted
+            description: '{{ doc("_fivetran_deleted") }}'
+          - name: worker_id
+            description: '{{ doc("worker_id") }}'
+          - name: fivetran_id
+            description: '{{ doc("fivetran_id") }}'
+          - name: additional_nationality
+            description: '{{ doc("additional_nationality") }}'
+          - name: blood_type
+            description: '{{ doc("blood_type") }}'
+          - name: citizenship_status
+            description: '{{ doc("citizenship_status") }}'
+          - name: city_of_birth
+            description: '{{ doc("city_of_birth") }}'
+          - name: city_of_birth_code
+            description: '{{ doc("city_of_birth_code") }}'
+          - name: country_of_birth
+            description: '{{ doc("country_of_birth") }}'
+          - name: country_region_of_birth
+            description: '{{ doc("country_region_of_birth") }}'
           - name: date_of_birth
-            description: Worker date of birth
+            description: '{{ doc("date_of_birth") }}'
           - name: date_of_death
-            description: Worker date of death
+            description: '{{ doc("date_of_death") }}'
+          - name: last_medical_exam_date
+            description: '{{ doc("last_medical_exam_date") }}'
+          - name: last_medical_exam_valid_to
+            description: '{{ doc("last_medical_exam_valid_to") }}'
+          - name: medical_exam_notes
+            description: '{{ doc("medical_exam_notes") }}'
+          - name: primary_nationality
+            description: '{{ doc("primary_nationality") }}'
+          - name: region_of_birth
+            description: '{{ doc("region_of_birth") }}'
 
       - name: country_personal_information
         identifier: '{{ var("workday_country_personal_information_identifier", "country_personal_information") }}'
-        description: 'Table containing country-specific personal information attributes.'
+        description: '{{ doc("country_personal_information") }}'
         columns:
-          - name: id
-            description: Worker ID
-          - name: _fivetran_active
-            description: Fivetran active record indicator
+          - name: fivetran_id
+            description: '{{ doc("fivetran_id") }}'
+          - name: personal_info_common_id
+            description: '{{ doc("personal_info_common_id") }}'
+          - name: country_code
+            description: '{{ doc("country_code") }}'
           - name: _fivetran_synced
-            description: Fivetran last sync timestamp
-          - name: _fivetran_start
-            description: Fivetran valid from timestamp
-          - name: _fivetran_end
-            description: Fivetran valid to timestamp
+            description: '{{ doc("_fivetran_synced") }}'
+          - name: _fivetran_deleted
+            description: '{{ doc("_fivetran_deleted") }}'
           - name: gender
-            description: Worker gender
+            description: '{{ doc("gender") }}'
           - name: hispanic_or_latino
-            description: Hispanic or Latino indicator
+            description: '{{ doc("hispanic_or_latino") }}'
+          - name: hukou_locality
+            description: '{{ doc("hukou_locality") }}'
+          - name: hukou_postal_code
+            description: '{{ doc("hukou_postal_code") }}'
+          - name: hukou_region_code
+            description: '{{ doc("hukou_region_code") }}'
+          - name: hukou_subregion_code
+            description: '{{ doc("hukou_subregion_code") }}'
+          - name: hukou_type_code
+            description: '{{ doc("hukou_type_code") }}'
+          - name: local_hukou
+            description: '{{ doc("local_hukou") }}'
           - name: marital_status
-            description: Worker marital status
+            description: '{{ doc("marital_status") }}'
           - name: marital_status_date
-            description: Date marital status was set
+            description: '{{ doc("marital_status_date") }}'
+          - name: native_region_code
+            description: '{{ doc("native_region_code") }}'
+          - name: native_region
+            description: '{{ doc("native_region") }}'
+          - name: personnel_file_agency_for_person
+            description: '{{ doc("personnel_file_agency_for_person") }}'
+          - name: political_affiliation
+            description: '{{ doc("political_affiliation") }}'
+          - name: religion
+            description: '{{ doc("religion") }}'
+          - name: social_benefits_locality
+            description: '{{ doc("social_benefits_locality") }}'
 
       - name: person_contact_email_address
         identifier: '{{ var("workday_person_contact_email_address_identifier", "person_contact_email_address") }}'

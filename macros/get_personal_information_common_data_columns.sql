@@ -4,7 +4,7 @@
     {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()},
     {"name": "_fivetran_deleted", "datatype": dbt.type_boolean()},
     {"name": "fivetran_id", "datatype": dbt.type_string()},
-    {"name": "id", "datatype": dbt.type_string()},
+    {"name": "worker_id", "datatype": dbt.type_string()},
     {"name": "additional_nationality", "datatype": dbt.type_string()},
     {"name": "blood_type", "datatype": dbt.type_string()},
     {"name": "citizenship_status", "datatype": dbt.type_string()},

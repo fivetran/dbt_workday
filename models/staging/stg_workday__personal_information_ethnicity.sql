@@ -24,8 +24,7 @@ final as (
 
     select
         source_relation,
-        _fivetran_synced,
-        -- New schema fields (always use new schema, cast legacy fields as null for backward compatibility)
+        _fivetran_synced, 
         country_personal_information_id as worker_id,
         ethnicity_code,
         id as ethnicity_id,

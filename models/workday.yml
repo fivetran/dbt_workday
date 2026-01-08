@@ -21,6 +21,9 @@ models:
       - name: source_relation
         description: '{{ doc("source_relation") }}'
 
+      - name: fivetran_id
+        description: '{{ doc("fivetran_id") }}'
+
       - name: worker_code
         description: '{{ doc("worker_code") }}'
 

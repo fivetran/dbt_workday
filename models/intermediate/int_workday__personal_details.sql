@@ -14,7 +14,7 @@ with worker_personal_common_data as (
 worker_personal_country_data as (
 
     select
-        fivetran_id as country_fivetran_id,
+        fivetran_id,
         personal_info_common_id,
         source_relation,
         gender,
@@ -26,7 +26,6 @@ worker_personal_info_data as (
 
     select
         worker_personal_common_data.fivetran_id,
-        worker_personal_country_data.country_fivetran_id,
         worker_personal_common_data.worker_id,
         worker_personal_common_data.source_relation,
         worker_personal_common_data.date_of_birth,
@@ -34,7 +33,7 @@ worker_personal_info_data as (
         worker_personal_country_data.is_hispanic_or_latino
     from worker_personal_common_data
     left join worker_personal_country_data
-        on worker_personal_common_data.fivetran_id = worker_personal_country_data.country_fivetran_id
+        on worker_personal_common_data.fivetran_id = worker_personal_country_data.personal_info_common_id
         and worker_personal_common_data.source_relation = worker_personal_country_data.source_relation
 ),
 
@@ -79,7 +78,7 @@ worker_email as(
 worker_ethnicity as (
 
     select 
-        worker_id as ethnicity_join_key,
+        worker_id,
         source_relation,
         {{ fivetran_utils.string_agg('distinct ethnicity_code', "', '" ) }} as ethnicity_codes
     from {{ ref('stg_workday__personal_information_ethnicity') }}
@@ -89,7 +88,7 @@ worker_ethnicity as (
 worker_military as (
 
     select 
-        worker_id as military_join_key,
+        worker_id,
         source_relation,
         true as is_military_service,
         military_status
@@ -112,32 +111,16 @@ worker_personal_details as (
         worker_military.military_status
     from worker_personal_info_data
     left join worker_name
-        {% if use_new_schema %}
-        on worker_personal_info_data.fivetran_id = worker_name.worker_id
-        {% else %} 
         on worker_personal_info_data.worker_id = worker_name.worker_id
-        {% endif %}
         and worker_personal_info_data.source_relation = worker_name.source_relation
-    left join worker_email
-        {% if use_new_schema %}
-        on worker_personal_info_data.fivetran_id = worker_email.worker_id
-        {% else %}  
+    left join worker_email 
         on worker_personal_info_data.worker_id = worker_email.worker_id
-        {% endif %}
         and worker_personal_info_data.source_relation = worker_email.source_relation
     left join worker_ethnicity
-        {% if use_new_schema %}
-        on worker_personal_info_data.country_fivetran_id = worker_ethnicity.ethnicity_join_key
-        {% else %}
-        on worker_personal_info_data.worker_id = worker_ethnicity.ethnicity_join_key
-        {% endif %}
+        on worker_personal_info_data.worker_id = worker_ethnicity.worker_id
         and worker_personal_info_data.source_relation = worker_ethnicity.source_relation
     left join worker_military
-        {% if use_new_schema %}
-        on worker_personal_info_data.fivetran_id = worker_military.military_join_key
-        {% else %}
-        on worker_personal_info_data.worker_id = worker_military.military_join_key
-        {% endif %}
+        on worker_personal_info_data.worker_id = worker_military.worker_id
         and worker_personal_info_data.source_relation = worker_military.source_relation
 )
 

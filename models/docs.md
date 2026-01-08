@@ -178,6 +178,8 @@
 
 {% docs discharge_date %} The date on which the individual was discharged from military service. {% enddocs %}
 
+{% docs discharge_type %} Type of military discharge. {% enddocs %}
+
 {% docs earliest_hire_date %} Earliest date when the position can be filled. {% enddocs %}
 
 {% docs earliest_overlap_date %} Earliest date when the position can overlap with other positions. {% enddocs %}
@@ -577,6 +579,8 @@
 
 {% docs personal_info_system_id %} The system ID associated with the personal information of the individual. {% enddocs %}
 
+{% docs personal_info_common_id %} Personal information common data ID linking to worker. {% enddocs %}
+
 {% docs personal_information %} The personal information associated with each worker. {% enddocs %}
 
 {% docs personal_information_ethnicity %} Represents information about the ethnicity of an individual in the Workday system. {% enddocs %} 
@@ -677,7 +681,7 @@
 
 {% docs service %} The specific military service branch in which the individual served. {% enddocs %}
 
-{% docs service_type %} The type or category of military service (e.g., active duty, reserve, etc.). {% enddocs %}
+{% docs service_type %} The type or category of military service (e.g., active duty, reserve, etc.). Now always null and maintained for backwards compatibility only. {% enddocs %}
 
 {% docs severance_date %} The date when the worker's severance is recorded. {% enddocs %}
 
@@ -816,3 +820,39 @@
 {% docs primary_business_site %} Primary location a worker's business is situated. {% enddocs %}
 
 {% docs used_in_change_organization_assignments %} If a worker has opted to change these organization assignments. {% enddocs %}
+
+{% docs country_personal_information_id %} Country personal information ID linking to worker. {% enddocs %}
+
+{% docs country_code %} Country code for country-specific information. {% enddocs %}
+
+{% docs country_region_of_birth %} Country region of birth code (renamed from legacy `region_of_birth_code` in v42.2 API). {% enddocs %}
+
+{% docs fivetran_id %} Fivetran composite key identifier. {% enddocs %}
+
+{% docs hukou_region_code %} Hukou region code (China-specific, renamed from legacy `hukou_region` in v42.2 API). {% enddocs %}
+
+{% docs hukou_subregion_code %} Hukou subregion code (China-specific, renamed from legacy `hukou_subregion` in v42.2 API). {% enddocs %}
+
+{% docs hukou_type_code %} Hukou type code (China-specific, renamed from legacy `hukou_type` in v42.2 API). {% enddocs %}
+
+{% docs military_service_incoming %} Table containing military service records including rank, service information, and veteran status. This table is for existing customers to leverage between January 5 and April 6, 2026 until transitioned over to `military_service`. This will be removed after April 6. {% enddocs %}
+
+{% docs military_service_legacy %} Legacy Workday military service table. This source is for testing purposes only. The package does not support the legacy schema - all models use new schema with legacy fields cast to null for backward compatibility. This table will be deprecated and removed after April 6. {% enddocs %}
+
+{% docs military_status_id %} Military status identifier. {% enddocs %}
+
+{% docs personnel_file_agency_for_person %} Personnel file agency for person (renamed from legacy `personnel_file_agency` in v42.2 API). {% enddocs %}
+
+{% docs personal_information_common_data %} Table containing universal personal information attributes including date of birth, death records, nationality, citizenship status, birth location, and medical exam data. {% enddocs %}
+
+{% docs personal_information_ethnicity_incoming %} Table containing worker ethnicity information for diversity tracking and compliance reporting. **NOTE** This table is for existing customers to leverage between January 5 and April 6, 2026 until transitioned over to `personal_information_ethnicity`. {% enddocs %}
+
+{% docs personal_information_ethnicity_legacy %} Legacy Workday personal information ethnicity table. This source is for testing purposes only. The package does not support the legacy schema - all models use v42.2 API schema with legacy fields cast to null for backward compatibility. This will be removed after April 6. {% enddocs %}
+
+{% docs country_personal_information %} Table containing country-specific personal information attributes including gender, marital status, and region-specific data. {% enddocs %}
+
+{% docs social_benefits_locality %} Social benefits locality. {% enddocs %}
+
+{% docs social_benefit_information %} Social benefit information. {% enddocs %}
+
+{% docs index_backward_compatibility %} An index for a particular identifier. This field is now always null after recent schema updates, and is maintained for backwards compatibility only. {% enddocs %}
