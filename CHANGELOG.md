@@ -9,19 +9,19 @@
 | `workday__employee_overview` | Field added | N/A | `fivetran_id` | Added Fivetran composite key field to enable advanced joins with new schema updates. Field is null for legacy schema connections. |
 | `stg_workday__personal_information_common_data` | New model | N/A | New staging model | New staging model for [January 2026 Workday personal information schema update](https://fivetran.com/docs/connectors/applications/workday-hcm/changelog#january2026) containing personal information fields including date and city of birth, nationality and blood type. |
 | `stg_workday__country_personal_information` | New model | N/A | New staging model | New staging model for [January 2026 Workday personal information schema update](https://fivetran.com/docs/connectors/applications/workday-hcm/changelog#january2026) containing country-specific personal information fields including gender and marital status. |
-| `stg_workday__military_service` | Join key changed | `worker_id` sourced from `personal_info_system_id` | `worker_id` sourced from `personal_info_common_id` | Model now uses [updated `military_service` schema](https://fivetran.com/docs/connectors/applications/workday-hcm/changelog#january2026). Automatically uses `military_service_incoming` table if available for existing Fivetran connections, otherwise uses `military_service` table for new connections after January 5. |
+| `stg_workday__military_service` | Join key changed | `worker_id` sourced from `personal_info_system_id` | `worker_id` sourced from `personal_info_common_id` | Model now uses [updated `military_service` schema](https://fivetran.com/docs/connectors/applications/workday-hcm/changelog#january2026). Automatically uses `military_service_incoming` table if available for existing Fivetran connections, otherwise uses `military_service` table for new connections after January 5, 2026. |
 | `stg_workday__military_service` | New columns | N/A | `discharge_type`, `status_id` | New fields available in updated schema. |
 | `stg_workday__military_service` | Null legacy columns | `service_type`, `military_status`, `index` |  `service_type`, `military_status`, `index`  cast to null | Legacy fields cast to null for backward compatibility with updated schema. |
-| `stg_workday__personal_information_ethnicity` | Join key changed | `worker_id` sourced from `personal_info_system_id` | `worker_id` sourced from `country_personal_information_id` | Model now uses [updated `personal_information_ethnicity` schema](https://fivetran.com/docs/connectors/applications/workday-hcm/changelog#january2026). Automatically uses `personal_information_ethnicity_incoming` table if available for existing Fivetran connections, otherwise uses `personal_information_ethnicity` table for new connections after January 5. |
+| `stg_workday__personal_information_ethnicity` | Join key changed | `worker_id` sourced from `personal_info_system_id` | `worker_id` sourced from `country_personal_information_id` | Model now uses [updated `personal_information_ethnicity` schema](https://fivetran.com/docs/connectors/applications/workday-hcm/changelog#january2026). Automatically uses `personal_information_ethnicity_incoming` table if available for existing Fivetran connections, otherwise uses `personal_information_ethnicity` table for new connections after January 5, 2026. |
 | `stg_workday__personal_information_ethnicity` | Null legacy column | `index` | `index` cast to null | Legacy field cast to null for backward compatibility with updated schema. |
 
 **Note**: These staging models are ephemeral and will not be present in the warehouse, but we felt it important to document these updates to capture the full depth of changes. 
 
 ## Feature Updates
 - Adds automatic table detection to support the newest version of the Workday API schema updates for new and existing Fivetran customers. [Details in the Fivetran release notes](https://fivetran.com/docs/connectors/applications/workday-hcm/changelog#january2026):
-  - `stg_workday__military_service` automatically detects and uses `military_service_incoming` table if available for existing customers if available, otherwise uses `military_service` table for new customers. 
+  - `stg_workday__military_service` automatically detects and uses `military_service_incoming` table for existing customers if available, otherwise uses `military_service` table for new customers. 
   - `stg_workday__personal_information_ethnicity` automatically detects and uses `personal_information_ethnicity_incoming` for existing customers table if available, otherwise uses `personal_information_ethnicity` table. 
-  - All models maintain backward compatibility by casting legacy fields to null.
+  - All models maintain backward compatibility by setting legacy fields to `null`.
 - Adds configuration variables to default to existing customers based on whether they're existing dbt Core customers (default behavior, set to `true`) or new customers (set to `false`).
   - `workday__using_military_service_incoming` 
   - `workday__using_personal_information_ethnicity_incoming`
@@ -33,13 +33,13 @@
 - Updates [DECISIONLOG](https://github.com/fivetran/dbt_workday/blob/main/DECISIONLOG.md) with rationale for why we are not supporting the legacy schema. 
 
 ## Quickstart Updates
-- Adds table variables to support the above automatic table switching feature. **Note** These will be removed after the transition period when table switching is no longer needed.
+- Adds table variables to support the above automatic table switching feature. **Note:** These will be removed after the transition period when table switching is no longer needed.
 
 ## Under the Hood
 - Adds `does_table_exist` macro to dynamically detect table availability for automatic schema migration. Updates base models (`stg_workday__military_service_base`, `stg_workday__personal_information_ethnicity_base`) to use `*_incoming` table when available via automatic detection.
 - Updates `int_workday__personal_details` to automatically detect and use new split personal information tables when both are available.
 - Updates `src_workday.yml` with source definitions for new tables: `personal_information_common_data`, `country_personal_information`, plus `_legacy` variants for old schemas that will be deprecated after April. 
-- Adds 4 integration test seed files for the new Workday personal information schema; renames seed files to keep reference to old `military_service `and `personal_information_ethnicity` schema; will deprecate after full transition to new tables in April: `workday_military_service_legacy_data`, `workday_personal_information_ethnicity_legacy_data`.
+- Adds 4 integration test seed files for the new Workday personal information schema; renames seed files to keep reference to old `military_service `and `personal_information_ethnicity` schema; will deprecate after full transition to new tables in April 2026: `workday_military_service_legacy_data`, `workday_personal_information_ethnicity_legacy_data`.
 - Adds consistency tests for remaining Workday models.
 - Updates seed files to ensure proper validation of data downstream in `workday__employee_overview`.
 
