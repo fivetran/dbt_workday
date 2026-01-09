@@ -14,7 +14,7 @@ with worker_personal_common_data as (
 worker_personal_country_data as (
 
     select
-        fivetran_id,
+        fivetran_id as personal_country_id,
         personal_info_common_id,
         source_relation,
         gender,
@@ -26,6 +26,7 @@ worker_personal_info_data as (
 
     select
         worker_personal_common_data.fivetran_id,
+        worker_personal_country_data.personal_country_id,
         worker_personal_common_data.worker_id,
         worker_personal_common_data.source_relation,
         worker_personal_common_data.date_of_birth,
@@ -43,6 +44,7 @@ with worker_personal_info_data as(
 
     select
         cast(null as {{ dbt.type_string() }}) as fivetran_id,
+        cast(null as {{ dbt.type_string() }}) as personal_country_id,
         worker_id,
         source_relation,
         date_of_birth,
@@ -116,10 +118,18 @@ worker_personal_details as (
         on worker_personal_info_data.worker_id = worker_email.worker_id
         and worker_personal_info_data.source_relation = worker_email.source_relation
     left join worker_ethnicity
+        {% if use_new_schema %}
+        on worker_personal_info_data.personal_country_id = worker_ethnicity.worker_id
+        {% else %}
         on worker_personal_info_data.worker_id = worker_ethnicity.worker_id
+        {% endif %}
         and worker_personal_info_data.source_relation = worker_ethnicity.source_relation
     left join worker_military
+        {% if use_new_schema %}
+        on worker_personal_info_data.fivetran_id = worker_military.worker_id
+        {% else %}
         on worker_personal_info_data.worker_id = worker_military.worker_id
+        {% endif %}
         and worker_personal_info_data.source_relation = worker_military.source_relation
 )
 

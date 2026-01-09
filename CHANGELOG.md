@@ -18,7 +18,7 @@
 **Note**: These staging models are ephemeral and will not be present in the warehouse, but we felt it important to document these updates to capture the full depth of changes. 
 
 ## Feature Updates
-- Adds automatic detection and support for the newest version of the Workday API schema updates. [Details in the Fivetran release notes](https://fivetran.com/docs/connectors/applications/workday-hcm/changelog#january2026):
+- Adds automatic table detection to support the newest version of the Workday API schema updates for new and existing Fivetran customers. [Details in the Fivetran release notes](https://fivetran.com/docs/connectors/applications/workday-hcm/changelog#january2026):
   - `stg_workday__military_service` automatically detects and uses `military_service_incoming` table if available for existing customers if available, otherwise uses `military_service` table for new customers. 
   - `stg_workday__personal_information_ethnicity` automatically detects and uses `personal_information_ethnicity_incoming` for existing customers table if available, otherwise uses `personal_information_ethnicity` table. 
   - All models maintain backward compatibility by casting legacy fields to null.
