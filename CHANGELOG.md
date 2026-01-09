@@ -15,6 +15,8 @@
 | `stg_workday__personal_information_ethnicity` | Join key changed | `worker_id` sourced from `personal_info_system_id` | `worker_id` sourced from `country_personal_information_id` | Model now uses [updated `personal_information_ethnicity` schema](https://fivetran.com/docs/connectors/applications/workday-hcm/changelog#january2026). Automatically uses `personal_information_ethnicity_incoming` table if available for existing Fivetran connections, otherwise uses `personal_information_ethnicity` table for new connections after January 5. |
 | `stg_workday__personal_information_ethnicity` | Null legacy column | `index` | `index` cast to null | Legacy field cast to null for backward compatibility with updated schema. |
 
+**Note**: These staging models are ephemeral and will not be present in the warehouse, but we felt it important to document these updates to capture the full depth of changes. 
+
 ## Feature Updates
 - Adds automatic detection and support for the newest version of the Workday API schema updates. [Details in the Fivetran release notes](https://fivetran.com/docs/connectors/applications/workday-hcm/changelog#january2026):
   - `stg_workday__military_service` automatically detects and uses `military_service_incoming` table if available for existing customers if available, otherwise uses `military_service` table for new customers. 
@@ -25,13 +27,13 @@
   - `workday__using_personal_information_ethnicity_incoming`
 - Additionally, if customers need to leverage the old personal_information schema, they can set the below variable to false in the `dbt_project.yml`:
   - `workday__using_personal_info_v2_schema`
+- See the [README](https://github.com/fivetran/dbt_workday/blob/main/README.md#optional-workday-schema-migration-configuration) for more details on how and when to set the above variables.
 
 ## Documentation
-- Updates the [README](https://github.com/fivetran/dbt_workday/blob/main/README.md#optional-workday-schema-migration-configuration) explaining how and when to set the above variables.
 - Updates [DECISIONLOG](https://github.com/fivetran/dbt_workday/blob/main/DECISIONLOG.md) with rationale for why we are not supporting the legacy schema. 
 
 ## Quickstart Updates
-- Adds new table variables to support automatic table switching dependent on whether the `*_incoming` tables are synced and whether the new `personal_information_common_data` and `country_personal_information` tables are available. 
+- Adds table variables to support the above automatic table switching feature. **Note** These will be removed after the transition period when table switching is no longer needed.
 
 ## Under the Hood
 - Adds `does_table_exist` macro to dynamically detect table availability for automatic schema migration. Updates base models (`stg_workday__military_service_base`, `stg_workday__personal_information_ethnicity_base`) to use `*_incoming` table when available via automatic detection.
