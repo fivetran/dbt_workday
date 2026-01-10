@@ -51,7 +51,7 @@ vars:
     workday_personal_information_ethnicity_legacy_identifier: "workday_personal_information_ethnicity_legacy_data"
     workday_military_service_legacy_identifier: "workday_military_service_legacy_data"
 
-    # employee_history_enabled: true  ## uncomment when generating docs/testing history models
+    # employee_history_enabled: true  ## @docs-include
 
 
 models:

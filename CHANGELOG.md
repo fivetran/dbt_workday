@@ -22,12 +22,12 @@
   - `stg_workday__military_service` automatically detects and uses `military_service_incoming` table for existing customers if available, otherwise uses `military_service` table for new customers. 
   - `stg_workday__personal_information_ethnicity` automatically detects and uses `personal_information_ethnicity_incoming` for existing customers table if available, otherwise uses `personal_information_ethnicity` table. 
   - All models maintain backward compatibility by setting legacy fields to `null`.
-- Adds configuration variables to default to existing customers based on whether they're existing dbt Core customers (default behavior, set to `true`) or new customers (set to `false`).
+-  Added variables to enable table detection support. These variables are `true` by default to support existing customers, who will have the `*_incoming` tables available.
   - `workday__using_military_service_incoming` 
   - `workday__using_personal_information_ethnicity_incoming`
-- Additionally, if customers need to leverage the old personal_information schema, they can set the below variable to false in the `dbt_project.yml`:
+- If you're a new customer who set up a Workday HCM Fivetran connection after January 5, you should set these variables to `false`. See the [README](https://github.com/fivetran/dbt_workday/blob/main/README.md#optional-workday-schema-migration-configuration) for more details.
+- Additionally, if customers need to leverage the old `personal_information` schema, they can set the below variable to `false` in the `dbt_project.yml`:
   - `workday__using_personal_info_v2_schema`
-- See the [README](https://github.com/fivetran/dbt_workday/blob/main/README.md#optional-workday-schema-migration-configuration) for more details on how and when to set the above variables.
 
 ## Documentation
 - Updates [DECISIONLOG](https://github.com/fivetran/dbt_workday/blob/main/DECISIONLOG.md) with rationale for why we are not supporting the legacy schema. 
