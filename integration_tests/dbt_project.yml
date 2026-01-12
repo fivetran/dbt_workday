@@ -16,6 +16,8 @@ vars:
   # workday__using_personal_information_ethnicity_incoming: false
   # workday__using_personal_info_v2_schema: false
 
+  # employee_history_enabled: true   ## @docs-include
+
   workday:
     workday_job_profile_identifier: "workday_job_profile_data"
     workday_job_family_job_profile_identifier: "workday_job_family_job_profile_data"
@@ -51,7 +53,6 @@ vars:
     workday_personal_information_ethnicity_legacy_identifier: "workday_personal_information_ethnicity_legacy_data"
     workday_military_service_legacy_identifier: "workday_military_service_legacy_data"
 
-    # employee_history_enabled: true  ## @docs-include
 
 
 models:
