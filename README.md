@@ -73,7 +73,7 @@ Include the following Workday HCM package version in your `packages.yml` file:
 ```yml
 packages:
   - package: fivetran/workday
-    version: [">=0.6.0", "<0.7.0"] # we recommend using ranges to capture non-breaking changes automatically
+    version: [">=0.7.0", "<0.8.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
 
 ### Step 3: Define database and schema variables
@@ -101,6 +101,7 @@ vars:
 > NOTE: The native `source.yml` connection set up in the package will not function when the union schema/database feature is utilized. Although the data will be correctly combined, you will not observe the sources linked to the package models in the Directed Acyclic Graph (DAG). This happens because the package includes only one defined `source.yml`.
 
 To connect your multiple schema/database sources to the package models, follow the steps outlined in the [Union Data Defined Sources Configuration](https://github.com/fivetran/dbt_fivetran_utils/tree/releases/v0.4.latest#union_data-source) section of the Fivetran Utils documentation for the union_data macro. This will ensure a proper configuration and correct visualization of connections in the DAG.
+
 
 ### (Optional) Step 4: Utilizing Workday HCM History Mode
 
@@ -155,6 +156,32 @@ If an individual source table has a different name than the package expects, add
 vars:
     workday_<default_source_table_name>_identifier: your_table_name 
 ```
+
+#### (Optional): Workday Schema Migration Configuration
+
+Workday is migrating to a new API version with significant schema changes that will last for several months. Starting **January 5, 2026**, existing Fivetran Workday HCM connectors will begin syncing new tables with an "_INCOMING" suffix alongside existing tables during a transition period lasting until **April 6, 2026**.  This package automatically detects which tables are available in your warehouse and uses the appropriate tables. **No action is required in most cases.**
+
+##### Impacted Tables
+The following tables have new versions with "_incoming" suffix:
+- `military_service` → `military_service_incoming` 
+- `personal_information_ethnicity` → `personal_information_ethnicity_incoming` 
+
+Additionally, fields from `personal_information_history` have been split into new tables:
+- `personal_information_common_data`
+- `country_personal_information` 
+
+##### Leveraging Legacy or Incoming Table Names
+If you need to leverage the old personal information schema or have set up a Workday HCM connector after January 5, you can set the following variables in your `dbt_project.yml`:
+
+```yml
+# dbt_project.yml
+
+vars: 
+  workday__using_military_service_incoming: false  # Default is currently true
+  workday__using_personal_information_ethnicity_incoming: false  # Default is currently true 
+  workday__using_personal_info_v2_schema: false  # To leverage old schema. Default is currently true
+```
+
 </details>
 
 ### (Optional) Step 6: Orchestrate your models with Fivetran Transformations for dbt Core™

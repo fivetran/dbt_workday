@@ -13,4 +13,9 @@ The intent of the `workday__employee_daily_history` model was to combine histori
 
 However, with `stg_workday__worker_position_organization_history`, the values for organization are too customizable, and thus impossible to just into an `employee_daily_history` model with any clear definitions.
 
-Instead we have decided to keep the model separate in `workday__worker_position_org_history`, leaving end customers the ability to configure what organizations they end up joining into the employee daily history within their warehouses. The `int_workday__employee_history` model provides a solid guide into configuring your own custom-type history mode model. 
+Instead we have decided to keep the model separate in `workday__worker_position_org_history`, leaving end customers the ability to configure what organizations they end up joining into the employee daily history within their warehouses. The `int_workday__employee_history` model provides a solid guide into configuring your own custom-type history mode model.
+ 
+## Supporting only new `military_service` and `personal_information_ethnicity` schemas
+Due to the complex implementation of [the Workday personal information schema upgrades in Fivetran](https://fivetran.com/docs/connectors/applications/workday-hcm/changelog#january2026) in the January 2026 [v0.7.0 release of `dbt_workday`](https://github.com/fivetran/dbt_workday/releases/tag/v0.7.0), we opted to not support the legacy schema for `military_service` and `personal_information_ethnicity` tables, particularly given that it will be deprecated in April 2026. Since only one field is being brought into `workday__employee_overview` from each model, we opted for the simpler approach of only supporting the newest version of the schema. We have cast legacy fields to null to prevent breaking changes for downstream models.
+
+**Note**: This section will not be applicable after April 6, 2026.

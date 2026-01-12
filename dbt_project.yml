@@ -1,6 +1,6 @@
 config-version: 2
 name: 'workday'
-version: '0.6.0'
+version: '0.7.0'
 require-dbt-version: [">=1.3.0", "<3.0.0"]
 
 models:
@@ -43,3 +43,11 @@ vars:
     worker_position_history: "{{ source('workday','worker_position_history') }}"
     worker_leave_status: "{{ source('workday','worker_leave_status') }}"
     worker_position_organization_history: "{{ source('workday','worker_position_organization_history') }}"
+
+    # New core tables (v42.2) - PERSONAL_INFORMATION split into 2 core tables
+    personal_information_common_data: "{{ source('workday','personal_information_common_data') }}"
+    country_personal_information: "{{ source('workday','country_personal_information') }}"
+
+    # Incomings tables (transition period: Jan 5, 2025 - Apr 6, 2026)
+    military_service_incoming: "{{ source('workday','military_service_incoming') }}"
+    personal_information_ethnicity_incoming: "{{ source('workday','personal_information_ethnicity_incoming') }}"

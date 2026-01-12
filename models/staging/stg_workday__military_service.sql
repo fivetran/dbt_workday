@@ -1,4 +1,3 @@
-
 with base as (
 
     select * 
@@ -22,18 +21,18 @@ fields as (
 ),
 
 final as (
-    
     select
-        personal_info_system_id as worker_id,
+        personal_info_common_id as worker_id,
         source_relation,
         _fivetran_synced,
         discharge_date,
-        index,
+        cast(null as {{ dbt.type_int() }}) as index,  -- Field removed in new schema
         notes,
         rank,
         service,
-        service_type,
-        status as military_status,
+        cast(null as {{ dbt.type_string() }}) as service_type, -- Field removed in new schema
+        discharge_type,  -- New field
+        coalesce(status_id, status) as military_status,  -- status_id new value, status legacy value (can be removed after April 6)
         status_begin_date
     from fields
     where not coalesce(_fivetran_deleted, false)
