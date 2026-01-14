@@ -12,6 +12,33 @@ table_variables:
     - personal_information_common_data
     - country_personal_information
 
+  _fivetran_quickstart_person_name:
+    - person_name
+  _fivetran_quickstart_person_contact_email_address:
+    - person_contact_email_address
+  _fivetran_quickstart_personal_information_ethnicity:
+    - personal_information_ethnicity
+  _fivetran_quickstart_military_service:
+    - military_service
+  _fivetran_quickstart_job_family_job_profile:
+    - job_family_job_profile
+  _fivetran_quickstart_job_family_job_family_group:
+    - job_family_job_family_group
+  _fivetran_quickstart_job_family_group:
+    - job_family_group
+  _fivetran_quickstart_organization_role_worker:
+    - organization_role_worker
+  _fivetran_quickstart_organization_job_family:
+    - organization_job_family
+  _fivetran_quickstart_position_organization:
+    - position_organization
+  _fivetran_quickstart_worker_leave_status:
+    - worker_leave_status
+  _fivetran_quickstart_military_service_legacy:
+    - military_service_legacy
+  _fivetran_quickstart_personal_information_ethnicity_legacy:
+    - personal_information_ethnicity_legacy
+
 destination_configurations:
   databricks:
     dispatch:

@@ -1,5 +1,5 @@
-
-# Workday HCM dbt Package ([Docs](https://fivetran.github.io/dbt_workday/))
+<!--section="workday_transformation_model"-->
+# Workday dbt Package
 
 <p align="left">
     <a alt="License"
@@ -16,48 +16,73 @@
         <img src="https://img.shields.io/badge/Fivetran_Quickstart_Compatible%3F-yes-green.svg" /></a>
 </p>
 
+This dbt package transforms data from Fivetran's Workday connector into analytics-ready tables.
+
+## Resources
+
+- Number of materialized models¹: 29
+- Connector documentation
+  - [Workday connector documentation](https://fivetran.com/docs/connectors/applications/workday)
+  - [Workday ERD](https://fivetran.com/docs/connectors/applications/workday#schemainformation)
+- dbt package documentation
+  - [GitHub repository](https://github.com/fivetran/dbt_workday)
+  - [dbt Docs](https://fivetran.github.io/dbt_workday/#!/overview)
+  - [DAG](https://fivetran.github.io/dbt_workday/#!/overview?g_v=1)
+  - [Changelog](https://github.com/fivetran/dbt_workday/blob/main/CHANGELOG.md)
+
 ## What does this dbt package do?
 
-This package models Workday HCM data from [Fivetran's connector](https://fivetran.com/docs/applications/workday-hcm). It uses data in the format described by [this ERD](https://fivetran.com/docs/applications/workday-hcm#schemainformation).
-
-The main focus of the package is to transform the core object tables into analytics-ready models, including:
-- Materializes [Workday HCM staging tables](https://fivetran.github.io/dbt_workday/#!/overview/workday_source/models/?g_v=1) which leverage data in the format described by [this ERD](https://fivetran.com/docs/applications/workday-hcm/#schemainformation). These staging tables clean, test, and prepare your Workday data from [Fivetran's connector](https://fivetran.com/docs/applications/workday-hcm) for analysis by doing the following:
-- Name columns for consistency across all packages and for easier analysis
-      - Primary keys are renamed from `id` to `<table name>_id`.  
-  - Adds column-level testing where applicable. For example, all primary keys are tested for uniqueness and non-null values.
-  - Provides insight into your Workday HCM data across the following grains:
-    - Employee, job, organization, position.
-- Gather daily historical records of employees.
-
-This package generates a comprehensive data dictionary of your Workday HCM data through the [dbt docs site](https://fivetran.github.io/dbt_workday/).
+This package enables you to transform core object tables into analytics-ready models and gather daily historical records of employees. It creates enriched models with metrics focused on employee demographics, organizational structures, job profiles, and position management.
 
 > This package does not apply freshness tests to source data due to the variability of survey cadences.
 
-<!--section="workday_transformation_model"-->
-The following table provides a detailed list of all tables materialized within this package by default.
-> TIP: See more details about these tables in the package's [dbt docs site](https://fivetran.github.io/dbt_workday/#!/overview/workday).
+### Output schema
+Final output tables are generated in the following target schema:
 
-| **Table**                 |    **Description**             | Available in Quickstart?
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------|------------------------------
-| [workday__employee_overview](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__employee_overview)  | Each record represents an employee with enriched personal information and the positions they hold. This helps measure employee demographic and geographical distribution, overall retention and turnover, and compensation analysis of their employees. |  Yes
-[workday__job_overview](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__job_overview)  | Each record represents a job with enriched details on job profiles and job families. This allows users to understand recruitment patterns and details within a job and job groupings.  | Yes
-| [workday__organization_overview](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__organization_overview) |  Each record represents organization, organization roles, as well as positions and workers tied to these organizations. This allows end users to slice organizational data at any grain to better analyze organizational structures.  | Yes
-| [workday__position_overview](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__position_overview) | Each record represents a position with enriched data on positions. This allows end users to understand position availabilities, vacancies, cost to optimize hiring efforts.  | Yes
-| [workday__employee_daily_history](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__employee_daily_history)  | Each record represents a daily record for an employee, employee position, and employee personal information within Workday HCM, to help customers gather the most historically accurate data regarding their employees.  | No
-| [workday__monthly_summary](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__monthly_summary)  | Each record is a month, aggregated from the last day of each month of the employee daily history. This captures monthly aggregated metrics to track trends like employee additions and churns, salary movements, demographic changes, etc.    | No
-| [workday__worker_position_org_daily_history](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__worker_position_org_daily_history)  | Each record is a daily record for a worker/position/organization combination, starting with its first active date and updating up toward either the current date (if still active) or its last active date. This will allow customers to tie in organizations to employees via other organization tables (such as `workday__organization_overview`) more easily in their warehouses. | No
+```
+<your_database>.<connector/schema_name>_workday
+```
 
-### Materialized Models
-Each Quickstart transformation job run materializes 29 models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
-<!--section-end-->
+### Final output tables
 
-## How do I use the dbt package?
+By default, this package materializes the following final tables:
 
-### Step 1: Prerequisites
+| Table | Description |
+| :---- | :---- |
+| [workday__employee_overview](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__employee_overview) | Consolidates employee profiles with personal information, position details, employment status, demographics, compensation data, and tenure metrics to analyze workforce composition, retention, turnover, and compensation across the organization. <br></br>**Example Analytics Questions:**<ul><li>What is the employee demographic distribution (gender, ethnicity_codes) by position_location and management_level_code?</li><li>How do days_employed and compensation (annual_summary_total_base_pay) vary by employee_type?</li><li>Which positions have the highest fte_percent and best retention (is_employed_five_years)?</li></ul>|
+| [workday__job_overview](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__job_overview) | Provides comprehensive job profiles with job family classifications, job titles, descriptions, and summaries to analyze job structures, recruitment patterns, and workforce planning needs. <br></br>**Example Analytics Questions:**<ul><li>How are jobs distributed across different job_family_codes and job_family_group_codes?</li><li>Which job_title values have the most detailed job_description and job_summary content?</li><li>What is the hierarchy relationship between job_family and job_family_group classifications?</li></ul>|
+| [workday__organization_overview](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__organization_overview) | Maps organizational hierarchies with organization codes, types, roles, associated positions and workers, plus manager and superior organization relationships to enable multi-dimensional analysis of organizational structure and headcount. <br></br>**Example Analytics Questions:**<ul><li>How are workers and positions distributed across organization_type and organization_sub_type?</li><li>What is the organizational hierarchy from top_level_organization_id to subordinate organizations?</li><li>Which organizations have the most positions and workers by organization_role_code?</li></ul>|
+| [workday__position_overview](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__position_overview) | Tracks position details including vacancy status, availability flags, worker assignments, job profiles, organizational ties, and compensation information to optimize hiring efforts, monitor position utilization, and control workforce costs. <br></br>**Example Analytics Questions:**<ul><li>Which positions are vacant (worker_for_filled_position_id is null) and have is_available_for_hire = true?</li><li>How do is_hiring_freeze and is_closed flags affect position availability by supervisory_organization_id?</li><li>What is the distribution of positions by worker_type_code and compensation_grade_code?</li></ul>|
+| [workday__employee_daily_history](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__employee_daily_history) | Chronicles daily employee snapshots with position assignments, personal info, employment status, compensation details, and demographic data to enable historical analysis, track employee changes over time, and measure workforce metrics at any point in time. <br></br>**Example Analytics Questions:**<ul><li>How has headcount (active employees) changed day-by-day across date_day by employee_type?</li><li>What employee attributes (business_title, compensation, fte_percent) change most frequently over time?</li><li>How do daily compensation snapshots (annual_currency_summary_total_base_pay) compare to current values?</li></ul>|
+| [workday__monthly_summary](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__monthly_summary) | Summarizes monthly workforce metrics including new hires, attrition (voluntary and involuntary), active headcount, average compensation, and tenure to support strategic workforce planning and trend analysis. <br></br>**Example Analytics Questions:**<ul><li>What is the monthly net headcount change (new_employees minus churned_employees) by metrics_month?</li><li>How do churned_voluntary_employees versus churned_involuntary_employees trends vary over time?</li><li>What are the monthly trends in avg_employee_primary_compensation and avg_employee_base_pay?</li></ul>|
+| [workday__worker_position_org_daily_history](https://fivetran.github.io/dbt_workday/#!/model/model.workday.workday__worker_position_org_daily_history) | Tracks daily worker-position-organization combinations from activation to present or termination to enable historical organizational analysis and connect workers to organizational hierarchies over time. <br></br>**Example Analytics Questions:**<ul><li>How long do workers stay in specific position_id and organization_id combinations?</li><li>What is the historical organizational assignment path for each worker_id over time?</li><li>How many position or organization changes occur per worker based on date_day transitions?</li></ul>|
+
+¹ Each Quickstart transformation job run materializes these models if all components of this data model are enabled. This count includes all staging, intermediate, and final models materialized as `view`, `table`, or `incremental`.
+
+---
+
+## Prerequisites
 To use this dbt package, you must have the following:
 
-- At least one Fivetran Workday HCM connection syncing data into your destination.
+- At least one Fivetran Workday connection syncing data into your destination.
 - A **BigQuery**, **Snowflake**, **Redshift**, **Databricks**, or **PostgreSQL** destination.
+
+## How do I use the dbt package?
+You can either add this dbt package in the Fivetran dashboard or import it into your dbt project:
+
+- To add the package in the Fivetran dashboard, follow our [Quickstart guide](https://fivetran.com/docs/transformations/dbt).
+- To add the package to your dbt project, follow the setup instructions in the dbt package's [README file](https://github.com/fivetran/dbt_workday/blob/main/README.md#how-do-i-use-the-dbt-package) to use this package.
+
+<!--section-end-->
+
+### Install the package
+Include the following Workday HCM package version in your `packages.yml` file:
+> TIP: Check [dbt Hub](https://hub.getdbt.com/) for the latest installation instructions or [read the dbt docs](https://docs.getdbt.com/docs/package-management) for more information on installing packages.
+```yml
+packages:
+  - package: fivetran/workday
+    version: [">=0.8.0", "<0.9.0"] # we recommend using ranges to capture non-breaking changes automatically
+```
 
 #### Databricks dispatch configuration
 If you are using a Databricks destination with this package, you must add the following (or a variation of the following) dispatch configuration within your `dbt_project.yml`. This is required in order for the package to accurately search for macros within the `dbt-labs/spark_utils` then the `dbt-labs/dbt_utils` packages respectively.
@@ -67,16 +92,7 @@ dispatch:
     search_order: ['spark_utils', 'dbt_utils']
 ```
 
-### Step 2: Install the package
-Include the following Workday HCM package version in your `packages.yml` file:
-> TIP: Check [dbt Hub](https://hub.getdbt.com/) for the latest installation instructions or [read the dbt docs](https://docs.getdbt.com/docs/package-management) for more information on installing packages.
-```yml
-packages:
-  - package: fivetran/workday
-    version: [">=0.7.0", "<0.8.0"] # we recommend using ranges to capture non-breaking changes automatically
-```
-
-### Step 3: Define database and schema variables
+### Define database and schema variables
 #### Single connection
 By default, this package runs using your destination and the `workday` schema. If this is not where your Workday HCM data is (for example, if your Workday HCM schema is named `workday_fivetran`), add the following configuration to your root `dbt_project.yml` file:
 
@@ -103,7 +119,7 @@ vars:
 To connect your multiple schema/database sources to the package models, follow the steps outlined in the [Union Data Defined Sources Configuration](https://github.com/fivetran/dbt_fivetran_utils/tree/releases/v0.4.latest#union_data-source) section of the Fivetran Utils documentation for the union_data macro. This will ensure a proper configuration and correct visualization of connections in the DAG.
 
 
-### (Optional) Step 4: Utilizing Workday HCM History Mode
+### (Optional) Utilizing Workday HCM History Mode
 
 If you have History Mode enabled for your Workday HCM connection, we now include support for the worker, worker position, worker position organization, and personal information tables directly. You can view these files in the [`staging`](https://github.com/fivetran/dbt_workday/blob/main/models/workday_history/staging) folder. This staging data then flows into the employee daily history model, which in turn populates the monthly summary model. This will allow you access to your historical data for these tables for the most accurate record of your data over time.
 
@@ -130,7 +146,7 @@ vars:
 
 The default date value in our models is set at `2005-03-01` (the month Workday was founded), designed for if you want to capture all available data by default. If you choose to set a custom date value as outlined above, these models will take the greater of either this value or the minimum `_fivetran_start` date in the source data. They will then be used for creating the first dates available with historical data in your daily history models.
 
-### (Optional) Step 5: Additional configurations
+### (Optional) Additional configurations
 
 #### Changing the Build Schema
 By default this package will build the Workday HCM staging models within a schema titled (<target_schema> + `_stg_workday`) and the Workday HCM final models within a schema titled (<target_schema> + `_workday`) in your target database. If this is not where you would like your modeled Workday HCM data to be written to, add the following configuration to your `dbt_project.yml` file:
@@ -184,7 +200,7 @@ vars:
 
 </details>
 
-### (Optional) Step 6: Orchestrate your models with Fivetran Transformations for dbt Core™
+### (Optional) Orchestrate your models with Fivetran Transformations for dbt Core™
 <details><summary>Expand for details</summary>
 <br>
 
@@ -203,14 +219,17 @@ packages:
     - package: dbt-labs/dbt_utils
       version: [">=1.0.0", "<2.0.0"]
 ```
+<!--section="workday_maintenance"-->
 ## How is this package maintained and can I contribute?
 ### Package Maintenance
-The Fivetran team maintaining this package _only_ maintains the latest version of the package. We highly recommend you stay consistent with the [latest version](https://hub.getdbt.com/fivetran/workday/latest/) of the package and refer to the [CHANGELOG](https://github.com/fivetran/dbt_workday/blob/main/CHANGELOG.md) and release notes for more information on changes across versions.
+The Fivetran team maintaining this package only maintains the [latest version](https://hub.getdbt.com/fivetran/workday/latest/) of the package. We highly recommend you stay consistent with the latest version of the package and refer to the [CHANGELOG](https://github.com/fivetran/dbt_workday/blob/main/CHANGELOG.md) and release notes for more information on changes across versions.
 
 ### Contributions
 A small team of analytics engineers at Fivetran develops these dbt packages. However, the packages are made better by community contributions.
 
-We highly encourage and welcome contributions to this package. Check out [this dbt Discourse article](https://discourse.getdbt.com/t/contributing-to-a-dbt-package/657) on the best workflow for contributing to a package.
+We highly encourage and welcome contributions to this package. Learn how to contribute to a package in dbt's [Contributing to an external dbt package article](https://discourse.getdbt.com/t/contributing-to-a-dbt-package/657).
+
+<!--section-end-->
 
 ## Are there any resources available?
 - If you have questions or want to reach out for help, see the [GitHub Issue](https://github.com/fivetran/dbt_workday/issues/new/choose) section to find the right avenue of support for you.
