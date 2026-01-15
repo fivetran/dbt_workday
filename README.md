@@ -34,8 +34,6 @@ This dbt package transforms data from Fivetran's Workday connector into analytic
 
 This package enables you to transform core object tables into analytics-ready models and gather daily historical records of employees. It creates enriched models with metrics focused on employee demographics, organizational structures, job profiles, and position management.
 
-> This package does not apply freshness tests to source data due to the variability of survey cadences.
-
 ### Output schema
 Final output tables are generated in the following target schema:
 
