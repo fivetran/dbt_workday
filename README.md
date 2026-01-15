@@ -22,8 +22,8 @@ This dbt package transforms data from Fivetran's Workday connector into analytic
 
 - Number of materialized models¹: 29
 - Connector documentation
-  - [Workday connector documentation](https://fivetran.com/docs/connectors/applications/workday)
-  - [Workday ERD](https://fivetran.com/docs/connectors/applications/workday#schemainformation)
+  - [Workday connector documentation](https://fivetran.com/docs/connectors/applications/workday-hcm)
+  - [Workday ERD](https://fivetran.com/docs/connectors/applications/workday-hcm#schemainformation)
 - dbt package documentation
   - [GitHub repository](https://github.com/fivetran/dbt_workday)
   - [dbt Docs](https://fivetran.github.io/dbt_workday/#!/overview)
