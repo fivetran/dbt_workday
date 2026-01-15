@@ -8,7 +8,6 @@
 ## Under the Hood
 - In the `quickstart.yml` file:
   - Adds `table_variables` for relevant sources to prevent missing sources from blocking downstream Quickstart models.
-  - Adds `supported_vars` for Quickstart UI customization.
 
 # dbt_workday v0.7.0
 [PR #19](https://github.com/fivetran/dbt_workday/pull/19) includes the following updates:
