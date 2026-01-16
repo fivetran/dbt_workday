@@ -1,5 +1,5 @@
 <!--section="workday_transformation_model"-->
-# Workday dbt Package
+# Workday HCM dbt Package
 
 <p align="left">
     <a alt="License"
@@ -16,7 +16,7 @@
         <img src="https://img.shields.io/badge/Fivetran_Quickstart_Compatible%3F-yes-green.svg" /></a>
 </p>
 
-This dbt package transforms data from Fivetran's Workday connector into analytics-ready tables.
+This dbt package transforms data from Fivetran's Workday HCM connector into analytics-ready tables.
 
 ## Resources
 
@@ -62,7 +62,7 @@ By default, this package materializes the following final tables:
 ## Prerequisites
 To use this dbt package, you must have the following:
 
-- At least one Fivetran Workday connection syncing data into your destination.
+- At least one Fivetran Workday HCM connection syncing data into your destination.
 - A **BigQuery**, **Snowflake**, **Redshift**, **Databricks**, or **PostgreSQL** destination.
 
 ## How do I use the dbt package?
