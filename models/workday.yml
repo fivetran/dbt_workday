@@ -93,9 +93,6 @@ models:
       - name: date_of_birth
         description: '{{ doc("date_of_birth") }}' 
 
-      - name: days_as_worker
-        description: '{{ doc("days_as_worker") }}' 
-
       - name: employee_type
         description: '{{ doc("employee_type") }}' 
 
