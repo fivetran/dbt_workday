@@ -1,3 +1,5 @@
+# dbt_workday v0.8.1
+
 # dbt_workday v0.8.0
 
 [PR #20](https://github.com/fivetran/dbt_workday/pull/20) includes the following updates:
