@@ -58,9 +58,6 @@ models:
       - name: wph_pay_through_date
         description: '{{ doc("pay_through_date") }}'
 
-      - name: termination_date
-        description: '{{ doc("termination_date") }}'
-
       - name: academic_tenure_date
         description: '{{ doc("academic_tenure_date") }}'
 
