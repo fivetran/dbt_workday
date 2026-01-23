@@ -1,5 +1,15 @@
 # dbt_workday v0.8.1
 
+[PR #26](https://github.com/fivetran/dbt_workday/pull/26) includes the following updates:
+
+## Bug Fix
+- Remove duplicate columns in the yml to resolve dbt parse errors. 
+
+# Contributors
+- [@dhawkins1234](https://github.com/dhawkins1234) ([PR #25](https://github.com/fivetran/dbt_workday/pull/25))
+
+
+
 # dbt_workday v0.8.0
 
 [PR #20](https://github.com/fivetran/dbt_workday/pull/20) includes the following updates:
