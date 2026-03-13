@@ -1,3 +1,11 @@
+# dbt_workday v0.8.2
+
+## Feature Updates
+- Updates the `quickstart.yml`:
+  - Adds `workday__employee_daily_history`, `workday__monthly_summary`, and `workday__worker_position_org_daily_history` to the list of public models.
+  - Adds `supported_vars` entry for `employee_history_start_date` to allow users to configure the employee history start date in Quickstart.
+  - Adds `employee_history_enabled` table variables for `worker_history`, `worker_position_history`, and `personal_information_history` to prevent missing sources from blocking downstream Quickstart models.
+
 # dbt_workday v0.8.1
 
 [PR #26](https://github.com/fivetran/dbt_workday/pull/26) includes the following updates:

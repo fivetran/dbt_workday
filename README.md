@@ -109,7 +109,10 @@ To connect your multiple schema/database sources to the package models, follow t
 If you have History Mode enabled for your Workday HCM connection, we now include support for the worker, worker position, worker position organization, and personal information tables directly. You can view these files in the [`staging`](https://github.com/fivetran/dbt_workday/blob/main/models/workday_history/staging) folder. This staging data then flows into the employee daily history model, which in turn populates the monthly summary model. This will allow you access to your historical data for these tables for the most accurate record of your data over time.
 
 #### Enabling Workday HCM History Mode Models
-The History Mode models can get quite expansive since it will take in **ALL** historical records, so we've disabled them by default. You can enable the history models you'd like to utilize by adding the below variable configurations within your `dbt_project.yml` file for the equivalent models.
+The History Mode models can get quite expansive since it will take in **ALL** historical records, so we've disabled them by default. You can enable the history models you'd like to utilize by adding the below variable configurations:
+
+- In Quickstart, by syncing the `worker_history`, `worker_position_history`, and `personal_information_history` tables.
+- In dbt Core, within your `dbt_project.yml` file.
 
 ```yml
 # dbt_project.yml
@@ -122,7 +125,10 @@ vars:
 #### Filter your Workday HCM History Mode models
 By default, these history models are set to bring in all your data from Workday HCM History, but you may be interested in bringing in only a smaller sample of historical records, given the relative size of the Workday HCM history source tables. By default, the package will use the minimum `_fivetran_start` date for the historical end models. This default may be overwritten to your liking by leveraging the below variable.
 
-We have set up where conditions in our staging models to allow you to bring in only the data you need to run in. You can set a global history filter that would apply to all of our staging history models in your `dbt_project.yml`:
+We have set up where conditions in our staging models to allow you to bring in only the data you need to run in. You can set a global history filter that would apply to all of our staging history models:
+
+- In your Quickstart Settings tab, by configuring the `Employee History Start Date` variable.
+- In dbt Core, in your `dbt_project.yml`:
 
 ```yml 
 vars:
@@ -182,8 +188,6 @@ vars:
   workday__using_personal_information_ethnicity_incoming: false  # Default is currently true 
   workday__using_personal_info_v2_schema: false  # To leverage old schema. Default is currently true
 ```
-
-</details>
 
 ### (Optional) Orchestrate your models with Fivetran Transformations for dbt Core™
 <details><summary>Expand for details</summary>
