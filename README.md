@@ -135,7 +135,9 @@ vars:
     employee_history_start_date: 'YYYY-MM-DD' # The first `_fivetran_start` date you'd like to filter data on in all your history models.
 ```
 
-The default date value in our models is set at `2005-03-01` (the month Workday was founded), designed for if you want to capture all available data by default. If you choose to set a custom date value as outlined above, these models will take the greater of either this value or the minimum `_fivetran_start` date in the source data. They will then be used for creating the first dates available with historical data in your daily history models.
+In dbt Core, the default date value in our models is set at `2005-03-01` (the month Workday was founded), designed for if you want to capture all available data by default. If you choose to set a custom date value as outlined above, these models will take the greater of either this value or the minimum `_fivetran_start` date in the source data. They will then be used for creating the first dates available with historical data in your daily history models.
+
+For Quickstart users, this variable is available as **Employee History Start Date** in the Quickstart Settings tab. The default value is `2025-03-01`, bringing in data from the most recent year to avoid most recent data. Set a more recent date to reduce the volume of historical records the package processes.
 
 ### (Optional) Additional configurations
 
