@@ -11,6 +11,10 @@ table_variables:
   workday__using_personal_info_v2_schema:
     - personal_information_common_data
     - country_personal_information
+  employee_history_enabled:
+    - worker_history
+    - worker_position_history
+    - personal_information_history
 
   _fivetran_quickstart_person_name:
     - person_name
@@ -49,5 +53,15 @@ public_models: [
   "workday__employee_overview",
   "workday__job_overview",
   "workday__position_overview",
-  "workday__organization_overview"
+  "workday__organization_overview",
+  "workday__employee_daily_history",
+  "workday__monthly_summary",
+  "workday__worker_position_org_daily_history"
 ]
+
+supported_vars:
+  employee_history_start_date:
+    type: date
+    value: "2025-03-01"
+    description: "Set the first date for bringing in employee history data."
+    display_name: "Employee History Start Date"
