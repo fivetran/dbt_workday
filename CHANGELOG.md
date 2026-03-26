@@ -1,3 +1,13 @@
+# dbt_workday v0.9.0
+[PR #29](https://github.com/fivetran/dbt_workday/pull/29) includes the following update:
+
+## Schema/Data Change
+**1 total change • 1 possible breaking change**
+
+| Data Model(s) | Change type | Old | New | Notes |
+| ------------- | ----------- | --- | --- | ----- |
+|  `workday__employee_daily_history` <br> `workday__worker_position_org_daily_history` | Data change | Default `employee_history_start_date` = `2005-03-01` | Default `employee_history_start_date` = `2025-03-01` | Aligns the dbt Core default with the Quickstart default. Users who do not explicitly set `employee_history_start_date` will now receive just over one year of history instead of all available history by default. See how to configure the `employee_history_start_date` to another date in the README. |
+
 # dbt_workday v0.8.2
 
 ## Feature Updates
