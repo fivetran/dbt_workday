@@ -21,8 +21,11 @@
     
     {% endset %}
 
-    {% set start_date = run_query(first_last_date_query).columns[0][0]|string %}
-    {% set last_date = run_query(first_last_date_query).columns[1][0]|string %}
+    {% set results = run_query(first_last_date_query) %}
+    {% set start_date_raw = results.columns[0][0] %}
+    {% set last_date_raw = results.columns[1][0] %}
+    {% set start_date = start_date_raw|string if start_date_raw is not none else var('employee_history_start_date','2025-03-01') %}
+    {% set last_date = last_date_raw|string if last_date_raw is not none else modules.datetime.datetime.today().strftime('%Y-%m-%d') %}
 
 {# If only compiling, creates range going back 1 year #}
 {% else %} 
@@ -36,7 +39,7 @@ with spine as (
     {# Arbitrarily picked employee_history_start_date variable value. Choose a more appropriate default if necessary. #}
     {{ dbt_utils.date_spine(
         datepart="day",
-        start_date = "greatest(cast('" ~ start_date[0:10] ~ "' as date), cast('" ~ var('employee_history_start_date','2005-03-01') ~ "' as date))", 
+        start_date = "greatest(cast('" ~ start_date[0:10] ~ "' as date), cast('" ~ var('employee_history_start_date','2025-03-01') ~ "' as date))", 
         end_date = "cast('" ~ last_date[0:10] ~ "'as date)"
         )
     }}
