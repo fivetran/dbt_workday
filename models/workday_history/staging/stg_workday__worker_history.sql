@@ -5,7 +5,7 @@ with base as (
     select *      
     from {{ ref('stg_workday__worker_base') }}
     {% if var('employee_history_start_date',[]) %}
-    where cast(_fivetran_start as {{ dbt.type_timestamp() }}) >= "{{ var('employee_history_start_date') }}"
+    where cast(_fivetran_start as {{ dbt.type_timestamp() }}) >= '{{ var('employee_history_start_date') }}'
     {% endif %} 
 ),
 
