@@ -1,7 +1,7 @@
 -- depends_on: {{ ref('int_workday__employee_history') }}
 {{ config(enabled=var('employee_history_enabled', False)) }}
 
-{% if execute %} 
+{% if execute and flags.WHICH in ('run', 'build') %}
     {% set first_last_date_query %}
     with min_max_values as (
 
@@ -27,7 +27,7 @@
     {% set start_date = start_date_raw|string if start_date_raw is not none else var('employee_history_start_date','2025-03-01') %}
     {% set last_date = last_date_raw|string if last_date_raw is not none else modules.datetime.datetime.today().strftime('%Y-%m-%d') %}
 
-{# If only compiling, creates range going back 1 year #}
+{# During compile/test or if source table is empty, creates range going back 1 year #}
 {% else %} 
     {% set start_date = dbt.dateadd("year", "-1", "current_date") %} -- One year in the past for first date
     {% set last_date = dbt.dateadd("day", "-1", "current_date") %} -- Yesterday as last date
