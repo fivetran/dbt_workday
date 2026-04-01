@@ -1,3 +1,24 @@
+# dbt_workday v0.9.0
+
+## Schema/Data Change
+**6 total changes • 4 possible breaking changes**
+
+| Data Model(s) | Change type | Old | New | Notes |
+| ------------- | ----------- | --- | --- | ----- |
+| `stg_workday__military_service` **(breaking)** | Removed field | `index` | N/A | Legacy field removed; no longer present in the `military_service` source table. |
+| `stg_workday__military_service` **(breaking)** | Removed field | `service_type` | N/A | Legacy field removed; no longer present in the `military_service` source table. |
+| `stg_workday__personal_information_ethnicity` **(breaking)** | Removed field | `index` | N/A | Legacy field removed; no longer present in the `personal_information_ethnicity` source table. |
+| `stg_workday__military_service` **(breaking)** | Changed field | `coalesce(status_id, status)` aliased as `military_status` | `status_id` aliased as `military_status` | Legacy `status` column removed from source; `status_id` is now the sole value. |
+| `stg_workday__personal_information_common_data`, `stg_workday__country_personal_information` | Changed field | Models gated behind `workday__using_personal_info_v2_schema` variable | Always enabled | New personal information schema is now the only supported schema. |
+| `stg_workday__personal_information` | Removed model | Model existed for legacy schema support | N/A | Removed alongside the legacy schema path in `int_workday__personal_details`. |
+
+## Under the Hood
+- Removes the `does_table_exist` macro and all `_incoming` table-switching logic from `stg_workday__military_service_base` and `stg_workday__personal_information_ethnicity_base`. Both base models now point directly to their canonical source tables.
+- Removes the legacy schema path from `int_workday__personal_details`, including the `workday__using_personal_info_v2_schema` variable check and associated conditional joins.
+- Removes source definitions for `military_service_incoming`, `personal_information_ethnicity_incoming`, `military_service_legacy`, and `personal_information_ethnicity_legacy` from `src_workday.yml`.
+- Removes the following variables that were used during the January–April 2026 transition period: `workday__using_military_service_incoming`, `workday__using_personal_information_ethnicity_incoming`, `workday__using_personal_info_v2_schema`.
+- Removes corresponding transition-period seed files and CI run from integration tests.
+
 # dbt_workday v0.8.2
 
 ## Feature Updates

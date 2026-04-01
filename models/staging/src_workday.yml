@@ -682,38 +682,6 @@ sources:
           - name: ethnicity_code
             description: '{{ doc("ethnicity_code") }}'
 
-      - name: personal_information_ethnicity_incoming
-        identifier: '{{ var("workday_personal_information_ethnicity_incoming_identifier", "personal_information_ethnicity_incoming") }}'
-        description: '{{ doc("personal_information_ethnicity_incoming") }}'
-        columns:
-          - name: id
-            description: '{{ doc("ethnicity_id") }}'
-          - name: country_personal_information_id
-            description: '{{ doc("country_personal_information_id") }}' 
-          - name: _fivetran_deleted
-            description: '{{ doc("_fivetran_deleted") }}'
-          - name: _fivetran_synced
-            description: '{{ doc("_fivetran_synced") }}'
-          - name: ethnicity_code
-            description: '{{ doc("ethnicity_code") }}'
-
-      - name: personal_information_ethnicity_legacy
-        identifier: '{{ var("workday_personal_information_ethnicity_legacy_identifier", "personal_information_ethnicity") }}'
-        description: '{{ doc("personal_information_ethnicity_legacy") }}'
-        columns:
-          - name: index
-            description: '{{ doc("index") }}'
-          - name: personal_info_system_id
-            description: '{{ doc("personal_info_system_id") }}' 
-          - name: _fivetran_deleted
-            description: '{{ doc("_fivetran_deleted") }}'
-          - name: _fivetran_synced
-            description: '{{ doc("_fivetran_synced") }}'
-          - name: ethnicity_code
-            description: '{{ doc("ethnicity_code") }}'
-          - name: ethnicity_id
-            description: '{{ doc("ethnicity_id") }}'
-
       - name: military_service
         identifier: '{{ var("workday_military_service_identifier", "military_service") }}'
         description: '{{ doc("military_service") }}'
@@ -739,57 +707,6 @@ sources:
           - name: status_begin_date
             description: '{{ doc("status_begin_date") }}'
 
-      - name: military_service_incoming
-        identifier: '{{ var("workday_military_service_incoming_identifier", "military_service_incoming") }}'
-        description: '{{ doc("military_service_incoming") }}'
-        columns:
-          - name: personal_info_common_id
-            description: '{{ doc("personal_info_common_id") }}'
-          - name: _fivetran_deleted
-            description: '{{ doc("_fivetran_deleted") }}'
-          - name: _fivetran_synced
-            description: '{{ doc("_fivetran_synced") }}'
-          - name: discharge_date
-            description: '{{ doc("discharge_date") }}'
-          - name: discharge_type
-            description: '{{ doc("discharge_type") }}'
-          - name: notes
-            description: '{{ doc("notes") }}'
-          - name: rank
-            description: '{{ doc("rank") }}'
-          - name: service
-            description: '{{ doc("service") }}'
-          - name: status_id
-            description: '{{ doc("military_status_id") }}'
-          - name: status_begin_date
-            description: '{{ doc("status_begin_date") }}'
-
-      - name: military_service_legacy
-        identifier: '{{ var("workday_military_service_legacy_identifier", "military_service") }}'
-        description: '{{ doc("military_service_legacy") }}'
-        columns:
-          - name: index
-            description: '{{ doc("index") }}'
-          - name: personal_info_system_id
-            description: '{{ doc("personal_info_system_id") }}'  
-          - name: _fivetran_deleted
-            description: '{{ doc("_fivetran_deleted") }}'
-          - name: _fivetran_synced
-            description: '{{ doc("_fivetran_synced") }}'
-          - name: discharge_date
-            description: '{{ doc("discharge_date") }}'
-          - name: notes
-            description: '{{ doc("notes") }}'
-          - name: rank
-            description: '{{ doc("rank") }}'
-          - name: service
-            description: '{{ doc("service") }}'
-          - name: service_type
-            description: '{{ doc("service_type") }}'
-          - name: status
-            description: '{{ doc("status") }}'
-          - name: status_begin_date
-            description: '{{ doc("status_begin_date") }}'
 
       - name: personal_information_common_data
         identifier: '{{ var("workday_personal_information_common_data_identifier", "personal_information_common_data") }}'
