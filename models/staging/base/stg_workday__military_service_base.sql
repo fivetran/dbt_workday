@@ -1,6 +1,6 @@
 {{
     fivetran_utils.union_data(
-        table_identifier='military_service_incoming' if var('workday__using_military_service_incoming', workday.does_table_exist('military_service_incoming')) else 'military_service',
+        table_identifier='military_service',
         database_variable='workday_database',
         schema_variable='workday_schema',
         default_database=target.database,

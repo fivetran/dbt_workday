@@ -27,8 +27,7 @@ final as (
         _fivetran_synced, 
         country_personal_information_id as worker_id,
         ethnicity_code,
-        id as ethnicity_id,
-        cast(null as {{ dbt.type_int() }}) as index  -- Legacy field (null for backward compatibility)
+        id as ethnicity_id
     from fields
     where not coalesce(_fivetran_deleted, false)
 )

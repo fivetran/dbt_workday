@@ -26,13 +26,11 @@ final as (
         source_relation,
         _fivetran_synced,
         discharge_date,
-        cast(null as {{ dbt.type_int() }}) as index,  -- Field removed in new schema
         notes,
         rank,
         service,
-        cast(null as {{ dbt.type_string() }}) as service_type, -- Field removed in new schema
-        discharge_type,  -- New field
-        coalesce(status_id, status) as military_status,  -- status_id new value, status legacy value (can be removed after April 6)
+        discharge_type,
+        status_id as military_status,
         status_begin_date
     from fields
     where not coalesce(_fivetran_deleted, false)
