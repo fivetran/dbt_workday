@@ -1,7 +1,7 @@
 -- depends_on: {{ ref('int_workday__employee_history') }}
 {{ config(enabled=var('employee_history_enabled', False)) }}
 
-{% if execute %} 
+{% if execute and flags.WHICH in ('run', 'build') %}
     {% set first_last_date_query %}
     with min_max_values as (
 
@@ -21,13 +21,18 @@
     
     {% endset %}
 
-    {% set start_date = run_query(first_last_date_query).columns[0][0]|string %}
-    {% set last_date = run_query(first_last_date_query).columns[1][0]|string %}
+    {% set results = run_query(first_last_date_query) %}
+    {% set start_date_raw = results.columns[0][0] %}
+    {% set last_date_raw = results.columns[1][0] %}
+    {% set start_date = start_date_raw|string if start_date_raw is not none else var('employee_history_start_date','2025-03-01') %}
+    {% set last_date = last_date_raw|string if last_date_raw is not none else modules.datetime.datetime.today().strftime('%Y-%m-%d') %}
+    {% set spine_start = "greatest(cast('" ~ start_date[0:10] ~ "' as date), cast('" ~ var('employee_history_start_date','2025-03-01') ~ "' as date))" %}
+    {% set spine_end = "cast('" ~ last_date[0:10] ~ "' as date)" %}
 
-{# If only compiling, creates range going back 1 year #}
-{% else %} 
-    {% set start_date = dbt.dateadd("year", "-1", "current_date") %} -- One year in the past for first date
-    {% set last_date = dbt.dateadd("day", "-1", "current_date") %} -- Yesterday as last date
+{# During compile/test, creates range going back 1 year #}
+{% else %}
+    {% set spine_start = dbt.dateadd("year", "-1", "current_date") %}
+    {% set spine_end = dbt.dateadd("day", "-1", "current_date") %}
 {% endif %}
 
 
@@ -36,8 +41,8 @@ with spine as (
     {# Arbitrarily picked employee_history_start_date variable value. Choose a more appropriate default if necessary. #}
     {{ dbt_utils.date_spine(
         datepart="day",
-        start_date = "greatest(cast('" ~ start_date[0:10] ~ "' as date), cast('" ~ var('employee_history_start_date','2005-03-01') ~ "' as date))", 
-        end_date = "cast('" ~ last_date[0:10] ~ "'as date)"
+        start_date = spine_start,
+        end_date = spine_end
         )
     }}
 ),

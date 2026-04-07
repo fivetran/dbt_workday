@@ -1,4 +1,5 @@
 # dbt_workday v0.9.0
+[PR #30](https://github.com/fivetran/dbt_workday/pull/30) includes the following updates. 
 
 ## Schema/Data Change
 **6 total changes • 4 possible breaking changes**
@@ -18,6 +19,19 @@
 - Removes source definitions for `military_service_incoming`, `personal_information_ethnicity_incoming`, `military_service_legacy`, and `personal_information_ethnicity_legacy` from `src_workday.yml`.
 - Removes the following variables that were used during the January–April 2026 transition period: `workday__using_military_service_incoming`, `workday__using_personal_information_ethnicity_incoming`, `workday__using_personal_info_v2_schema`.
 - Removes corresponding transition-period seed files and CI run from integration tests.
+
+# dbt_workday v0.9.0-a1
+[PR #29](https://github.com/fivetran/dbt_workday/pull/29) is a pre-release that includes the following updates:
+
+## Schema/Data Change
+**1 total change • 1 possible breaking change**
+
+| Data Model(s) | Change type | Old | New | Notes |
+| ------------- | ----------- | --- | --- | ----- |
+|  `workday__employee_daily_history` <br> `workday__worker_position_org_daily_history` | Data change | Default `employee_history_start_date` = `2005-03-01` | Default `employee_history_start_date` = `2025-03-01` | Aligns the dbt Core default with the Quickstart default. Users who do not explicitly set `employee_history_start_date` will now receive just over one year of history instead of all available history by default. See how to configure the `employee_history_start_date` to another date in the README. |
+
+## Bug Fixes
+- Fixes an issue where `workday__employee_daily_history` and `workday__worker_position_org_daily_history` would fail on Snowflake with a `Date 'None' is not recognized` error. The models now handle null results gracefully by falling back to the `employee_history_start_date` variable and today's date respectively.
 
 # dbt_workday v0.8.2
 
