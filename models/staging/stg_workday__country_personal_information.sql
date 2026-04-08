@@ -45,6 +45,7 @@ final as (
         religion,
         social_benefits_locality
     from fields
+    where not coalesce(_fivetran_deleted, false)
 )
 
 select *

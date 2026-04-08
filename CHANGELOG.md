@@ -10,8 +10,8 @@
 | `stg_workday__military_service` **(breaking)** | Removed field | `service_type` | N/A | Legacy field removed; no longer present in the `military_service` source table. |
 | `stg_workday__personal_information_ethnicity` **(breaking)** | Removed field | `index` | N/A | Legacy field removed; no longer present in the `personal_information_ethnicity` source table. |
 | `stg_workday__military_service` **(breaking)** | Changed field | `coalesce(status_id, status)` aliased as `military_status` | `status_id` aliased as `military_status` | Legacy `status` column removed from source; `status_id` is now the sole value. |
-| `stg_workday__personal_information_common_data`, `stg_workday__country_personal_information` | Changed field | Models gated behind `workday__using_personal_info_v2_schema` variable | Always enabled | New personal information schema is now the only supported schema. |
-| `stg_workday__personal_information` | Removed model | Model existed for legacy schema support | N/A | Removed alongside the legacy schema path in `int_workday__personal_details`. |
+| `stg_workday__personal_information_common_data`, `stg_workday__country_personal_information` | Changed field | Models gated behind `workday__using_personal_info_v2_schema` variable | Always enabled | The Workday connector's April 6, 2026 deprecation retired the legacy schema, making these models always required. |
+| `stg_workday__personal_information` | Removed model | Model existed for legacy schema support | N/A | Removed alongside the legacy schema path in `int_workday__personal_details` as the legacy `personal_information` table is no longer supported. |
 
 ## Under the Hood
 - Removes the `does_table_exist` macro and all `_incoming` table-switching logic from `stg_workday__military_service_base` and `stg_workday__personal_information_ethnicity_base`. Both base models now point directly to their canonical source tables.

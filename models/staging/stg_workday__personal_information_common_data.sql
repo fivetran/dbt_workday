@@ -42,6 +42,7 @@ final as (
         primary_nationality,
         region_of_birth
     from fields
+    where not coalesce(_fivetran_deleted, false)
 )
 
 select *

@@ -43,8 +43,6 @@ vars:
     worker_position_history: "{{ source('workday','worker_position_history') }}"
     worker_leave_status: "{{ source('workday','worker_leave_status') }}"
     worker_position_organization_history: "{{ source('workday','worker_position_organization_history') }}"
-
-    # New core tables (v42.2) - PERSONAL_INFORMATION split into 2 core tables
     personal_information_common_data: "{{ source('workday','personal_information_common_data') }}"
     country_personal_information: "{{ source('workday','country_personal_information') }}"
 
