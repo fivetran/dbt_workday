@@ -9,40 +9,49 @@ dispatch:
     search_order: ['spark_utils', 'dbt_utils']
 
 vars:
-  workday_database: dbt-package-testing
-  workday_schema: workday_hcm
+  workday_schema: workday_integration_tests
 
-  # workday_schema: zz_dbt_avinash_seed
+  # # Schema migration variables (must be at root level for model configs). These can be removed after April 6, 2026.
+  # workday__using_military_service_incoming: false
+  # workday__using_personal_information_ethnicity_incoming: false
+  # workday__using_personal_info_v2_schema: false
 
-  employee_history_enabled: true  # @docs-include 
+  # employee_history_enabled: true  # @docs-include 
 
-  # workday:
-  #   workday_job_profile_identifier: "workday_job_profile_data"
-  #   workday_job_family_job_profile_identifier: "workday_job_family_job_profile_data"
-  #   workday_job_family_job_family_group_identifier: "workday_job_family_job_family_group_data"
-  #   workday_job_family_identifier: "workday_job_family_data"
-  #   workday_job_family_group_identifier: "workday_job_family_group_data"
-  #   workday_organization_role_identifier: "workday_organization_role_data"
-  #   workday_organization_role_worker_identifier: "workday_organization_role_worker_data"
-  #   workday_organization_job_family_identifier: "workday_organization_job_family_data"
-  #   workday_organization_identifier: "workday_organization_data"
-  #   workday_position_organization_identifier: "workday_position_organization_data"
-  #   workday_position_identifier: "workday_position_data"
-  #   workday_position_job_profile_identifier: "workday_position_job_profile_data"
-  #   workday_worker_history_identifier: "workday_worker_history_data"
-  #   workday_personal_information_history_identifier: "workday_personal_information_history_data"
-  #   workday_person_name_identifier: "workday_person_name_data"
-  #   workday_personal_information_ethnicity_identifier: "workday_personal_information_ethnicity_data"
-  #   workday_military_service_identifier: "workday_military_service_data"
-  #   workday_person_contact_email_address_identifier: "workday_person_contact_email_address_data"
-  #   workday_worker_position_history_identifier: "workday_worker_position_history_data"
-  #   workday_worker_leave_status_identifier: "workday_worker_leave_status_data"
-  #   workday_worker_position_organization_history_identifier: "workday_worker_position_organization_history_data"
+  workday:
+    workday_job_profile_identifier: "workday_job_profile_data"
+    workday_job_family_job_profile_identifier: "workday_job_family_job_profile_data"
+    workday_job_family_job_family_group_identifier: "workday_job_family_job_family_group_data"
+    workday_job_family_identifier: "workday_job_family_data"
+    workday_job_family_group_identifier: "workday_job_family_group_data"
+    workday_organization_role_identifier: "workday_organization_role_data"
+    workday_organization_role_worker_identifier: "workday_organization_role_worker_data"
+    workday_organization_job_family_identifier: "workday_organization_job_family_data"
+    workday_organization_identifier: "workday_organization_data"
+    workday_position_organization_identifier: "workday_position_organization_data"
+    workday_position_identifier: "workday_position_data"
+    workday_position_job_profile_identifier: "workday_position_job_profile_data"
+    workday_worker_history_identifier: "workday_worker_history_data"
+    workday_personal_information_history_identifier: "workday_personal_information_history_data"
+    workday_person_name_identifier: "workday_person_name_data"
+    workday_personal_information_ethnicity_identifier: "workday_personal_information_ethnicity_data"
+    workday_military_service_identifier: "workday_military_service_data"
+    workday_person_contact_email_address_identifier: "workday_person_contact_email_address_data"
+    workday_worker_position_history_identifier: "workday_worker_position_history_data"
+    workday_worker_leave_status_identifier: "workday_worker_leave_status_data"
+    workday_worker_position_organization_history_identifier: "workday_worker_position_organization_history_data"
 
-  #   # New core tables (splits personal_information)
-  #   workday_personal_information_common_data_identifier: "workday_personal_information_common_data_data"
-  #   workday_country_personal_information_identifier: "workday_country_personal_information_data"
+    # New core tables (splits personal_information)
+    workday_personal_information_common_data_identifier: "workday_personal_information_common_data_data"
+    workday_country_personal_information_identifier: "workday_country_personal_information_data"
 
+    # Incoming schema tables for existing customers (to be used 1/5/26 through 4/6/26)
+    workday_military_service_incoming_identifier: "workday_military_service_incoming_data"
+    workday_personal_information_ethnicity_incoming_identifier: "workday_personal_information_ethnicity_incoming_data"
+
+    # Legacy schema tables (to be deprecated after 4/6/26)
+    workday_personal_information_ethnicity_legacy_identifier: "workday_personal_information_ethnicity_legacy_data"
+    workday_military_service_legacy_identifier: "workday_military_service_legacy_data"
 
 
 
