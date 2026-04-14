@@ -1,4 +1,5 @@
 # dbt_workday v0.9.0
+
 [PR #30](https://github.com/fivetran/dbt_workday/pull/30) includes the following updates. 
 
 ## Schema/Data Change
@@ -16,8 +17,7 @@
 - Removes the `does_table_exist` macro and all `_incoming` table-switching logic from `stg_workday__military_service_base` and `stg_workday__personal_information_ethnicity_base`. Both base models now point directly to their canonical source tables.
 - Removes the legacy schema path from `int_workday__personal_details`, including the `workday__using_personal_info_v2_schema` variable check and associated conditional joins.
 - Removes source definitions for `military_service_incoming`, `personal_information_ethnicity_incoming`, `military_service_legacy`, and `personal_information_ethnicity_legacy` from `src_workday.yml`.
-- Removes the following variables that were used during the January–April 2026 transition period: `workday__using_military_service_incoming`, `workday__using_personal_information_ethnicity_incoming`, `workday__using_personal_info_v2_schema`.
-- Removes corresponding transition-period seed files and CI run from integration tests.
+- Removes the following variables that were used during the January–April 2026 transition period: `workday__using_military_service_incoming`, `workday__using_personal_information_ethnicity_incoming`, `workday__using_personal_info_v2_schema`. 
 
 # dbt_workday v0.9.0-a1
 [PR #29](https://github.com/fivetran/dbt_workday/pull/29) is a pre-release that includes the following updates:

@@ -9,8 +9,13 @@ dispatch:
     search_order: ['spark_utils', 'dbt_utils']
 
 vars:
-  workday_schema: workday_integration_tests
+  # workday_database: singular-vector-135519
+  # workday_schema: workday_hcm_version_upgrade_testing
 
+  workday_schema: zz_dbt_avinash_seed
+
+  employee_history_enabled: true
+  employee_history_start_date: "2025-03-01" 
   # employee_history_enabled: true  # @docs-include 
 
   workday:
@@ -52,9 +57,6 @@ seeds:
   +quote_columns: "{{ true if target.type in ('redshift', 'postgres') else false }}"
   +column_types:
     _fivetran_synced: timestamp
-    _fivetran_start: timestamp
-    _fivetran_end: timestamp
-    _fivetran_active: boolean
   workday_integration_tests:
     workday_position_data:
       +column_types:
@@ -81,6 +83,9 @@ seeds:
         pay_group_frequency_primary_compensation_basis: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
         pay_group_frequency_total_base_pay: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
         pay_group_frequency_total_salary_and_allowances: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
+        _fivetran_start: timestamp
+        _fivetran_end: timestamp
+        _fivetran_active: boolean
     workday_worker_leave_status_data:
       +column_types:
         age_of_dependent: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
@@ -95,6 +100,24 @@ seeds:
         academic_pay_setup_data_annual_work_period_work_percent_of_year: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
         business_site_summary_scheduled_weekly_hours: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
         default_weekly_hours: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
+        _fivetran_start: timestamp
+        _fivetran_end: timestamp
+        _fivetran_active: boolean
+    workday_personal_information_history_data:
+      +column_types:
+        _fivetran_start: timestamp
+        _fivetran_end: timestamp
+        _fivetran_active: boolean
+    workday_position_organization_data:
+      +column_types:
+        _fivetran_start: timestamp
+        _fivetran_end: timestamp
+        _fivetran_active: boolean
+    workday_worker_position_organization_history_data:
+      +column_types:
+        _fivetran_start: timestamp
+        _fivetran_end: timestamp
+        _fivetran_active: boolean
 
 flags:
   send_anonymous_usage_stats: False
