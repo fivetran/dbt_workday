@@ -1,5 +1,5 @@
 name: 'workday_integration_tests'
-version: '0.8.2'
+version: '0.9.0'
 config-version: 2
 
 profile: 'integration_tests'
@@ -11,12 +11,7 @@ dispatch:
 vars:
   workday_schema: workday_integration_tests
 
-  # # Schema migration variables (must be at root level for model configs). These can be removed after April 6, 2026.
-  # workday__using_military_service_incoming: false
-  # workday__using_personal_information_ethnicity_incoming: false
-  # workday__using_personal_info_v2_schema: false
-
-  # employee_history_enabled: true  # @docs-include 
+  # employee_history_enabled: true 
 
   workday:
     workday_job_profile_identifier: "workday_job_profile_data"
@@ -40,18 +35,8 @@ vars:
     workday_worker_position_history_identifier: "workday_worker_position_history_data"
     workday_worker_leave_status_identifier: "workday_worker_leave_status_data"
     workday_worker_position_organization_history_identifier: "workday_worker_position_organization_history_data"
-
-    # New core tables (splits personal_information)
     workday_personal_information_common_data_identifier: "workday_personal_information_common_data_data"
     workday_country_personal_information_identifier: "workday_country_personal_information_data"
-
-    # Incoming schema tables for existing customers (to be used 1/5/26 through 4/6/26)
-    workday_military_service_incoming_identifier: "workday_military_service_incoming_data"
-    workday_personal_information_ethnicity_incoming_identifier: "workday_personal_information_ethnicity_incoming_data"
-
-    # Legacy schema tables (to be deprecated after 4/6/26)
-    workday_personal_information_ethnicity_legacy_identifier: "workday_personal_information_ethnicity_legacy_data"
-    workday_military_service_legacy_identifier: "workday_military_service_legacy_data"
 
 
 
@@ -67,9 +52,6 @@ seeds:
   +quote_columns: "{{ true if target.type in ('redshift', 'postgres') else false }}"
   +column_types:
     _fivetran_synced: timestamp
-    _fivetran_start: timestamp
-    _fivetran_end: timestamp
-    _fivetran_active: boolean
   workday_integration_tests:
     workday_position_data:
       +column_types:
@@ -96,6 +78,9 @@ seeds:
         pay_group_frequency_primary_compensation_basis: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
         pay_group_frequency_total_base_pay: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
         pay_group_frequency_total_salary_and_allowances: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
+        _fivetran_start: timestamp
+        _fivetran_end: timestamp
+        _fivetran_active: boolean
     workday_worker_leave_status_data:
       +column_types:
         age_of_dependent: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
@@ -110,6 +95,24 @@ seeds:
         academic_pay_setup_data_annual_work_period_work_percent_of_year: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
         business_site_summary_scheduled_weekly_hours: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
         default_weekly_hours: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
+        _fivetran_start: timestamp
+        _fivetran_end: timestamp
+        _fivetran_active: boolean
+    workday_personal_information_history_data:
+      +column_types:
+        _fivetran_start: timestamp
+        _fivetran_end: timestamp
+        _fivetran_active: boolean
+    workday_position_organization_data:
+      +column_types:
+        _fivetran_start: timestamp
+        _fivetran_end: timestamp
+        _fivetran_active: boolean
+    workday_worker_position_organization_history_data:
+      +column_types:
+        _fivetran_start: timestamp
+        _fivetran_end: timestamp
+        _fivetran_active: boolean
 
 flags:
   send_anonymous_usage_stats: False

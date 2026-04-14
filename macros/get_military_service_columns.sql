@@ -9,7 +9,6 @@
     {"name": "notes", "datatype": dbt.type_string()},
     {"name": "rank", "datatype": dbt.type_string()},
     {"name": "service", "datatype": dbt.type_string()},
-    {"name": "status", "datatype": dbt.type_string()},
     {"name": "status_id", "datatype": dbt.type_string()},
     {"name": "status_begin_date", "datatype": "date"}
 ] %}

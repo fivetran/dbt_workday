@@ -1,5 +1,3 @@
-{{ config(enabled=var('workday__using_personal_info_v2_schema', true)) }}
-
 with base as (
 
     select *
@@ -44,6 +42,7 @@ final as (
         primary_nationality,
         region_of_birth
     from fields
+    where not coalesce(_fivetran_deleted, false)
 )
 
 select *
