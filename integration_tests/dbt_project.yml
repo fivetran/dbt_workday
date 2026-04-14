@@ -9,14 +9,9 @@ dispatch:
     search_order: ['spark_utils', 'dbt_utils']
 
 vars:
-  # workday_database: singular-vector-135519
-  # workday_schema: workday_hcm_version_upgrade_testing
+  workday_schema: workday_integration_tests
 
-  workday_schema: zz_dbt_avinash_seed
-
-  employee_history_enabled: true
-  employee_history_start_date: "2025-03-01" 
-  # employee_history_enabled: true  # @docs-include 
+  # employee_history_enabled: true 
 
   workday:
     workday_job_profile_identifier: "workday_job_profile_data"
