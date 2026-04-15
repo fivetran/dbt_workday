@@ -1,3 +1,10 @@
+# dbt_workday v0.9.1
+
+[PR #31](https://github.com/fivetran/dbt_workday/pull/31) includes the following update.
+
+## Under the Hood
+- Updates `integration_tests/dbt_project.yml` to ensure that the employeee history models are generated in the docs and picked up by Quickstart. 
+
 # dbt_workday v0.9.0
 
 [PR #30](https://github.com/fivetran/dbt_workday/pull/30) includes the following updates. 
