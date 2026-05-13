@@ -50,16 +50,64 @@ seeds:
   +docs:
     show: false
   +quote_columns: "{{ true if target.type in ('redshift', 'postgres') else false }}"
-  +column_types:
-    _fivetran_synced: timestamp
   workday_integration_tests:
+    workday_country_personal_information_data:
+      +column_types:
+        _fivetran_synced: timestamp
+    workday_job_family_data:
+      +column_types:
+        _fivetran_synced: timestamp
+    workday_job_family_group_data:
+      +column_types:
+        _fivetran_synced: timestamp
+    workday_job_family_job_family_group_data:
+      +column_types:
+        _fivetran_synced: timestamp
+    workday_job_family_job_profile_data:
+      +column_types:
+        _fivetran_synced: timestamp
+    workday_job_profile_data:
+      +column_types:
+        _fivetran_synced: timestamp
+    workday_military_service_data:
+      +column_types:
+        _fivetran_synced: timestamp
+    workday_organization_data:
+      +column_types:
+        _fivetran_synced: timestamp
+    workday_organization_job_family_data:
+      +column_types:
+        _fivetran_synced: timestamp
+    workday_organization_role_data:
+      +column_types:
+        _fivetran_synced: timestamp
+    workday_organization_role_worker_data:
+      +column_types:
+        _fivetran_synced: timestamp
+    workday_person_contact_email_address_data:
+      +column_types:
+        _fivetran_synced: timestamp
+    workday_person_name_data:
+      +column_types:
+        _fivetran_synced: timestamp
+    workday_personal_information_common_data_data:
+      +column_types:
+        _fivetran_synced: timestamp
+    workday_personal_information_ethnicity_data:
+      +column_types:
+        _fivetran_synced: timestamp
     workday_position_data:
       +column_types:
+        _fivetran_synced: timestamp
         primary_compensation_basis: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
         primary_compensation_basis_amount_change: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
         primary_compensation_basis_percent_change: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
+    workday_position_job_profile_data:
+      +column_types:
+        _fivetran_synced: timestamp
     workday_worker_history_data:
       +column_types:
+        _fivetran_synced: timestamp
         annual_currency_summary_primary_compensation_basis: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
         annual_currency_summary_total_base_pay: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
         annual_currency_summary_total_salary_and_allowances: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
@@ -83,6 +131,7 @@ seeds:
         _fivetran_active: boolean
     workday_worker_leave_status_data:
       +column_types:
+        _fivetran_synced: timestamp
         age_of_dependent: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
         leave_entitlement_override: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
         leave_percentage: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
@@ -92,6 +141,7 @@ seeds:
         number_of_previous_maternity_leaves: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
     workday_worker_position_history_data:
       +column_types:
+        _fivetran_synced: timestamp
         academic_pay_setup_data_annual_work_period_work_percent_of_year: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
         business_site_summary_scheduled_weekly_hours: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
         default_weekly_hours: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
@@ -100,16 +150,19 @@ seeds:
         _fivetran_active: boolean
     workday_personal_information_history_data:
       +column_types:
+        _fivetran_synced: timestamp
         _fivetran_start: timestamp
         _fivetran_end: timestamp
         _fivetran_active: boolean
     workday_position_organization_data:
       +column_types:
+        _fivetran_synced: timestamp
         _fivetran_start: timestamp
         _fivetran_end: timestamp
         _fivetran_active: boolean
     workday_worker_position_organization_history_data:
       +column_types:
+        _fivetran_synced: timestamp
         _fivetran_start: timestamp
         _fivetran_end: timestamp
         _fivetran_active: boolean
