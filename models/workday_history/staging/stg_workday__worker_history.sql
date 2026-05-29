@@ -44,9 +44,24 @@ final as (
         active_status_date,
         annual_currency_summary_currency,
         annual_currency_summary_frequency,
-        annual_currency_summary_primary_compensation_basis,
-        annual_currency_summary_total_base_pay,
-        annual_currency_summary_total_salary_and_allowances,
+        {% set string_dtypes = ['char', 'text', 'string'] %}
+        {% for col in adapter.get_columns_in_relation(ref('stg_workday__worker_base')) %}
+            {% if col.name in ['annual_currency_summary_primary_compensation_basis', 'annual_currency_summary_total_base_pay', 'annual_currency_summary_total_salary_and_allowances'] %}
+                {% if target.type == 'databricks' %}
+                    {% set is_str = false %}
+                    {% for stype in string_dtypes %}
+                        {% if stype in col.dtype.lower() %}{% set is_str = true %}{% endif %}
+                    {% endfor %}
+                {% else %}
+                    {% set is_str = col.is_string() %}
+                {% endif %}
+                {% if is_str %}
+                    cast({{ col.name }} as {{ dbt.type_float() }}) as {{ col.name }},
+                {% else %}
+                    {{ col.name }},
+                {% endif %}
+            {% endif %}
+        {% endfor %}
         annual_summary_currency,
         annual_summary_frequency,
         annual_summary_primary_compensation_basis,
