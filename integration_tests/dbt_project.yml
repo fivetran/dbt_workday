@@ -11,7 +11,7 @@ dispatch:
 vars:
   workday_schema: workday_integration_tests
 
-  # employee_history_enabled: true  # @docs-include 
+  employee_history_enabled: true  # @docs-include 
 
   workday:
     workday_job_profile_identifier: "workday_job_profile_data"
