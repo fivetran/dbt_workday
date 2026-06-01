@@ -9,7 +9,7 @@ dispatch:
     search_order: ['spark_utils', 'dbt_utils']
 
 vars:
-  workday_schema: zz_dbt_savage
+  workday_schema: workday_integration_tests
 
   # employee_history_enabled: true  # @docs-include 
 
