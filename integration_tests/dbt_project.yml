@@ -9,9 +9,9 @@ dispatch:
     search_order: ['spark_utils', 'dbt_utils']
 
 vars:
-  workday_schema: workday_integration_tests
+  workday_schema: zz_dbt_savage
 
-  employee_history_enabled: true  # @docs-include 
+  # employee_history_enabled: true  # @docs-include 
 
   workday:
     workday_job_profile_identifier: "workday_job_profile_data"
