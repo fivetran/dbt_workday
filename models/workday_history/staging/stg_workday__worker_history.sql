@@ -46,7 +46,7 @@ final as (
         annual_currency_summary_frequency,
         {% set string_dtypes = ['char', 'text', 'string'] %}
         {% for col in adapter.get_columns_in_relation(ref('stg_workday__worker_base')) %}
-            {% if col.name in ['annual_currency_summary_primary_compensation_basis', 'annual_currency_summary_total_base_pay', 'annual_currency_summary_total_salary_and_allowances'] %}
+            {% if col.name.lower() in ['annual_currency_summary_primary_compensation_basis', 'annual_currency_summary_total_base_pay', 'annual_currency_summary_total_salary_and_allowances'] %}
                 {% if target.type == 'databricks' %}
                     {% set is_str = false %}
                     {% for stype in string_dtypes %}
