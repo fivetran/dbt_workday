@@ -3,7 +3,7 @@
 [PR #33](https://github.com/fivetran/dbt_workday/pull/33) includes the following update.
 
 ## Bug Fix
-- Fixes an issue in `stg_workday__worker_history` where `annual_currency_summary_primary_compensation_basis`, `annual_currency_summary_total_base_pay`, and `annual_currency_summary_total_salary_and_allowances` could surface as strings instead of numeric values". These columns are now cast to float when the source type is a string.
+- Fixes an issue in `stg_workday__worker_history` where `annual_currency_summary_primary_compensation_basis`, `annual_currency_summary_total_base_pay`, and `annual_currency_summary_total_salary_and_allowances` could surface as strings instead of numeric values. These columns are now cast to float when the source type is a string.
 
 # dbt_workday v0.9.1
 
