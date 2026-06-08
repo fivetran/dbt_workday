@@ -40,7 +40,7 @@ worker_start_records as (
 worker_history_end_values as (
 
     select *,
-        lead({{ dbt.dateadd('microsecond', -1, '_fivetran_start') }} ) over(partition by worker_id, source_relation order by _fivetran_start) as eventual_fivetran_end
+        lead({{ dbt.dateadd('microsecond', -1, '_fivetran_start') }} ) over(partition by worker_id {{ fivetran_utils.partition_by_source_relation(package_name='workday') }} order by _fivetran_start) as eventual_fivetran_end
     from worker_start_records   
 ),
 
@@ -270,5 +270,3 @@ history_surrogate_key as (
 
 select * 
 from history_surrogate_key
-
-

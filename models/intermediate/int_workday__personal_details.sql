@@ -1,3 +1,8 @@
+Looking through the file, I don't see any `partition by` clauses that contain `source_relation`. This file contains only CTE definitions and joins, but no window functions or other SQL constructs that would use `partition by` clauses.
+
+The file content remains unchanged:
+
+```sql
 with worker_personal_common_data as (
 
     select

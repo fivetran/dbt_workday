@@ -13,10 +13,7 @@ fields as (
                 staging_columns=get_country_personal_information_columns()
             )
         }}
-        {{ fivetran_utils.source_relation(
-            union_schema_variable='workday_union_schemas',
-            union_database_variable='workday_union_databases')
-        }}
+        {{ fivetran_utils.apply_source_relation(package_name='workday') }}
     from base
 ),
 
