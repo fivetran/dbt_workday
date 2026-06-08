@@ -44,14 +44,15 @@ final as (
         active_status_date,
         annual_currency_summary_currency,
         annual_currency_summary_frequency,
-        {% set string_dtypes = ['char', 'text', 'string'] %}
+        {% set string_dtypes = ['char', 'string'] %}
         {% for col in adapter.get_columns_in_relation(ref('stg_workday__worker_base')) %}
             {% if col.name.lower() in ['annual_currency_summary_primary_compensation_basis', 'annual_currency_summary_total_base_pay', 'annual_currency_summary_total_salary_and_allowances'] %}
                 {% if target.type == 'databricks' %}
-                    {% set is_str = false %}
+                    {% set ns = namespace(is_str=false) %}
                     {% for stype in string_dtypes %}
-                        {% if stype in col.dtype.lower() %}{% set is_str = true %}{% endif %}
+                        {% if stype in col.dtype.lower() %}{% set ns.is_str = true %}{% endif %}
                     {% endfor %}
+                    {% set is_str = ns.is_str %}
                 {% else %}
                     {% set is_str = col.is_string() %}
                 {% endif %}
