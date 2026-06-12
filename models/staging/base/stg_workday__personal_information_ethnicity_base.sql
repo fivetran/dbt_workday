@@ -1,3 +1,5 @@
+{% if var('workday_union_schemas', []) | length > 0 or var('workday_union_databases', []) | length > 0 %}
+
 {{
     fivetran_utils.union_data(
         table_identifier='personal_information_ethnicity',
@@ -10,3 +12,15 @@
         union_database_variable='workday_union_databases'
     )
 }}
+
+{% else %}
+
+{{
+    fivetran_utils.union_connections(
+        connection_dictionary='workday_sources',
+        single_source_name='workday',
+        single_table_name='personal_information_ethnicity'
+    )
+}}
+
+{% endif %}

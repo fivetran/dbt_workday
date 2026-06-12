@@ -66,7 +66,7 @@ Include the following Workday HCM package version in your `packages.yml` file:
 ```yml
 packages:
   - package: fivetran/workday
-    version: [">=0.10.0", "<0.11.0"] # we recommend using ranges to capture non-breaking changes automatically
+    version: [">=1.0.0", "<1.1.0"] # we recommend using ranges to capture non-breaking changes automatically
 ```
 
 #### Databricks dispatch configuration
