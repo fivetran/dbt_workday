@@ -1,3 +1,4 @@
+<<<<<<< MagicBot/standardize-unioning-macros
 # dbt_workday v1.0.0
 
 [PR #32](https://github.com/fivetran/dbt_workday/pull/32) includes the following updates.
@@ -15,6 +16,14 @@
 ## Under the Hood
 - Adds the `fivetran_using_source_casing` variable for case-sensitive destination support. When enabled, downstream transformations respect source casing to ensure consistent results. See the [Additional Configurations](https://github.com/fivetran/dbt_workday/#source-casing-for-case-sensitive-destinations) section of the README for details.
 - Introduces `fivetran_utils.partition_by_source_relation` to conditionally include `source_relation` in partition clauses only when multiple sources are configured.
+=======
+# dbt_workday v0.9.2
+
+[PR #33](https://github.com/fivetran/dbt_workday/pull/33) includes the following update.
+
+## Bug Fix
+- Fixes an issue in `stg_workday__worker_history` where `annual_currency_summary_primary_compensation_basis`, `annual_currency_summary_total_base_pay`, and `annual_currency_summary_total_salary_and_allowances` could surface as strings instead of numeric values. These columns are now cast to float when the source type is a string.
+>>>>>>> main
 
 # dbt_workday v0.9.1
 
