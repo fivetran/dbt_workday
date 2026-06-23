@@ -4,6 +4,11 @@ sources:
   - name: workday
     database: '{% if target.type not in ("spark") %}{{ var("workday_database", target.database) }}{% endif %}'
     schema: '{{ var("workday_schema", "workday") }}'
+
+    config:
+      loaded_at_field: _fivetran_synced
+      enabled: "{{ var('workday_sources', []) == [] }}"
+
     tables:
       - name: job_profile
         identifier: '{{ var("workday_job_profile_identifier", "job_profile") }}'
