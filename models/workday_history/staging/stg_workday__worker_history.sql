@@ -52,7 +52,12 @@ final as (
                     {% set is_str = col.is_string() %}
                 {% endif %}
                 {% if is_str %}
-                    cast({{ col.name }} as {{ dbt.type_float() }}) as {{ col.name }},
+                    case
+                        when trim({{ col.name }}) <> ''
+                            and translate(trim({{ col.name }}), '0123456789.+-eE', '') = ''
+                        then cast({{ col.name }} as {{ dbt.type_float() }})
+                        else null
+                    end as {{ col.name }},
                 {% else %}
                     {{ col.name }},
                 {% endif %}
