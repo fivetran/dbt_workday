@@ -9,9 +9,9 @@ dispatch:
     search_order: ['spark_utils', 'dbt_utils']
 
 vars:
-  workday_schema: workday_integration_tests
+  workday_schema: zz_dbt_avinash_seed
 
-  # employee_history_enabled: true  # @docs-include 
+  employee_history_enabled: true  # @docs-include
 
   workday:
     workday_job_profile_identifier: "workday_job_profile_data"
@@ -26,7 +26,7 @@ vars:
     workday_position_organization_identifier: "workday_position_organization_data"
     workday_position_identifier: "workday_position_data"
     workday_position_job_profile_identifier: "workday_position_job_profile_data"
-    workday_worker_history_identifier: "workday_worker_history_data"
+    workday_worker_history_identifier: "workday_worker_history_data_missing_cols"
     workday_personal_information_history_identifier: "workday_personal_information_history_data"
     workday_person_name_identifier: "workday_person_name_data"
     workday_personal_information_ethnicity_identifier: "workday_personal_information_ethnicity_data"
@@ -111,6 +111,27 @@ seeds:
         annual_currency_summary_primary_compensation_basis: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
         annual_currency_summary_total_base_pay: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
         annual_currency_summary_total_salary_and_allowances: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
+        annual_summary_primary_compensation_basis: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
+        annual_summary_total_base_pay: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
+        annual_summary_total_salary_and_allowances: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
+        contract_pay_rate: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
+        days_unemployed: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
+        employee_compensation_primary_compensation_basis: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
+        employee_compensation_total_base_pay: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
+        employee_compensation_total_salary_and_allowances: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
+        hourly_frequency_primary_compensation_basis: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
+        hourly_frequency_total_base_pay: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
+        hourly_frequency_total_salary_and_allowances: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
+        months_continuous_prior_employment: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
+        pay_group_frequency_primary_compensation_basis: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
+        pay_group_frequency_total_base_pay: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
+        pay_group_frequency_total_salary_and_allowances: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
+        _fivetran_start: timestamp
+        _fivetran_end: timestamp
+        _fivetran_active: boolean
+    workday_worker_history_data_missing_cols:
+      +column_types:
+        _fivetran_synced: timestamp
         annual_summary_primary_compensation_basis: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
         annual_summary_total_base_pay: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
         annual_summary_total_salary_and_allowances: "{{ 'FLOAT64' if target.type == 'bigquery' else 'float' }}"
