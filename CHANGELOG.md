@@ -1,3 +1,10 @@
+# dbt_workday v1.0.2
+
+[PR #37](https://github.com/fivetran/dbt_workday/pull/37) includes the following update.
+
+## Bug Fix
+- Fixes a bug where `int_workday__employee_history` failed to run if `annual_currency_summary_primary_compensation_basis`, `annual_currency_summary_total_base_pay`, or `annual_currency_summary_total_salary_and_allowances` weren't enabled. These fields are optional, so they now resolve to `null` when not synced instead of failing the model.
+
 # dbt_workday v1.0.1
 
 [PR #35](https://github.com/fivetran/dbt_workday/pull/35) includes the following update.
