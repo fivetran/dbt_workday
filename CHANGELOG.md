@@ -1,3 +1,11 @@
+# dbt_workday v1.0.2
+
+[PR #38](https://github.com/fivetran/dbt_workday/pull/38) includes the following updates:
+
+## Feature Updates
+- Adds DuckDB as a supported destination.
+
+
 # dbt_workday v1.0.1
 
 [PR #35](https://github.com/fivetran/dbt_workday/pull/35) includes the following update.
