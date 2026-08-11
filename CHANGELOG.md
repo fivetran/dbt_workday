@@ -1,3 +1,12 @@
+# dbt_workday v1.0.3
+
+## Schema/Data Change
+**1 total change • 0 possible breaking changes**
+
+| Data Model(s) | Change type | Old | New | Notes |
+| ------------- | ----------- | --- | --- | ----- |
+| `stg_workday__worker_history`, `stg_workday__personal_information_history`, `stg_workday__worker_position_history`, `stg_workday__worker_position_organization_history` | Added field | N/A | `as_of_effective_date` | Workday's Optimised History Mode (effective August 14, 2026) stops deduplicating history rows, so a given `_fivetran_start` can now have multiple versions disambiguated only by `as_of_effective_date`. Each staging history model deduplicates to the row with the latest `as_of_effective_date` per `_fivetran_start` before generating `history_unique_key`, preserving current one-row-per-`_fivetran_start` behavior downstream. |
+
 # dbt_workday v1.0.2
 
 [PR #37](https://github.com/fivetran/dbt_workday/pull/37) includes the following update.

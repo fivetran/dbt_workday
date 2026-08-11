@@ -10,6 +10,8 @@
 
 {% docs _fivetran_active %} TRUE if it is the currently active record. FALSE if it is a historical version of the record. Only one version of the record can be TRUE. {% enddocs %}
 
+{% docs as_of_effective_date %} Timestamp indicating the point-in-time version of the record when Workday's Optimised History Mode emits multiple rows for the same `_fivetran_start`. The row with the latest `as_of_effective_date` is treated as the authoritative version for that `_fivetran_start`. {% enddocs %}
+
 {% docs source_relation %} The record's source if the unioning functionality is used. Otherwise this field will be empty. {% enddocs %}
 
 {% docs academic_pay_setup_data_annual_work_period_end_date %} The end date of the annual work period in academic pay setup data. {% enddocs %}

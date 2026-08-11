@@ -30,16 +30,27 @@ fill_columns as (
     from base
 ),
 
+deduplicate as (
+
+    select *,
+        row_number() over (
+            partition by id, source_relation, _fivetran_start
+            order by as_of_effective_date desc
+        ) as history_row_num
+    from fill_columns
+),
+
 final as (
 
-    select 
+    select
         {{ dbt_utils.generate_surrogate_key(['id', 'source_relation', '_fivetran_start']) }} as history_unique_key,
-        id as worker_id, 
+        id as worker_id,
         source_relation,
         cast(_fivetran_start as {{ dbt.type_timestamp() }}) as _fivetran_start,
         cast(_fivetran_end as {{ dbt.type_timestamp() }}) as _fivetran_end,
         cast(_fivetran_start as date) as _fivetran_date,
         _fivetran_active,
+        as_of_effective_date,
         academic_tenure_date,
         active as is_active,
         active_status_date,
@@ -146,7 +157,8 @@ final as (
         user_id,
         vesting_date,
         worker_code
-    from fill_columns
+    from deduplicate
+    where history_row_num = 1
 )
 
 select *

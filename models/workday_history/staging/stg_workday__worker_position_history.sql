@@ -24,9 +24,19 @@ fill_columns as (
     from base
 ),
 
+deduplicate as (
+
+    select *,
+        row_number() over (
+            partition by worker_id, position_id, source_relation, _fivetran_start
+            order by as_of_effective_date desc
+        ) as history_row_num
+    from fill_columns
+),
+
 final as (
 
-    select 
+    select
         {{ dbt_utils.generate_surrogate_key(['worker_id', 'position_id', 'source_relation', '_fivetran_start']) }} as history_unique_key,
         worker_id,
         position_id,
@@ -35,6 +45,7 @@ final as (
         cast(_fivetran_end as {{ dbt.type_timestamp() }}) as _fivetran_end,
         cast(_fivetran_start as date) as _fivetran_date,
         _fivetran_active,
+        as_of_effective_date,
         business_site_summary_location as position_location,
         exclude_from_head_count as is_exclude_from_head_count,
         full_time_equivalent_percentage as fte_percent,
@@ -91,7 +102,8 @@ final as (
         working_time_frequency,
         working_time_unit,
         working_time_value
-    from fill_columns
+    from deduplicate
+    where history_row_num = 1
 )
 
 select *

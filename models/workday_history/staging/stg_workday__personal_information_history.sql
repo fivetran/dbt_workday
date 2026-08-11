@@ -24,6 +24,16 @@ fill_columns as (
     from base
 ),
 
+deduplicate as (
+
+    select *,
+        row_number() over (
+            partition by id, source_relation, _fivetran_start
+            order by as_of_effective_date desc
+        ) as history_row_num
+    from fill_columns
+),
+
 final as (
 
     select
@@ -34,6 +44,7 @@ final as (
         cast(_fivetran_end as {{ dbt.type_timestamp() }}) as _fivetran_end,
         cast(_fivetran_start as date) as _fivetran_date,
         _fivetran_active,
+        as_of_effective_date,
         additional_nationality,
         blood_type,
         citizenship_status,
@@ -66,7 +77,8 @@ final as (
         social_benefit,
         tobacco_use as is_tobacco_use,
         type
-    from fill_columns
+    from deduplicate
+    where history_row_num = 1
 )
 
 select *
