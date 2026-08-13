@@ -17,20 +17,31 @@ fields as (
     from base
 ),
 
+deduplicate as (
+
+    select *,
+        row_number() over (
+            partition by worker_id, position_id, organization_id, source_relation
+            order by as_of_effective_date desc
+        ) as active_row_num
+    from fields
+    where {{ dbt.current_timestamp() }} between _fivetran_start and _fivetran_end
+),
+
 final as (
-    
-    select 
+
+    select
         source_relation,
         position_id,
         worker_id,
-        _fivetran_synced, 
-        index,   
+        _fivetran_synced,
+        index,
         date_of_pay_group_assignment,
         organization_id,
         primary_business_site,
         used_in_change_organization_assignments as is_used_in_change_organization_assignments
-    from fields
-    where {{ dbt.current_timestamp() }} between _fivetran_start and _fivetran_end
+    from deduplicate
+    where active_row_num = 1
 )
 
 select *

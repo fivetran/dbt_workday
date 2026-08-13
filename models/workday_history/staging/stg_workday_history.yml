@@ -30,6 +30,9 @@ models:
       - name: _fivetran_active
         description: '{{ doc("_fivetran_active") }}'
 
+      - name: as_of_effective_date
+        description: '{{ doc("as_of_effective_date") }}'
+
       - name: type
         description: '{{ doc("personal_information_type") }}'
 
@@ -161,6 +164,9 @@ models:
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
+
+      - name: as_of_effective_date
+        description: '{{ doc("as_of_effective_date") }}'
 
       - name: academic_tenure_date
         description: '{{ doc("academic_tenure_date") }}'
@@ -446,6 +452,9 @@ models:
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
 
+      - name: as_of_effective_date
+        description: '{{ doc("as_of_effective_date") }}'
+
       - name: academic_pay_setup_data_annual_work_period_end_date
         description: '{{ doc("academic_pay_setup_data_annual_work_period_end_date") }}'
 
@@ -656,6 +665,9 @@ models:
 
       - name: _fivetran_synced
         description: '{{ doc("_fivetran_synced") }}'
+
+      - name: as_of_effective_date
+        description: '{{ doc("as_of_effective_date") }}'
 
       - name: index
         description: '{{ doc("index") }}'

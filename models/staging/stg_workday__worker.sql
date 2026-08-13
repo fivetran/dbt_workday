@@ -17,9 +17,20 @@ fields as (
     from base
 ),
 
+deduplicate as (
+
+    select *,
+        row_number() over (
+            partition by id, source_relation
+            order by as_of_effective_date desc
+        ) as active_row_num
+    from fields
+    where {{ dbt.current_timestamp() }} between _fivetran_start and _fivetran_end
+),
+
 final as (
-    
-    select 
+
+    select
         id as worker_id,
         source_relation,
         _fivetran_synced,
@@ -105,8 +116,8 @@ final as (
         user_id,
         vesting_date,
         worker_code
-    from fields
-    where {{ dbt.current_timestamp() }} between _fivetran_start and _fivetran_end
+    from deduplicate
+    where active_row_num = 1
 )
 
 select *

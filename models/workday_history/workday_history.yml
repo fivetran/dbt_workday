@@ -46,22 +46,10 @@ models:
       - name: is_pih_fivetran_active
         description: Is the personal information history record the most recent fivetran active record.
 
-      - name: wh_end_employment_date
-        description: '{{ doc("end_employment_date") }}'
-
-      - name: wph_end_employment_date
-        description: '{{ doc("end_employment_date") }}'
-
-      - name: wh_pay_through_date
-        description: '{{ doc("pay_through_date") }}'
-
-      - name: wph_pay_through_date
-        description: '{{ doc("pay_through_date") }}'
-
       - name: academic_tenure_date
         description: '{{ doc("academic_tenure_date") }}'
 
-      - name: active
+      - name: is_active
         description: '{{ doc("active") }}'
 
       - name: active_status_date
@@ -304,9 +292,6 @@ models:
       - name: worker_code
         description: '{{ doc("worker_code") }}'
 
-      - name: effective_date
-        description: '{{ doc("effective_date") }}'
-
       - name: position_start_date
         description: '{{ doc("start_date") }}'
 
@@ -508,12 +493,59 @@ models:
       - name: hukou_subregion
         description: '{{ doc("hukou_subregion") }}'
         
-      - name: hukou_type 
+      - name: hukou_type
         description: '{{ doc("hukou_type") }}'
 
-      - name: row_num
-        description: This is the row number filter designed to grab the most recent daily record for an employee. This value should always be 1 in this model. 
-        
+      - name: last_medical_exam_date
+        description: '{{ doc("last_medical_exam_date") }}'
+
+      - name: last_medical_exam_valid_to
+        description: '{{ doc("last_medical_exam_valid_to") }}'
+
+      - name: is_local_hukou
+        description: '{{ doc("local_hukou") }}'
+
+      - name: marital_status
+        description: '{{ doc("marital_status") }}'
+
+      - name: marital_status_date
+        description: '{{ doc("marital_status_date") }}'
+
+      - name: medical_exam_notes
+        description: '{{ doc("medical_exam_notes") }}'
+
+      - name: native_region
+        description: '{{ doc("native_region") }}'
+
+      - name: native_region_code
+        description: '{{ doc("native_region_code") }}'
+
+      - name: personnel_file_agency
+        description: '{{ doc("personnel_file_agency") }}'
+
+      - name: political_affiliation
+        description: '{{ doc("political_affiliation") }}'
+
+      - name: primary_nationality
+        description: '{{ doc("primary_nationality") }}'
+
+      - name: region_of_birth
+        description: '{{ doc("region_of_birth") }}'
+
+      - name: region_of_birth_code
+        description: '{{ doc("region_of_birth_code") }}'
+
+      - name: religion
+        description: '{{ doc("religion") }}'
+
+      - name: social_benefit
+        description: '{{ doc("social_benefit") }}'
+
+      - name: is_tobacco_use
+        description: '{{ doc("tobacco_use") }}'
+
+      - name: type
+        description: '{{ doc("personal_information_type") }}'
 
   - name: workday__monthly_summary
     description: Each record is a month, aggregated from the last day of each month of the employee daily history. This captures monthly metrics of workers, such as average salary, churned and retained employees, etc. 
@@ -625,9 +657,6 @@ models:
 
       - name: _fivetran_active
         description: '{{ doc("_fivetran_active") }}'
-
-      - name: _fivetran_synced
-        description: '{{ doc("_fivetran_synced") }}'
 
       - name: index
         description: '{{ doc("index") }}'

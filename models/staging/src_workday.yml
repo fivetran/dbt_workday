@@ -357,6 +357,8 @@ sources:
             description: '{{ doc("_fivetran_deleted") }}'
           - name: _fivetran_synced
             description: '{{ doc("_fivetran_synced") }}'
+          - name: as_of_effective_date
+            description: '{{ doc("as_of_effective_date") }}'
           - name: academic_tenure_date
             description: '{{ doc("academic_tenure_date") }}'
           - name: active
@@ -540,6 +542,8 @@ sources:
             description: '{{ doc("_fivetran_deleted") }}'
           - name: _fivetran_synced
             description: '{{ doc("_fivetran_synced") }}'
+          - name: as_of_effective_date
+            description: '{{ doc("as_of_effective_date") }}'
           - name: additional_nationality
             description: '{{ doc("additional_nationality") }}'
           - name: blood_type
@@ -838,6 +842,8 @@ sources:
             description: '{{ doc("_fivetran_deleted") }}'
           - name: _fivetran_synced
             description: '{{ doc("_fivetran_synced") }}'
+          - name: as_of_effective_date
+            description: '{{ doc("as_of_effective_date") }}'
           - name: academic_pay_setup_data_annual_work_period_end_date
             description: '{{ doc("academic_pay_setup_data_annual_work_period_end_date") }}'
           - name: academic_pay_setup_data_annual_work_period_start_date
@@ -1062,6 +1068,8 @@ sources:
             description: '{{ doc("_fivetran_end") }}' 
           - name: _fivetran_synced
             description: '{{ doc("_fivetran_synced") }}'
+          - name: as_of_effective_date
+            description: '{{ doc("as_of_effective_date") }}'
           - name: index
             description: '{{ doc("index") }}'
           - name: date_of_pay_group_assignment

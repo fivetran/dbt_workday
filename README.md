@@ -115,7 +115,9 @@ If you use [Fivetran Transformations for dbt Core™](https://fivetran.com/docs/
 
 ### (Optional) Utilizing Workday HCM History Mode
 
-If you have History Mode enabled for your Workday HCM connection, we now include support for the worker, worker position, worker position organization, and personal information tables directly. You can view these files in the [`staging`](https://github.com/fivetran/dbt_workday/blob/main/models/workday_history/staging) folder. This staging data then flows into the employee daily history model, which in turn populates the monthly summary model. This will allow you access to your historical data for these tables for the most accurate record of your data over time.
+If you have History Mode enabled for your Workday HCM connection, we now include support for the worker, worker position, worker position organization, and personal information tables directly. For each of these tables, we use the effective date from worker events (`_fivetran_start`) to create the history tables. You can view these files in the [`staging`](https://github.com/fivetran/dbt_workday/blob/main/models/workday_history/staging) folder. This staging data then flows into the employee daily history model, which in turn populates the monthly summary model. This will allow you access to your historical data for these tables for the most accurate record of your data over time.
+
+If you have any questions about how History Mode behaves for your specific setup, please file a [support ticket](https://support.fivetran.com/hc/en-us).
 
 #### Enabling Workday HCM History Mode Models
 The History Mode models can get quite expansive since it will take in **ALL** historical records, so we've disabled them by default. You can enable the history models you'd like to utilize by adding the below variable configurations:
