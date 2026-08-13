@@ -1,10 +1,15 @@
-# dbt_workday v1.0.2
+# dbt_workday v1.0.3
 
 [PR #38](https://github.com/fivetran/dbt_workday/pull/38) includes the following updates:
 
 ## Feature Updates
 - Adds DuckDB as a supported destination.
 
+# dbt_workday v1.0.2
+[PR #37](https://github.com/fivetran/dbt_workday/pull/37) includes the following update.
+
+## Bug Fix
+- Fixes a bug where `int_workday__employee_history` failed to run if `annual_currency_summary_primary_compensation_basis`, `annual_currency_summary_total_base_pay`, or `annual_currency_summary_total_salary_and_allowances` weren't enabled. These fields are optional, so they now resolve to `null` when not synced instead of failing the model.
 
 # dbt_workday v1.0.1
 

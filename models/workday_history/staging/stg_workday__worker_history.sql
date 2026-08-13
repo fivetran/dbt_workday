@@ -1,5 +1,11 @@
 {{ config(enabled=var('employee_history_enabled', False)) }}
 
+{% set source_columns = adapter.get_columns_in_relation(ref('stg_workday__worker_base')) %}
+{% set source_col_map = {} %}
+{% for col in source_columns %}
+    {%- do source_col_map.update({col.name.lower(): col}) -%}
+{% endfor %}
+
 with base as (
 
     select *      
@@ -14,7 +20,7 @@ fill_columns as (
     select
         {{
             fivetran_utils.fill_staging_columns(
-                source_columns=adapter.get_columns_in_relation(ref('stg_workday__worker_base')),
+                source_columns=source_columns,
                 staging_columns=get_worker_history_columns()
             )
         }}
@@ -40,8 +46,9 @@ final as (
         annual_currency_summary_currency,
         annual_currency_summary_frequency,
         {% set string_dtypes = ['char', 'string'] %}
-        {% for col in adapter.get_columns_in_relation(ref('stg_workday__worker_base')) %}
-            {% if col.name.lower() in ['annual_currency_summary_primary_compensation_basis', 'annual_currency_summary_total_base_pay', 'annual_currency_summary_total_salary_and_allowances'] %}
+        {% for col_name in ['annual_currency_summary_primary_compensation_basis', 'annual_currency_summary_total_base_pay', 'annual_currency_summary_total_salary_and_allowances'] %}
+            {% if col_name in source_col_map %}
+                {% set col = source_col_map[col_name] %}
                 {% if target.type == 'databricks' %}
                     {% set ns = namespace(is_str=false) %}
                     {% for stype in string_dtypes %}
@@ -61,6 +68,8 @@ final as (
                 {% else %}
                     {{ col.name }},
                 {% endif %}
+            {% else %}
+                cast(null as {{ dbt.type_float() }}) as {{ col_name }},
             {% endif %}
         {% endfor %}
         annual_summary_currency,
