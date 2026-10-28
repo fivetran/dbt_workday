@@ -69,6 +69,8 @@ seeds:
     workday_job_profile_data:
       +column_types:
         _fivetran_synced: timestamp
+        description: "{{ 'string' if target.type in ('bigquery', 'spark', 'databricks') else 'varchar(65535)' }}"
+        summary: "{{ 'string' if target.type in ('bigquery', 'spark', 'databricks') else 'varchar(65535)' }}"
     workday_military_service_data:
       +column_types:
         _fivetran_synced: timestamp
