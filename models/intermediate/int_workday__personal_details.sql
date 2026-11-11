@@ -61,7 +61,7 @@ worker_ethnicity as (
     select 
         worker_id,
         source_relation,
-        {{ fivetran_utils.string_agg('distinct ethnicity_code', "', '" ) }} as ethnicity_codes
+        {{ dbt.listagg('distinct ethnicity_code', "', '" ) }} as ethnicity_codes
     from {{ ref('stg_workday__personal_information_ethnicity') }}
     group by 1, 2
 ),
