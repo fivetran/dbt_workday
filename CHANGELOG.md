@@ -7,8 +7,8 @@
 
 | Data Model(s) | Change type | Old | New | Notes |
 | ------------- | ----------- | --- | --- | ----- |
-| stg_workday__worker_history<br>stg_workday__personal_information_history<br>stg_workday__worker_position_history<br>stg_workday__worker_position_organization_history | New field/model |  | as_of_effective_date | Workday's Optimised History Mode can write more than one row for the same record and `_fivetran_start`. These models now keep the row with the latest `as_of_effective_date` for each record and `_fivetran_start` before generating `history_unique_key`. This preserves one row per `_fivetran_start`. |
-| stg_workday__worker<br>stg_workday__worker_position<br>stg_workday__worker_position_organization | Changed field/model | Selected every record active at the current timestamp. | Selects the record with the latest `as_of_effective_date` among the records active at the current timestamp. | Preventive change for Workday's Optimised History Mode. It has no effect on connections that don't sync `as_of_effective_date`. |
+| stg_workday__worker_history<br>stg_workday__personal_information_history<br>stg_workday__worker_position_history<br>stg_workday__worker_position_organization_history | New field |  | as_of_effective_date | Workday's Optimized History Mode can write more than one row for the same record and `_fivetran_start`. These models now keep the row with the latest `as_of_effective_date` for each record and `_fivetran_start` before generating `history_unique_key`. This preserves one row per `_fivetran_start`. |
+| stg_workday__worker<br>stg_workday__worker_position<br>stg_workday__worker_position_organization | Data change | Selected every record active at the current timestamp. | Selects the record with the latest `as_of_effective_date` among the records active at the current timestamp. | Preventive change for Workday's Optimized History Mode. It has no effect on connections that don't sync `as_of_effective_date`. |
 
 # dbt_workday v1.0.3
 
