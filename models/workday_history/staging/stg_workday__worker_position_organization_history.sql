@@ -29,7 +29,7 @@ deduplicate as (
     select *,
         row_number() over (
             partition by worker_id, position_id, organization_id, source_relation, _fivetran_start
-            order by as_of_effective_date desc
+            order by as_of_effective_date desc nulls last
         ) as history_row_num
     from fill_columns
 ),

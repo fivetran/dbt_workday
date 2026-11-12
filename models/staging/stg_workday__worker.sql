@@ -22,7 +22,7 @@ deduplicate as (
     select *,
         row_number() over (
             partition by id, source_relation
-            order by as_of_effective_date desc
+            order by as_of_effective_date desc nulls last
         ) as active_row_num
     from fields
     where {{ dbt.current_timestamp() }} between _fivetran_start and _fivetran_end

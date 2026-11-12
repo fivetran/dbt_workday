@@ -547,6 +547,9 @@ models:
       - name: type
         description: '{{ doc("personal_information_type") }}'
 
+      - name: row_num
+        description: This is the row number filter designed to grab the most recent daily record for an employee. This value should always be 1 in this model.
+
   - name: workday__monthly_summary
     description: Each record is a month, aggregated from the last day of each month of the employee daily history. This captures monthly metrics of workers, such as average salary, churned and retained employees, etc. 
     columns:

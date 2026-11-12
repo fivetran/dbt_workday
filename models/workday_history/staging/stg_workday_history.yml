@@ -36,9 +36,6 @@ models:
       - name: type
         description: '{{ doc("personal_information_type") }}'
 
-      - name: _fivetran_synced
-        description: '{{ doc("_fivetran_synced") }}'
-
       - name: additional_nationality
         description: '{{ doc("additional_nationality") }}'
 
@@ -161,9 +158,6 @@ models:
 
       - name: _fivetran_active
         description: '{{ doc("_fivetran_active") }}'
-
-      - name: _fivetran_synced
-        description: '{{ doc("_fivetran_synced") }}'
 
       - name: as_of_effective_date
         description: '{{ doc("as_of_effective_date") }}'
@@ -449,9 +443,6 @@ models:
       - name: _fivetran_active
         description: '{{ doc("_fivetran_active") }}'
 
-      - name: _fivetran_synced
-        description: '{{ doc("_fivetran_synced") }}'
-
       - name: as_of_effective_date
         description: '{{ doc("as_of_effective_date") }}'
 
@@ -503,8 +494,8 @@ models:
       - name: difficulty_to_fill
         description: '{{ doc("difficulty_to_fill") }}'
 
-      - name: effective_date
-        description: '{{ doc("effective_date") }}'
+      - name: position_effective_date
+        description: '{{ doc("position_effective_date") }}'
 
       - name: employee_type
         description: '{{ doc("employee_type") }}'
@@ -662,9 +653,6 @@ models:
 
       - name: _fivetran_active
         description: '{{ doc("_fivetran_active") }}'
-
-      - name: _fivetran_synced
-        description: '{{ doc("_fivetran_synced") }}'
 
       - name: as_of_effective_date
         description: '{{ doc("as_of_effective_date") }}'
