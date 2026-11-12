@@ -1,4 +1,5 @@
 version: 1.0.4
+pr_number: 42
 under_the_hood:
   - title: Column documentation parity for the employee history models
     description: Updates the column documentation in `workday__employee_daily_history` and `workday__worker_position_org_daily_history` so it matches the columns the models output. No model logic or output changes.
