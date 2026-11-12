@@ -34,9 +34,10 @@ employee_source as (
         and worker_history.source_relation = worker_position_history.source_relation
         and worker_history._fivetran_start <= worker_position_history._fivetran_end
         and worker_history._fivetran_end >= worker_position_history._fivetran_start
-    group by 1, 2, 3, 4 
-    --to segment out workers who did not have a start date prior to the spine cutoff
-    having cast(max(worker_history._fivetran_end) as date) >= cast('{{ var('employee_history_start_date','2025-03-01') }}' as date) 
+    group by 1, 2, 3, 4
+    --to segment out position segments that ended before the spine cutoff (superseded by a newer position),
+    --falling back to the worker's own end date when no position match exists
+    having cast(max(coalesce(worker_position_history._fivetran_end, worker_history._fivetran_end)) as date) >= cast('{{ var('employee_history_start_date','2025-03-01') }}' as date)
 ),
 
 employee_end as (

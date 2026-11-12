@@ -5,6 +5,7 @@
     {"name": "_fivetran_synced", "datatype": dbt.type_timestamp()},
     {"name": "_fivetran_start", "datatype": dbt.type_timestamp()},
     {"name": "_fivetran_end", "datatype": dbt.type_timestamp()},
+    {"name": "as_of_effective_date", "datatype": dbt.type_timestamp()},
     {"name": "index", "datatype": dbt.type_int()},
     {"name": "position_id", "datatype": dbt.type_string()},
     {"name": "worker_id", "datatype": dbt.type_string()},

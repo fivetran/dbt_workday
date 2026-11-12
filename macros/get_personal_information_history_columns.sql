@@ -6,6 +6,7 @@
     {"name": "_fivetran_start", "datatype": dbt.type_timestamp()},
     {"name": "_fivetran_end", "datatype": dbt.type_timestamp()},
     {"name": "additional_nationality", "datatype": dbt.type_string()},
+    {"name": "as_of_effective_date", "datatype": dbt.type_timestamp()},
     {"name": "blood_type", "datatype": dbt.type_string()},
     {"name": "citizenship_status", "datatype": dbt.type_string()},
     {"name": "city_of_birth", "datatype": dbt.type_string()},
