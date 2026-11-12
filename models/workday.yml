@@ -177,6 +177,12 @@ models:
   - name: workday__job_overview
     description: '{{ doc("workday__job_overview") }}'
 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - job_profile_id
     columns:
       - name: job_profile_id
         description: '{{ doc("job_profile_id") }}'
@@ -216,6 +222,12 @@ models:
   - name: workday__position_overview
     description: '{{ doc("workday__position_overview") }}'
 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - position_id
     columns:
       - name: position_id
         description: '{{ doc("position_id") }}' 
@@ -285,6 +297,15 @@ models:
   - name: workday__organization_overview
     description: '{{ doc("workday__organization_overview") }}'
 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - organization_id
+              - organization_role_id
+              - position_id
+              - worker_id
     columns:
       - name: organization_id
         description: '{{ doc("organization_id") }}' 

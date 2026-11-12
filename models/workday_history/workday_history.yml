@@ -517,6 +517,12 @@ models:
 
   - name: workday__monthly_summary
     description: Each record is a month, aggregated from the last day of each month of the employee daily history. This captures monthly metrics of workers, such as average salary, churned and retained employees, etc. 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - metrics_month
     columns:
       - name: metrics_month
         description: Month in which metrics are being aggregated.
