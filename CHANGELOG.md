@@ -1,3 +1,14 @@
+# dbt_workday v1.0.4
+
+[PR #42](https://github.com/fivetran/dbt_workday/pull/42) includes the following updates:
+
+## Under the Hood
+- **Column documentation parity for the employee history models**: Updates the column documentation in `workday__employee_daily_history` and `workday__worker_position_org_daily_history` so it matches the columns the models output. No model logic or output changes.
+  - Documents 18 personal information fields in `workday__employee_daily_history` that the model already outputs, including `marital_status`, `primary_nationality`, `religion`, and `political_affiliation`.
+  - Removes the stale `active` and `effective_date` entries, which the model outputs as `is_active` and `position_effective_date`.
+  - Removes the stale `wh_end_employment_date`, `wph_end_employment_date`, `wh_pay_through_date`, and `wph_pay_through_date` entries, which the model consolidates into `end_employment_date` and `pay_through_date`.
+  - Removes the stale `_fivetran_synced` entry from `workday__worker_position_org_daily_history`, which the model no longer outputs.
+
 # dbt_workday v1.0.3
 
 [PR #38](https://github.com/fivetran/dbt_workday/pull/38) includes the following updates:
