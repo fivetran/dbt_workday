@@ -4,6 +4,12 @@ models:
   - name: stg_workday__job_profile
     description: '{{ doc("job_profile") }}'
 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - job_profile_id
     columns:
       - name: source_relation
         description: '{{ doc("source_relation") }}'
@@ -85,6 +91,13 @@ models:
   - name: stg_workday__job_family_job_profile
     description: '{{ doc("job_family_job_profile") }}'
 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - job_family_id
+              - job_profile_id
     columns:
       - name: source_relation
         description: '{{ doc("source_relation") }}'
@@ -105,6 +118,12 @@ models:
   - name: stg_workday__job_family
     description: '{{ doc("job_family") }}'
 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - job_family_id
     columns:
       - name: source_relation
         description: '{{ doc("source_relation") }}'
@@ -132,6 +151,13 @@ models:
   - name: stg_workday__job_family_job_family_group
     description: '{{ doc("job_family_job_family_group") }}'
 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - job_family_id
+              - job_family_group_id
     columns:
       - name: source_relation
         description: '{{ doc("source_relation") }}'
@@ -152,6 +178,12 @@ models:
   - name: stg_workday__job_family_group
     description: '{{ doc("job_family_group") }}'
 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - job_family_group_id
     columns:
       - name: source_relation
         description: '{{ doc("source_relation") }}'
@@ -179,6 +211,13 @@ models:
   - name: stg_workday__organization_role
     description: '{{ doc("organization_role") }}'
 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - organization_id
+              - organization_role_id
     columns:
       - name: source_relation
         description: '{{ doc("source_relation") }}'
@@ -202,6 +241,14 @@ models:
   - name: stg_workday__organization_role_worker
     description: '{{ doc("organization_role_worker") }}'
 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - organization_worker_code
+              - organization_id
+              - role_id
     columns:
       - name: source_relation
         description: '{{ doc("source_relation") }}'
@@ -227,6 +274,13 @@ models:
   - name: stg_workday__organization_job_family
     description: '{{ doc("organization_job_family") }}'
 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - job_family_id
+              - organization_id
     columns:
       - name: source_relation
         description: '{{ doc("source_relation") }}'
@@ -250,6 +304,12 @@ models:
   - name: stg_workday__organization
     description: '{{ doc("organization") }}'
 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - organization_id
     columns:
       - name: source_relation
         description: '{{ doc("source_relation") }}'
@@ -343,6 +403,13 @@ models:
   - name: stg_workday__position_organization
     description: '{{ doc("position_organization") }}'
 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - organization_id
+              - position_id
     columns:
       - name: source_relation
         description: '{{ doc("source_relation") }}'
@@ -366,6 +433,12 @@ models:
   - name: stg_workday__position
     description: '{{ doc("position") }}'
 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - position_id
     columns:
       - name: source_relation
         description: '{{ doc("source_relation") }}'
@@ -468,6 +541,13 @@ models:
   - name: stg_workday__position_job_profile
     description: '{{ doc("position_job_profile") }}'
 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - job_profile_id
+              - position_id
     columns:
       - name: source_relation
         description: '{{ doc("source_relation") }}'
@@ -506,6 +586,12 @@ models:
   - name: stg_workday__worker
     description: '{{ doc("worker") }}'
 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - worker_id
     columns:
       - name: source_relation
         description: '{{ doc("source_relation") }}'
@@ -767,6 +853,13 @@ models:
   - name: stg_workday__person_name
     description: '{{ doc("person_name") }}'
 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - worker_id
+              - person_name_type
     columns:
       - name: source_relation
         description: '{{ doc("source_relation") }}'
@@ -871,6 +964,13 @@ models:
   - name: stg_workday__personal_information_ethnicity
     description: '{{ doc("personal_information_ethnicity") }}'
 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - worker_id
+              - ethnicity_id
     columns:
       - name: source_relation
         description: '{{ doc("source_relation") }}'
@@ -897,6 +997,12 @@ models:
   - name: stg_workday__personal_information_common_data
     description: '{{ doc("personal_information_common_data") }}'
 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - worker_id
     columns:
       - name: fivetran_id
         description: '{{ doc("fivetran_id") }}'
@@ -957,6 +1063,12 @@ models:
   - name: stg_workday__country_personal_information
     description: '{{ doc("country_personal_information") }}'
 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - fivetran_id
     columns:
       - name: fivetran_id
         description: '{{ doc("fivetran_id") }}'
@@ -1024,6 +1136,12 @@ models:
   - name: stg_workday__military_service
     description: '{{ doc("military_service") }}'
 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - worker_id
     columns:
       - name: source_relation
         description: '{{ doc("source_relation") }}'
@@ -1066,6 +1184,13 @@ models:
   - name: stg_workday__person_contact_email_address
     description: '{{ doc("person_contact_email_address") }}'
 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - worker_id
+              - person_contact_email_address_id
     columns:
       - name: source_relation
         description: '{{ doc("source_relation") }}'
@@ -1095,6 +1220,13 @@ models:
   - name: stg_workday__worker_position
     description: '{{ doc("worker_position") }}'
 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - position_id
+              - worker_id
     columns:
       - name: source_relation
         description: '{{ doc("source_relation") }}'
@@ -1282,6 +1414,13 @@ models:
 
   - name: stg_workday__worker_leave_status
     description: '{{ doc("worker_leave_status") }}'
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - leave_request_event_id
+              - worker_id
     columns:
       - name: source_relation
         description: '{{ doc("source_relation") }}'
@@ -1422,6 +1561,14 @@ models:
   - name: stg_workday__worker_position_organization
     description: '{{ doc("worker_position_organization") }}'
 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - worker_id
+              - position_id
+              - organization_id
     columns:
       - name: source_relation
         description: '{{ doc("source_relation") }}'
