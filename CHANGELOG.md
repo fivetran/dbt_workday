@@ -1,3 +1,10 @@
+# dbt_workday v1.0.4
+
+[PR #44](https://github.com/fivetran/dbt_workday/pull/44) includes the following updates:
+
+## Bug Fixes
+- Casts the current timestamp to a date in `int_workday__worker_details` so it is compared against the date fields `hire_date` and `termination_date` with matching types. This resolves the date/timestamp comparison error raised by dbt Fusion `--static-analysis strict`. Results are unchanged.
+
 # dbt_workday v1.0.3
 
 [PR #38](https://github.com/fivetran/dbt_workday/pull/38) includes the following updates:

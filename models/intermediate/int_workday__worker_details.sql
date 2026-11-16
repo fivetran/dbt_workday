@@ -2,7 +2,7 @@ with worker_data as (
 
     select 
         *,
-        {{ dbt.current_timestamp() }} as current_date
+        cast({{ dbt.current_timestamp() }} as date) as current_date
     from {{ ref('stg_workday__worker') }}
 ),
 
