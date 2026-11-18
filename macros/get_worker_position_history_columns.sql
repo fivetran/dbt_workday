@@ -10,6 +10,7 @@
     {"name": "academic_pay_setup_data_annual_work_period_work_percent_of_year", "datatype": dbt.type_float()},
     {"name": "academic_pay_setup_data_disbursement_plan_period_end_date", "datatype": "date"},
     {"name": "academic_pay_setup_data_disbursement_plan_period_start_date", "datatype": "date"},
+    {"name": "as_of_effective_date", "datatype": dbt.type_timestamp()},
     {"name": "business_site_summary_display_language", "datatype": dbt.type_string()},
     {"name": "business_site_summary_local", "datatype": dbt.type_string()},
     {"name": "business_site_summary_location", "datatype": dbt.type_string()},

@@ -7,6 +7,11 @@ However, in the Workday HCM case, we have found that History Mode does not fit t
 
 We welcome all attempts to optimize this strategy though, and would be open to enhancements to the package!
 
+## Why the daily history models limit how far into the future they go
+Workday transactions can be future-dated, so the daily history models extend their date spine to the latest future `_fivetran_start` instead of stopping at the current date. That approach has no upper bound, so a single mistyped effective date expands every active employee into millions of daily rows and the run times out.
+
+We now ignore start dates later than today plus `employee_history_future_months` (default 12) when choosing where the spine ends. Real future-dated records, such as upcoming hires, still extend the spine, and records dated beyond the limit do not appear in the daily history models. The `get_employee_history_spine_bounds` macro applies this, and both daily models use it. We chose 12 months as a default that covers hires scheduled a year ahead; increase it if you have valid records further out.
+
 ## Why we kept the worker position organization history model separate from the employee daily history model
 
 The intent of the `workday__employee_daily_history` model was to combine historical data from all relevant worker history models and gather a daily look at that data based on employee and worker. 

@@ -54,3 +54,8 @@ supported_vars:
     value: "2025-03-01"
     description: "Set the first date for bringing in employee history data."
     display_name: "Employee History Start Date"
+  employee_history_future_months:
+    type: integer
+    value: 12
+    description: "Set the limit for how many months past the current date that the daily history models populate."
+    display_name: "Employee History Future Months"

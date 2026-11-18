@@ -1,3 +1,22 @@
+# dbt_workday v1.0.4-a2
+
+[PR #45](https://github.com/fivetran/dbt_workday/pull/45) includes the following updates:
+
+## Schema/Data Change
+**2 total changes • 0 possible breaking changes**
+
+| Data Model(s) | Change type | Old | New | Notes |
+| ------------- | ----------- | --- | --- | ----- |
+| stg_workday__worker_history<br>stg_workday__personal_information_history<br>stg_workday__worker_position_history<br>stg_workday__worker_position_organization_history | New field |  | as_of_effective_date | Workday's Optimized History Mode can write more than one row for the same record and `_fivetran_start`. These models now keep the row with the latest `as_of_effective_date` for each record and `_fivetran_start` before generating `history_unique_key`. This preserves one row per `_fivetran_start`. |
+| stg_workday__worker<br>stg_workday__worker_position<br>stg_workday__worker_position_organization | Data change | Selected every record active at the current timestamp. | Selects the record with the latest `as_of_effective_date` among the records active at the current timestamp. | Preventive change for Workday's Optimized History Mode. It has no effect on connections that don't sync `as_of_effective_date`. |
+
+## Bug Fix
+- **Daily history models stop at a limit in the future**: Fixes run timeouts in `workday__employee_daily_history` and `workday__worker_position_org_daily_history` when a history table has a far-future `_fivetran_start`, such as a mistyped effective date in the year 5202. The daily models now ignore start dates more than 12 months past today when deciding where to end, so future-dated records like upcoming hires still appear.
+  - Adds the `employee_history_future_months` variable (default 12) to set how many months past today a start date can be before the daily models ignore it. In Quickstart, set it with **Employee History Future Months**.
+
+## Under the Hood
+- Adds the `get_employee_history_spine_bounds` macro, which `workday__employee_daily_history` and `workday__worker_position_org_daily_history` use to find the first and last dates of their date spine. It replaces the duplicated query in each model.
+
 # dbt_workday v1.0.3
 
 [PR #38](https://github.com/fivetran/dbt_workday/pull/38) includes the following updates:

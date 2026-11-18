@@ -115,7 +115,9 @@ If you use [Fivetran Transformations for dbt Core™](https://fivetran.com/docs/
 
 ### (Optional) Utilizing Workday HCM History Mode
 
-If you have History Mode enabled for your Workday HCM connection, we now include support for the worker, worker position, worker position organization, and personal information tables directly. You can view these files in the [`staging`](https://github.com/fivetran/dbt_workday/blob/main/models/workday_history/staging) folder. This staging data then flows into the employee daily history model, which in turn populates the monthly summary model. This will allow you access to your historical data for these tables for the most accurate record of your data over time.
+If you have History Mode enabled for your Workday HCM connection, we now include support for the worker, worker position, worker position organization, and personal information tables directly. For each of these tables, we use the effective date from worker events (`_fivetran_start`) to create the history tables. You can view these files in the [`staging`](https://github.com/fivetran/dbt_workday/blob/main/models/workday_history/staging) folder. This staging data then flows into the employee daily history model, which in turn populates the monthly summary model. This will allow you access to your historical data for these tables for the most accurate record of your data over time.
+
+If you have any questions about how History Mode behaves for your specific setup, please file a [support ticket](https://support.fivetran.com/hc/en-us).
 
 #### Enabling Workday HCM History Mode Models
 The History Mode models can get quite expansive since it will take in **ALL** historical records, so we've disabled them by default. You can enable the history models you'd like to utilize by adding the below variable configurations:
@@ -147,6 +149,17 @@ vars:
 In dbt Core, the default date value in our models is set at `2025-03-01`, bringing in approximately one year of history by default. If you choose to set a custom date value as outlined above, these models will take the greater of either this value or the minimum `_fivetran_start` date in the source data. They will then be used for creating the first dates available with historical data in your daily history models.
 
 For Quickstart users, this variable is available as **Employee History Start Date** in the Quickstart Settings tab. The default value is `2025-03-01`, bringing in data from the last year to ensure your first Quickstart run has recent correct data. Set a different date to increase or reduce the volume of historical records the package processes.
+
+#### Limiting future-dated history
+Workday records can be future-dated, for example an employee hired for a date beyond today. The daily history models include those future dates, but they ignore start dates more than 12 months past today by default. See the [DECISIONLOG](https://github.com/fivetran/dbt_workday/blob/main/DECISIONLOG.md) for why we added this limit. To change the limit:
+
+- In your Quickstart Settings tab, by configuring the `Employee History Future Months` variable.
+- In dbt Core, in your `dbt_project.yml`:
+
+```yml
+vars:
+    employee_history_future_months: integer_number_of_months # default = 12
+```
 
 ### (Optional) Additional configurations
 

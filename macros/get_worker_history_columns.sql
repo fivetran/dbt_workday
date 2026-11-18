@@ -18,6 +18,7 @@
     {"name": "annual_summary_primary_compensation_basis", "datatype": dbt.type_float()},
     {"name": "annual_summary_total_base_pay", "datatype": dbt.type_float()},
     {"name": "annual_summary_total_salary_and_allowances", "datatype": dbt.type_float()},
+    {"name": "as_of_effective_date", "datatype": dbt.type_timestamp()},
     {"name": "benefits_service_date", "datatype": "date"},
     {"name": "company_service_date", "datatype": "date"},
     {"name": "compensation_effective_date", "datatype": "date"},
