@@ -1,5 +1,5 @@
-version: 1.0.4-a1
-pr_number: 39
+version: 1.0.4-a2
+pr_number: 45
 schema_data_changes:
   entries:
   - models:
@@ -25,4 +25,10 @@ schema_data_changes:
     is_breaking: false
     notes: Preventive change for Workday's Optimized History Mode. It has no effect
       on connections that don't sync `as_of_effective_date`.
-date: '2026-11-12'
+bug_fixes:
+  - title: Daily history models stop at a limit in the future
+    description: Fixes run timeouts in `workday__employee_daily_history` and `workday__worker_position_org_daily_history` when a history table has a far-future `_fivetran_start`, such as a mistyped effective date in the year 5202. The daily models now ignore start dates more than 12 months past today when deciding where to end, so future-dated records like upcoming hires still appear.
+    details:
+      - Adds the `employee_history_future_months` variable (default 12) to set how many months past today a start date can be before the daily models ignore it. In Quickstart, set it with **Employee History Future Months**.
+under_the_hood:
+  - description: Adds the `get_employee_history_spine_bounds` macro, which `workday__employee_daily_history` and `workday__worker_position_org_daily_history` use to find the first and last dates of their date spine. It replaces the duplicated query in each model.

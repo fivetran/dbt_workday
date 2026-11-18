@@ -3,22 +3,7 @@
 
 {% if execute and flags.WHICH in ('run', 'build') %}
     {% set first_last_date_query %}
-    with min_max_values as (
-
-        select 
-            min(_fivetran_start) as min_start,
-            max(_fivetran_start) as max_start 
-        from {{ ref('int_workday__employee_history') }}
-    )
-
-    select 
-        min_start,
-        case when max_start >= {{ dbt.current_timestamp() }}
-            then max_start
-            else {{ dbt.date_trunc('day', dbt.current_timestamp()) }} 
-        end as max_start
-    from min_max_values
-    
+    {{ get_employee_history_spine_bounds(ref('int_workday__employee_history')) }}
     {% endset %}
 
     {% set results = run_query(first_last_date_query) %}

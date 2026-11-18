@@ -150,6 +150,17 @@ In dbt Core, the default date value in our models is set at `2025-03-01`, bringi
 
 For Quickstart users, this variable is available as **Employee History Start Date** in the Quickstart Settings tab. The default value is `2025-03-01`, bringing in data from the last year to ensure your first Quickstart run has recent correct data. Set a different date to increase or reduce the volume of historical records the package processes.
 
+#### Limiting future-dated history
+Workday records can be future-dated, for example an employee hired for a date beyond today. The daily history models include those future dates, but they ignore start dates more than 12 months past today by default. See the [DECISIONLOG](https://github.com/fivetran/dbt_workday/blob/main/DECISIONLOG.md) for why we added this limit. To change the limit:
+
+- In your Quickstart Settings tab, by configuring the `Employee History Future Months` variable.
+- In dbt Core, in your `dbt_project.yml`:
+
+```yml
+vars:
+    employee_history_future_months: integer_number_of_months # default = 12
+```
+
 ### (Optional) Additional configurations
 
 #### Changing the Build Schema
