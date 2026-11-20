@@ -6,13 +6,13 @@ models:
     columns:
       - name: employee_id
         description: '{{ doc("employee_id") }}'
-        tests:
+        data_tests:
           - unique
           - not_null
 
       - name: worker_id
         description: '{{ doc("worker_id") }}'
-        tests:
+        data_tests:
           - not_null
 
       - name: position_id
@@ -186,7 +186,7 @@ models:
     columns:
       - name: job_profile_id
         description: '{{ doc("job_profile_id") }}'
-        tests:
+        data_tests:
           - not_null
 
       - name: source_relation
@@ -231,7 +231,7 @@ models:
     columns:
       - name: position_id
         description: '{{ doc("position_id") }}' 
-        tests:
+        data_tests:
           - not_null
 
       - name: source_relation
@@ -309,12 +309,12 @@ models:
     columns:
       - name: organization_id
         description: '{{ doc("organization_id") }}' 
-        tests:
+        data_tests:
           - not_null
     
       - name: organization_role_id
         description: '{{ doc("organization_role_id") }}' 
-        tests:
+        data_tests:
           - not_null
 
       - name: position_id

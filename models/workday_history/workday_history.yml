@@ -6,7 +6,7 @@ models:
     columns:
       - name: employee_day_id
         description: Surrogate key hashed on `date_day` and `history_unique_key`
-        tests:
+        data_tests:
           - unique
           - not_null
 
@@ -562,7 +562,7 @@ models:
     columns:
       - name: metrics_month
         description: Month in which metrics are being aggregated.
-        tests:
+        data_tests:
           - unique
           - not_null
 
@@ -628,7 +628,7 @@ models:
     columns:
       - name: wpo_day_id
         description: Surrogate key hashed on `date_day` and `history_unique_key`
-        tests:
+        data_tests:
           - unique
           - not_null
 
@@ -637,17 +637,17 @@ models:
 
       - name: worker_id
         description: '{{ doc("worker_id") }}'
-        tests:
+        data_tests:
           - not_null
 
       - name: position_id
         description: '{{ doc("position_id") }}'
-        tests:
+        data_tests:
           - not_null
 
       - name: organization_id
         description: '{{ doc("organization_id") }}'
-        tests:
+        data_tests:
           - not_null 
 
       - name: source_relation
