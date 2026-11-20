@@ -6,13 +6,13 @@ models:
     columns:
       - name: history_unique_key
         description: Surrogate key hashed on `worker_id`, `source_relation` and `_fivetran_start`.
-        tests:
+        data_tests:
           - unique
           - not_null
 
       - name: worker_id
         description: '{{ doc("worker_id") }}'
-        tests:
+        data_tests:
           - not_null
 
       - name: source_relation
@@ -135,13 +135,13 @@ models:
     columns:
       - name: history_unique_key 
         description: Surrogate key hashed on `worker_id`, `source_relation` and `_fivetran_start`.
-        tests:
+        data_tests:
           - unique
           - not_null
 
       - name: worker_id
         description: '{{ doc("worker_id") }}'
-        tests:
+        data_tests:
           - not_null
 
       - name: source_relation
@@ -414,18 +414,18 @@ models:
     columns:
       - name: history_unique_key
         description: Surrogate key hashed on `position_id`, `worker_id`, `source_relation` and `_fivetran_start` .
-        tests:
+        data_tests:
           - unique
           - not_null
 
       - name: worker_id
         description: '{{ doc("worker_id") }}'
-        tests:
+        data_tests:
           - not_null
 
       - name: position_id
         description: '{{ doc("position_id") }}'
-        tests:
+        data_tests:
           - not_null
           
       - name: source_relation
@@ -620,23 +620,23 @@ models:
     columns:
       - name: history_unique_key
         description: Surrogate key hashed on `worker_id`, `position_id`, `organization_id`, `source_relation`, and `_fivetran_start` .
-        tests:
+        data_tests:
           - unique
           - not_null
 
       - name: worker_id
         description: '{{ doc("worker_id") }}'
-        tests:
+        data_tests:
           - not_null
 
       - name: position_id
         description: '{{ doc("position_id") }}'
-        tests:
+        data_tests:
           - not_null
 
       - name: organization_id
         description: '{{ doc("organization_id") }}'
-        tests:
+        data_tests:
           - not_null 
 
       - name: source_relation
