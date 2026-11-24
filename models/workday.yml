@@ -6,13 +6,13 @@ models:
     columns:
       - name: employee_id
         description: '{{ doc("employee_id") }}'
-        tests:
+        data_tests:
           - unique
           - not_null
 
       - name: worker_id
         description: '{{ doc("worker_id") }}'
-        tests:
+        data_tests:
           - not_null
 
       - name: position_id
@@ -177,10 +177,16 @@ models:
   - name: workday__job_overview
     description: '{{ doc("workday__job_overview") }}'
 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - job_profile_id
     columns:
       - name: job_profile_id
         description: '{{ doc("job_profile_id") }}'
-        tests:
+        data_tests:
           - not_null
 
       - name: source_relation
@@ -216,10 +222,16 @@ models:
   - name: workday__position_overview
     description: '{{ doc("workday__position_overview") }}'
 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - position_id
     columns:
       - name: position_id
         description: '{{ doc("position_id") }}' 
-        tests:
+        data_tests:
           - not_null
 
       - name: source_relation
@@ -285,15 +297,24 @@ models:
   - name: workday__organization_overview
     description: '{{ doc("workday__organization_overview") }}'
 
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - source_relation
+              - organization_id
+              - organization_role_id
+              - position_id
+              - worker_id
     columns:
       - name: organization_id
         description: '{{ doc("organization_id") }}' 
-        tests:
+        data_tests:
           - not_null
     
       - name: organization_role_id
         description: '{{ doc("organization_role_id") }}' 
-        tests:
+        data_tests:
           - not_null
 
       - name: position_id
